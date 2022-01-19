@@ -1,10 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World.gd" type="Script" id=3]
+[ext_resource path="res://CommandOptions.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="MiddleDeck" parent="." instance=ExtResource( 1 )]
+position = Vector2( 419.801, 303.065 )
 
 [node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
+
+[node name="CommandOptions" parent="." instance=ExtResource( 4 )]
+margin_left = 740.826
+margin_top = 20.2043
+margin_right = 780.826
+margin_bottom = 60.2043
+
+[connection signal="CrewSelected" from="CharacterSelector" to="." method="_on_CharacterSelector_CrewSelected"]

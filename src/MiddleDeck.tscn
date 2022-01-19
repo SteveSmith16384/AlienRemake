@@ -3,6 +3,7 @@
 [ext_resource path="res://Assets/Images/middle_deck.png" type="Texture" id=1]
 
 [node name="MiddleDeck" type="Node2D"]
+scale = Vector2( 3.5, 3.5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
