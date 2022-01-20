@@ -14,3 +14,7 @@ func _init(_id : int, _name : String):
 	loc_name = _name
 	pass
 	
+
+func update_crewman_sprite():
+	area.update_crewman_sprite()
+	pass

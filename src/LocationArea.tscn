@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://LocationArea.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Images/greenblip.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -12,16 +13,19 @@ script = ExtResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
+[node name="Crewman_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+
 [node name="Label_Name" type="Label" parent="."]
-margin_top = 0.707108
-margin_right = 40.0
-margin_bottom = 26.7071
+margin_left = -23.3346
+margin_top = 21.9204
+margin_right = 16.6654
+margin_bottom = 47.9204
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="CrewPos1" type="Position2D" parent="."]
 
 [connection signal="input_event" from="." to="." method="_on_LocationArea_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_LocationArea_mouse_entered"]

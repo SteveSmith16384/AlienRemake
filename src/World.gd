@@ -11,6 +11,9 @@ var menu_mode : int = Globals.MenuMode.NONE
 func _ready():
 	load_data()
 	
+#	for l in locations.values():
+#		l.update_crewman_sprite()
+		
 	selected_crewman = crew[0]
 	update_ui()
 	pass
@@ -62,8 +65,10 @@ func location_selected(loc_id):
 	pass
 	
 
-func crewman_arrived(var crewman):
+func crewman_moved(crewman, prev_loc):
+	prev_loc.update_crewman_sprite()
 	$Log.text += crewman.crew_name + " has arrived in the " + crewman.location.loc_name + "\n"
+	crewman.location.update_crewman_sprite()
 	pass
 	
 	
