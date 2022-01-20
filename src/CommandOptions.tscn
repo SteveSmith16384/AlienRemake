@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://CommandOptions.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
 
 [node name="CommandOptions" type="VBoxContainer"]
 margin_right = 40.0
@@ -9,3 +10,11 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GoTo_Button" type="Button" parent="."]
+margin_right = 112.0
+margin_bottom = 32.0
+theme = ExtResource( 2 )
+text = "Go To..."
+
+[connection signal="pressed" from="GoTo_Button" to="." method="_on_GoTo_Button_pressed"]

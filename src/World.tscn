@@ -10,7 +10,7 @@
 script = ExtResource( 3 )
 
 [node name="MiddleDeck" parent="." instance=ExtResource( 1 )]
-position = Vector2( 419.801, 303.065 )
+position = Vector2( 445.028, 271.111 )
 
 [node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
 position = Vector2( 6.60699, 4.71917 )

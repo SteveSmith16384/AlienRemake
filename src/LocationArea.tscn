@@ -13,12 +13,16 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Label_Name" type="Label" parent="."]
+margin_top = 0.707108
 margin_right = 40.0
-margin_bottom = 14.0
+margin_bottom = 26.7071
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CrewPos1" type="Position2D" parent="."]
+
+[connection signal="input_event" from="." to="." method="_on_LocationArea_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_LocationArea_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_LocationArea_mouse_exited"]

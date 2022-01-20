@@ -47,3 +47,5 @@ rect_min_size = Vector2( 0, 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="gui_input" from="." to="." method="_on_CenterContainer_gui_input"]

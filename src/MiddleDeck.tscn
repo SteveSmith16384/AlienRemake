@@ -11,3 +11,15 @@ texture = ExtResource( 1 )
 
 [node name="LocationArea" parent="." instance=ExtResource( 2 )]
 position = Vector2( -212.797, 2.54543 )
+
+[node name="LocationArea2" parent="." instance=ExtResource( 2 )]
+position = Vector2( -109.453, -2.79997 )
+location_id = 1
+
+[node name="LocationArea3" parent="." instance=ExtResource( 2 )]
+position = Vector2( -79.1622, -93.6716 )
+location_id = 2
+
+[node name="LocationArea4" parent="." instance=ExtResource( 2 )]
+position = Vector2( -80.944, 89.8535 )
+location_id = 3
