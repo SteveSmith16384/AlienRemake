@@ -7,8 +7,8 @@ export(String, FILE) var image_path
 signal IconSelected
 
 func _ready():
-	$VBoxContainer/Label_Name.text = crew_name
-	$VBoxContainer/TextureRect.texture = load(image_path)
+#	find_node("Label_Name").text = crew_name
+#	find_node("TextureRect").texture = load(image_path)
 	pass
 	
 	

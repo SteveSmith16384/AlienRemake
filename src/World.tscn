@@ -12,11 +12,12 @@ script = ExtResource( 3 )
 position = Vector2( 419.801, 303.065 )
 
 [node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
+position = Vector2( 6.60699, 4.71917 )
 
 [node name="CommandOptions" parent="." instance=ExtResource( 4 )]
-margin_left = 740.826
-margin_top = 20.2043
-margin_right = 780.826
-margin_bottom = 60.2043
+margin_left = 738.938
+margin_top = 13.5972
+margin_right = 778.938
+margin_bottom = 53.5972
 
 [connection signal="CrewSelected" from="CharacterSelector" to="." method="_on_CharacterSelector_CrewSelected"]

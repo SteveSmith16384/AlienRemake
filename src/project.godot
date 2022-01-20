@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Crewman",
+"language": "GDScript",
+"path": "res://Classes/Crewman.gd"
+}, {
+"base": "Node",
+"class": "Item",
+"language": "GDScript",
+"path": "res://Classes/Item.gd"
+}, {
+"base": "Node",
+"class": "Location",
+"language": "GDScript",
+"path": "res://Classes/Location.gd"
+} ]
+_global_script_class_icons={
+"Crewman": "",
+"Item": "",
+"Location": ""
+}
+
 [application]
 
 config/name="AlienRemake"
