@@ -11,6 +11,6 @@ func _init(_main, _id : int, _name : String, loc : int):
 	item_name = _name
 	
 	# Put them in the location
-	main.locations[loc].crew.push_back(self)
+	main.locations[loc].items.push_back(self)
 	pass
 	

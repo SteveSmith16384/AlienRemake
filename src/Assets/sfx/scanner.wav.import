@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/scanner.wav-9a9247adc7d6661358023639f6d9e1bd.sample"
+
+[deps]
+
+source_file="res://Assets/sfx/scanner.wav"
+dest_files=[ "res://.import/scanner.wav-9a9247adc7d6661358023639f6d9e1bd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

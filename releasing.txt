@@ -1,0 +1,7 @@
+Start with IntroScene
+Update readme features
+Check all debugging is turned off
+Inc version num
+Copy in new readme
+Update Itch features
+

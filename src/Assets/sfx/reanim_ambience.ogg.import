@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/reanim_ambience.ogg-03156b3364e31a5715330d697b426db6.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/reanim_ambience.ogg"
+dest_files=[ "res://.import/reanim_ambience.ogg-03156b3364e31a5715330d697b426db6.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

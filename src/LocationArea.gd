@@ -50,7 +50,8 @@ func _on_LocationArea_mouse_exited():
 	pass
 
 
-func _on_LocationArea_input_event(viewport, event, shape_idx):
-	if event.button_mask != 0:
-		main.location_selected(location_id)
+func _on_LocationArea_input_event(viewport, event : InputEvent, shape_idx):
+	if event.is_pressed():
+		if event.button_mask != 0:
+			main.location_selected(location_id)
 	pass

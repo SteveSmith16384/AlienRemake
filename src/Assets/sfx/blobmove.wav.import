@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/blobmove.wav-00e72e428ebbdd8f62ba3dbcea398289.sample"
+
+[deps]
+
+source_file="res://Assets/sfx/blobmove.wav"
+dest_files=[ "res://.import/blobmove.wav-00e72e428ebbdd8f62ba3dbcea398289.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

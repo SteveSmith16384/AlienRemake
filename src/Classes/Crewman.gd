@@ -4,7 +4,7 @@ extends Node
 var main
 var id : int
 var crew_name : String
-var location #_id : int
+var location
 var destination
 var dest_time : float
 var carrying = []
