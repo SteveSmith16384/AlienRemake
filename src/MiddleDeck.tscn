@@ -9,12 +9,64 @@
 scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 1 )
 
+[node name="Sprite2" type="Sprite" parent="."]
+scale = Vector2( 3.5, 3.5 )
+texture = ExtResource( 1 )
+
 [node name="LocationArea" parent="." instance=ExtResource( 2 )]
 position = Vector2( -212.797, 2.54543 )
 
 [node name="LocationArea2" parent="." instance=ExtResource( 2 )]
 position = Vector2( -109.453, -2.79997 )
 location_id = 1
+
+[node name="LocationArea5" parent="." instance=ExtResource( 2 )]
+position = Vector2( -15.0178, -1.01817 )
+location_id = 4
+
+[node name="LocationArea6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 52.6906, -184.543 )
+location_id = 8
+
+[node name="LocationArea7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 72.2903, -116.835 )
+location_id = 5
+
+[node name="LocationArea8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56.2542, -1.01817 )
+location_id = 11
+
+[node name="LocationArea9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 68.7267, 109.453 )
+location_id = 7
+
+[node name="LocationArea10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 54.4724, 180.725 )
+location_id = 12
+
+[node name="LocationArea11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 125.744, -189.889 )
+location_id = 9
+
+[node name="LocationArea12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 127.526, 0.763657 )
+location_id = 6
+
+[node name="LocationArea13" parent="." instance=ExtResource( 2 )]
+position = Vector2( 123.962, 193.198 )
+location_id = 13
+
+[node name="LocationArea14" parent="." instance=ExtResource( 2 )]
+position = Vector2( 209.489, -164.943 )
+location_id = 10
+
+[node name="LocationArea15" parent="." instance=ExtResource( 2 )]
+position = Vector2( 207.707, -1.01813 )
+location_id = 14
+
+[node name="LocationArea16" parent="." instance=ExtResource( 2 )]
+position = Vector2( 211.271, 164.689 )
+location_id = 15
 
 [node name="LocationArea3" parent="." instance=ExtResource( 2 )]
 position = Vector2( -79.1622, -93.6716 )

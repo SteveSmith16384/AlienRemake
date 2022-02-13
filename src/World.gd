@@ -25,6 +25,10 @@ func _ready():
 
 
 func _process(delta):
+	if Input.is_action_just_pressed("toggle_fullscreen"):
+		#$AudioStreamPlayer_Keypress.play()
+		OS.window_fullscreen = !OS.window_fullscreen
+
 	time_left -= delta # todo - check when run out
 	$LabelTimeLeft.text = "Time: " + str(int(time_left))
 	for c in crew.values():
@@ -41,7 +45,7 @@ func crew_selected(crewman_id):
 	pass
 
 
-func update_ui():
+func update_ui(): # todo - rename
 	$Log.text = ""
 	
 #	var crewman = crew[selected_crewman_id];
@@ -86,28 +90,34 @@ func set_menu_mode(mode):
 	
 func location_selected(loc_id):
 	$Log.text = ""
-	var location : Location = locations[loc_id]
+	var selected_location : Location = locations[loc_id]
 	if menu_mode == Globals.MenuMode.GO_TO:
-		# todo - check it is adjacent
-		if selected_crewman.set_dest(location):
+		if is_location_adjacent(selected_location, selected_crewman.location) == false:
+			append_log("That location is not adjacent")
+			return
+		if selected_crewman.set_dest(selected_location):
 			$CharacterSelector.update_statuses()
-			$Log.text += selected_crewman.crew_name + " is now going to " + location.loc_name + "\n"
+			$Log.text += selected_crewman.crew_name + " is now going to " + selected_location.loc_name + "\n"
 		else:
 			$Log.text += "They are already going to " + selected_crewman.destination.loc_name + "\n"
 		pass
 	else:
-		$Log.text += "That is the " + location.loc_name + "\n"
-		if location.crew.size() > 0:
+		$Log.text += "That is the " + selected_location.loc_name + "\n"
+		if selected_location.crew.size() > 0:
 			$Log.text += "The following are here:\n"
-			for c in location.crew:
+			for c in selected_location.crew:
 				$Log.text += c.crew_name + ", "
 			$Log.text += "\n"
 		else:
 			append_log("There is no-one here")
-	menu_mode = Globals.MenuMode.NONE
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 
+func is_location_adjacent(loc1: Location, loc2: Location):
+	return loc1.adjacent.has(loc2)
+	
+	
 func cancel_selection():
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
@@ -165,7 +175,7 @@ func load_data():
 	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", Globals.Location.COMMAND_CENTER)
 	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", Globals.Location.COMMAND_CENTER)
 	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", Globals.Location.COMMAND_CENTER)
-	var android_crew_id = Globals.rnd.randi_range(0, crew.size())
+	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 	crew[android_crew_id].is_android = true
 	
 	# Items - todo - place randomly
@@ -175,7 +185,7 @@ func load_data():
 	
 	
 func get_random_location():
-	var loc_id = Globals.rnd.randi_range(0, locations.size())
+	var loc_id = Globals.rnd.randi_range(0, locations.size()-1)
 	return loc_id
 	
 	
