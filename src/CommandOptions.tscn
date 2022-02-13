@@ -17,7 +17,7 @@ margin_bottom = 32.0
 theme = ExtResource( 2 )
 text = "Go To..."
 
-[node name="PickupBUtton" type="Button" parent="."]
+[node name="PickupButton" type="Button" parent="."]
 margin_top = 36.0
 margin_right = 121.0
 margin_bottom = 68.0
@@ -32,5 +32,5 @@ theme = ExtResource( 2 )
 text = "CANCEL"
 
 [connection signal="pressed" from="GoTo_Button" to="." method="_on_GoTo_Button_pressed"]
-[connection signal="pressed" from="PickupBUtton" to="." method="_on_PickupBUtton_pressed"]
+[connection signal="pressed" from="PickupButton" to="." method="_on_PickupButton_pressed"]
 [connection signal="pressed" from="CancelButton" to="." method="_on_CancelButton_pressed"]

@@ -1,21 +1,21 @@
 extends VBoxContainer
 
-const button_class = preload("res://LocationButton.tscn")
+const button_class = preload("res://ItemButton.tscn")
 
 onready var main = get_tree().get_root().get_node("World")
 
 func update_list(loc : Location):
-	for adj in loc.adjacent:
+	for item in loc.items:
 		var button = button_class.instance()
-		button.location_id = adj.id
-		button.text = Globals.Location.keys()[adj.id]
+		button.item_type = item.type
+		button.text = Globals.ItemType.keys()[item.type]
 		button.connect("pressed", self, "button_pressed")
 		add_child(button)
 	pass
 	
 	
-func button_pressed(loc_id):
-	main.location_selected(loc_id)
+func button_pressed(item_type):
+	main.item_selected(item_type)
 	pass
 	
 
@@ -23,3 +23,4 @@ func button_pressed(loc_id):
 func _on_Cancel_pressed():
 	main.cancel_selection()
 	pass
+

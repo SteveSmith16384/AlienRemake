@@ -7,7 +7,7 @@ func _ready():
 
 
 func update_menu(location : Location):
-	# todo
+	$PickupButton.visible = location.items.size() > 0
 	pass
 	
 
@@ -21,6 +21,6 @@ func _on_CancelButton_pressed():
 	pass
 
 
-func _on_PickupBUtton_pressed():
+func _on_PickupButton_pressed():
 	main.set_menu_mode(Globals.MenuMode.PICK_UP)
 	pass

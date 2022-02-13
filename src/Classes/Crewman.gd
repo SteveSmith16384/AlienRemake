@@ -4,10 +4,10 @@ extends Node
 var main
 var id : int
 var crew_name : String
-var location
-var destination
+var location : Location
+var destination : Location
 var dest_time : float
-var carrying = []
+var items = []
 
 func _init(_main, _id : int, _name : String, loc : int):
 	main = _main

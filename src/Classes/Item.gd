@@ -2,12 +2,12 @@ class_name Item
 extends Node
 
 var main
-var id : int
+var type : int
 var item_name : String
 
-func _init(_main, _id : int, _name : String, loc : int):
+func _init(_main, _type : int, _name : String, loc : int):
 	main = _main
-	id = _id
+	type = _type
 	item_name = _name
 	
 	# Put them in the location

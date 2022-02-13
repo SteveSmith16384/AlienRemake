@@ -10,14 +10,15 @@ var menu_mode : int = Globals.MenuMode.NONE
 func _ready():
 	load_data()
 	$LocationSelector.visible = false
+	$ItemSelector.visible = false
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
 	for l in locations.values():
 		l.update_crewman_sprite()
 		
-	selected_crewman = crew[0]
-	update_ui()
+	crew_selected(crew[0].id)
+#	update_ui()
 	pass
 
 
@@ -27,7 +28,7 @@ func _process(delta):
 	pass
 	
 	
-func crew_selected(crewman_id):	
+func crew_selected(crewman_id):
 	if selected_crewman != null and selected_crewman.id == crewman_id:
 		return
 		
@@ -47,22 +48,35 @@ func update_ui():
 	
 	var dest = selected_crewman.destination
 	if dest != null:
-		$Log.text += "They going to the " + dest.loc_name + "\n"
+		append_log("They going to the " + dest.loc_name)
 	
+	if selected_crewman.items.size() > 0:
+		append_log("They are carrying:")
+		for i in selected_crewman.items:
+			$Log.text += i.item_name + ","
 	$CommandOptions.update_menu(location)
+	
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 
 func set_menu_mode(mode):
 	menu_mode = mode
 	if menu_mode == Globals.MenuMode.GO_TO:
-		$Log.text += "Select destination\n"
+		$Log.text += "Select Destination\n"
 		$CommandOptions.visible = false
 		$LocationSelector.update_list(selected_crewman.location)
 		$LocationSelector.visible = true
+		$ItemSelector.visible = false
+	elif menu_mode == Globals.MenuMode.PICK_UP:
+		$Log.text += "Select Item\n"
+		$CommandOptions.visible = false
+		$ItemSelector.update_list(selected_crewman.location)
+		$ItemSelector.visible = true
 	else:
 		$CommandOptions.visible = true
 		$LocationSelector.visible = false
+		$ItemSelector.visible = false
 	pass
 	
 	
@@ -70,6 +84,7 @@ func location_selected(loc_id):
 	$Log.text = ""
 	var location : Location = locations[loc_id]
 	if menu_mode == Globals.MenuMode.GO_TO:
+		# todo - check it is adjacent
 		if selected_crewman.set_dest(location):
 			$Log.text += selected_crewman.crew_name + " is now going to " + location.loc_name + "\n"
 		else:
@@ -87,7 +102,7 @@ func location_selected(loc_id):
 	pass
 	
 
-func cancel_location_selection():
+func cancel_selection():
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
@@ -127,7 +142,7 @@ func load_data():
 	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", Globals.Location.COMMAND_CENTER)
 	
 	# Items
-	var flamethrower = Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", Globals.Location.COMMAND_CENTER)
+	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", Globals.Location.COMMAND_CENTER)
 	
 	pass
 	
@@ -137,7 +152,17 @@ func set_adjacent(loc1:Location, loc2:Location):
 	pass
 	
 	
-func log(s):
+func append_log(s):
 	$Log.text += s + "\n"
+	pass
+	
+
+func item_selected(type):
+	var location : Location = selected_crewman.location#locations[selected_crewman.location]
+	var item = location.get_item(type)
+	if item != null:
+		location.remove_item(type)
+		selected_crewman.items.push_back(item)
+		append_log(item.item_name + " picked up")
 	pass
 	
