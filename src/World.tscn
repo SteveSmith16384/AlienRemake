@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://LocationSelector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ItemSelector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/sfx/gain_walkers_Sci_Fi_Atmosphere_03.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Themes/SmallFont.tres" type="DynamicFont" id=9]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -42,6 +43,7 @@ margin_top = 449.792
 margin_right = 50.0793
 margin_bottom = 591.792
 theme = ExtResource( 5 )
+custom_fonts/font = ExtResource( 9 )
 text = "1
 2
 3
@@ -57,5 +59,16 @@ __meta__ = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 autoplay = true
+
+[node name="LabelTimeLeft" type="Label" parent="."]
+margin_left = 16.9897
+margin_top = 117.04
+margin_right = 97.9897
+margin_bottom = 143.04
+theme = ExtResource( 5 )
+text = "00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="CrewSelected" from="CharacterSelector" to="." method="_on_CharacterSelector_CrewSelected"]

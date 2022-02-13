@@ -4,6 +4,7 @@ extends Node2D
 var locations = {}
 var crew = {}
 
+var time_left : float = 60 * 60
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 
@@ -18,11 +19,14 @@ func _ready():
 		l.update_crewman_sprite()
 		
 	crew_selected(crew[0].id)
+	$CharacterSelector.update_statuses()
 #	update_ui()
 	pass
 
 
 func _process(delta):
+	time_left -= delta # todo - check when run out
+	$LabelTimeLeft.text = "Time: " + str(int(time_left))
 	for c in crew.values():
 		c._process(delta)
 	pass
@@ -86,6 +90,7 @@ func location_selected(loc_id):
 	if menu_mode == Globals.MenuMode.GO_TO:
 		# todo - check it is adjacent
 		if selected_crewman.set_dest(location):
+			$CharacterSelector.update_statuses()
 			$Log.text += selected_crewman.crew_name + " is now going to " + location.loc_name + "\n"
 		else:
 			$Log.text += "They are already going to " + selected_crewman.destination.loc_name + "\n"
@@ -112,6 +117,7 @@ func crewman_moved(crewman, prev_loc):
 	prev_loc.update_crewman_sprite()
 	$Log.text += crewman.crew_name + " has arrived in the " + crewman.location.loc_name + "\n"
 	crewman.location.update_crewman_sprite()
+	$CharacterSelector.update_statuses()
 	pass
 	
 	
@@ -119,37 +125,37 @@ func load_data():
 	# Middle deck
 	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
 	locations[Globals.Location.INFIRMARY] = Location.new(Globals.Location.INFIRMARY, "Infirmary")
-	locations[Globals.Location.CORRIDOR1] = Location.new(Globals.Location.CORRIDOR1, "Corridor 1")
+	locations[Globals.Location.CORRIDOR_1] = Location.new(Globals.Location.CORRIDOR_1, "Corridor 1")
 	locations[Globals.Location.LABORATORY] = Location.new(Globals.Location.LABORATORY, "Laboratory")
-	locations[Globals.Location.CORRIDOR2] = Location.new(Globals.Location.CORRIDOR2, "Corridor 2")
+	locations[Globals.Location.CORRIDOR_2] = Location.new(Globals.Location.CORRIDOR_2, "Corridor 2")
 	locations[Globals.Location.INF_STORES] = Location.new(Globals.Location.INF_STORES, "Inf Stores")
 	locations[Globals.Location.CRYO_VAULT] = Location.new(Globals.Location.CRYO_VAULT, "Cryo Vault")
 	locations[Globals.Location.LAB_STORES] = Location.new(Globals.Location.LAB_STORES, "Lab Stores")
 	locations[Globals.Location.ARMOURY] = Location.new(Globals.Location.ARMOURY, "Armoury")
-	locations[Globals.Location.CORRIDOR3] = Location.new(Globals.Location.CORRIDOR3, "Corridor 3")
-	locations[Globals.Location.CORRIDOR4] = Location.new(Globals.Location.CORRIDOR4, "Corridor 4")
-	locations[Globals.Location.CORRIDOR5] = Location.new(Globals.Location.CORRIDOR5, "Corridor 5")
-	locations[Globals.Location.STORES1] = Location.new(Globals.Location.STORES1, "Stores 1")
-	locations[Globals.Location.ENGINE1] = Location.new(Globals.Location.ENGINE1, "Engine 1")
-	locations[Globals.Location.ENGINE2] = Location.new(Globals.Location.ENGINE2, "Engine 2")
-	locations[Globals.Location.ENGINE3] = Location.new(Globals.Location.ENGINE3, "Engine 3")
+	locations[Globals.Location.CORRIDOR_3] = Location.new(Globals.Location.CORRIDOR_3, "Corridor 3")
+	locations[Globals.Location.CORRIDOR_4] = Location.new(Globals.Location.CORRIDOR_4, "Corridor 4")
+	locations[Globals.Location.CORRIDOR_5] = Location.new(Globals.Location.CORRIDOR_5, "Corridor 5")
+	locations[Globals.Location.STORES_1] = Location.new(Globals.Location.STORES_1, "Stores 1")
+	locations[Globals.Location.ENGINE_1] = Location.new(Globals.Location.ENGINE_1, "Engine 1")
+	locations[Globals.Location.ENGINE_2] = Location.new(Globals.Location.ENGINE_2, "Engine 2")
+	locations[Globals.Location.ENGINE_3] = Location.new(Globals.Location.ENGINE_3, "Engine 3")
 	
-	set_adjacent(Globals.Location.COMMAND_CENTER, Globals.Location.CORRIDOR1)
-	set_adjacent(Globals.Location.INFIRMARY, Globals.Location.CORRIDOR1)
-	set_adjacent(Globals.Location.LABORATORY, Globals.Location.CORRIDOR1)
-	set_adjacent(Globals.Location.CORRIDOR1, Globals.Location.CORRIDOR2)
-	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CORRIDOR3)
-	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CRYO_VAULT)
-	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CORRIDOR5)
-	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.INF_STORES)
-	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.ARMOURY)
-	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.CORRIDOR4)
-	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.ENGINE_1)
-	set_adjacent(Globals.Location.CORRIDOR4, Globals.Location.CORRIDOR5)
-	set_adjacent(Globals.Location.CORRIDOR4, Globals.Location.ENGINE_2)
-	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.LAB_STORES)
-	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.STORES_1)
-	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.ENGINE_3)
+	set_adjacent(Globals.Location.COMMAND_CENTER, Globals.Location.CORRIDOR_1)
+	set_adjacent(Globals.Location.INFIRMARY, Globals.Location.CORRIDOR_1)
+	set_adjacent(Globals.Location.LABORATORY, Globals.Location.CORRIDOR_1)
+	set_adjacent(Globals.Location.CORRIDOR_1, Globals.Location.CORRIDOR_2)
+	set_adjacent(Globals.Location.CORRIDOR_2, Globals.Location.CORRIDOR_3)
+	set_adjacent(Globals.Location.CORRIDOR_2, Globals.Location.CRYO_VAULT)
+	set_adjacent(Globals.Location.CORRIDOR_2, Globals.Location.CORRIDOR_5)
+	set_adjacent(Globals.Location.CORRIDOR_3, Globals.Location.INF_STORES)
+	set_adjacent(Globals.Location.CORRIDOR_3, Globals.Location.ARMOURY)
+	set_adjacent(Globals.Location.CORRIDOR_3, Globals.Location.CORRIDOR_4)
+	set_adjacent(Globals.Location.CORRIDOR_3, Globals.Location.ENGINE_1)
+	set_adjacent(Globals.Location.CORRIDOR_4, Globals.Location.CORRIDOR_5)
+	set_adjacent(Globals.Location.CORRIDOR_4, Globals.Location.ENGINE_2)
+	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.LAB_STORES)
+	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.STORES_1)
+	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.ENGINE_3)
 	
 	# Crew
 	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", Globals.Location.COMMAND_CENTER)

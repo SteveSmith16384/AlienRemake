@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "Alien",
+"language": "GDScript",
+"path": "res://Classes/Alien.gd"
+}, {
+"base": "Node",
 "class": "Crewman",
 "language": "GDScript",
 "path": "res://Classes/Crewman.gd"
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://Classes/Location.gd"
 } ]
 _global_script_class_icons={
+"Alien": "",
 "Crewman": "",
 "Item": "",
 "Location": ""

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://CharacterIcon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Images/face_dallas.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Themes/SmallFont.tres" type="DynamicFont" id=3]
 
 [node name="CenterContainer" type="CenterContainer"]
 margin_left = -4.0
@@ -16,22 +17,22 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 50.0
-margin_right = 98.0
-margin_bottom = 84.0
+margin_left = 48.0
+margin_right = 100.0
+margin_bottom = 99.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 48.0
+margin_right = 52.0
 margin_bottom = 42.0
 mouse_filter = 2
 texture = ExtResource( 2 )
 
 [node name="Label_Name" type="Label" parent="VBoxContainer"]
 margin_top = 46.0
-margin_right = 48.0
+margin_right = 52.0
 margin_bottom = 60.0
 text = "Dallas"
 align = 1
@@ -41,11 +42,18 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
 margin_top = 64.0
-margin_right = 48.0
+margin_right = 52.0
 margin_bottom = 84.0
 rect_min_size = Vector2( 0, 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label_Status" type="Label" parent="VBoxContainer"]
+margin_top = 88.0
+margin_right = 52.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 3 )
+text = "walking"
 
 [connection signal="gui_input" from="." to="." method="_on_CenterContainer_gui_input"]
