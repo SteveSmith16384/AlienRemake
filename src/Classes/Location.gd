@@ -30,5 +30,6 @@ func remove_item(type):
 
 	
 func update_crewman_sprite():
-	area.update_crewman_sprite()
+	if area != null:
+		area.update_crewman_sprite()
 	pass

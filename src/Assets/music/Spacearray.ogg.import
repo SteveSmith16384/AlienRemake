@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Spacearray.ogg-740ce43c1387fa5d834228744be64793.oggstr"
+
+[deps]
+
+source_file="res://Assets/music/Spacearray.ogg"
+dest_files=[ "res://.import/Spacearray.ogg-740ce43c1387fa5d834228744be64793.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

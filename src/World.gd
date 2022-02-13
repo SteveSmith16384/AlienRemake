@@ -97,7 +97,8 @@ func location_selected(loc_id):
 			for c in location.crew:
 				$Log.text += c.crew_name + ", "
 			$Log.text += "\n"
-		
+		else:
+			append_log("There is no-one here")
 	menu_mode = Globals.MenuMode.NONE
 	pass
 	
@@ -115,22 +116,40 @@ func crewman_moved(crewman, prev_loc):
 	
 	
 func load_data():
-	# Locations
-#	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
-#	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
-
-	var command_centre = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
-	locations[Globals.Location.COMMAND_CENTER] = command_centre
-	var corridor1 = Location.new(Globals.Location.CORRIDOR1, "Corridor 1")
-	locations[Globals.Location.CORRIDOR1] = corridor1
-	var informary = Location.new(Globals.Location.INFIRMARY, "Infirmary")
-	locations[Globals.Location.INFIRMARY] = informary
-	var laboratory = Location.new(Globals.Location.LABORATORY, "Laboratory")
-	locations[Globals.Location.LABORATORY] = laboratory
+	# Middle deck
+	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
+	locations[Globals.Location.INFIRMARY] = Location.new(Globals.Location.INFIRMARY, "Infirmary")
+	locations[Globals.Location.CORRIDOR1] = Location.new(Globals.Location.CORRIDOR1, "Corridor 1")
+	locations[Globals.Location.LABORATORY] = Location.new(Globals.Location.LABORATORY, "Laboratory")
+	locations[Globals.Location.CORRIDOR2] = Location.new(Globals.Location.CORRIDOR2, "Corridor 2")
+	locations[Globals.Location.INF_STORES] = Location.new(Globals.Location.INF_STORES, "Inf Stores")
+	locations[Globals.Location.CRYO_VAULT] = Location.new(Globals.Location.CRYO_VAULT, "Cryo Vault")
+	locations[Globals.Location.LAB_STORES] = Location.new(Globals.Location.LAB_STORES, "Lab Stores")
+	locations[Globals.Location.ARMOURY] = Location.new(Globals.Location.ARMOURY, "Armoury")
+	locations[Globals.Location.CORRIDOR3] = Location.new(Globals.Location.CORRIDOR3, "Corridor 3")
+	locations[Globals.Location.CORRIDOR4] = Location.new(Globals.Location.CORRIDOR4, "Corridor 4")
+	locations[Globals.Location.CORRIDOR5] = Location.new(Globals.Location.CORRIDOR5, "Corridor 5")
+	locations[Globals.Location.STORES1] = Location.new(Globals.Location.STORES1, "Stores 1")
+	locations[Globals.Location.ENGINE1] = Location.new(Globals.Location.ENGINE1, "Engine 1")
+	locations[Globals.Location.ENGINE2] = Location.new(Globals.Location.ENGINE2, "Engine 2")
+	locations[Globals.Location.ENGINE3] = Location.new(Globals.Location.ENGINE3, "Engine 3")
 	
-	set_adjacent(command_centre, corridor1)
-	set_adjacent(informary, corridor1)
-	set_adjacent(laboratory, corridor1)
+	set_adjacent(Globals.Location.COMMAND_CENTER, Globals.Location.CORRIDOR1)
+	set_adjacent(Globals.Location.INFIRMARY, Globals.Location.CORRIDOR1)
+	set_adjacent(Globals.Location.LABORATORY, Globals.Location.CORRIDOR1)
+	set_adjacent(Globals.Location.CORRIDOR1, Globals.Location.CORRIDOR2)
+	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CORRIDOR3)
+	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CRYO_VAULT)
+	set_adjacent(Globals.Location.CORRIDOR2, Globals.Location.CORRIDOR5)
+	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.INF_STORES)
+	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.ARMOURY)
+	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.CORRIDOR4)
+	set_adjacent(Globals.Location.CORRIDOR3, Globals.Location.ENGINE_1)
+	set_adjacent(Globals.Location.CORRIDOR4, Globals.Location.CORRIDOR5)
+	set_adjacent(Globals.Location.CORRIDOR4, Globals.Location.ENGINE_2)
+	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.LAB_STORES)
+	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.STORES_1)
+	set_adjacent(Globals.Location.CORRIDOR5, Globals.Location.ENGINE_3)
 	
 	# Crew
 	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", Globals.Location.COMMAND_CENTER)
@@ -140,15 +159,23 @@ func load_data():
 	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", Globals.Location.COMMAND_CENTER)
 	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", Globals.Location.COMMAND_CENTER)
 	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", Globals.Location.COMMAND_CENTER)
+	var android_crew_id = Globals.rnd.randi_range(0, crew.size())
+	crew[android_crew_id].is_android = true
 	
-	# Items
-	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", Globals.Location.COMMAND_CENTER)
+	# Items - todo - place randomly
+	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location())
 	
 	pass
 	
-func set_adjacent(loc1:Location, loc2:Location):
-	loc1.adjacent.push_back(loc2)
-	loc2.adjacent.push_back(loc1)
+	
+func get_random_location():
+	var loc_id = Globals.rnd.randi_range(0, locations.size())
+	return loc_id
+	
+	
+func set_adjacent(loc1:int, loc2:int):
+	locations[loc1].adjacent.push_back(locations[loc2])
+	locations[loc2].adjacent.push_back(locations[loc1])
 	pass
 	
 	

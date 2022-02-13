@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://LabelQueue.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/sfx/scanner.wav" type="AudioStream" id=3]
+
+[node name="LabelQueue" type="Label"]
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 2 )
+text = "this is some text!"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.06
+
+[node name="AudioStreamPlayer_NewText" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

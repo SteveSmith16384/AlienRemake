@@ -8,6 +8,8 @@ var location : Location
 var destination : Location
 var dest_time : float
 var items = []
+var is_android = false
+var health : int = 100
 
 func _init(_main, _id : int, _name : String, loc : int):
 	main = _main
@@ -20,10 +22,10 @@ func _init(_main, _id : int, _name : String, loc : int):
 	pass
 	
 
-func set_dest(loc):
+func set_dest(loc) -> bool:
 	if destination == null:
 		destination = loc
-		dest_time = 10
+		dest_time = 10 * 100 / health
 		return true
 	else:
 		return false
