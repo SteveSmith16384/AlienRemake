@@ -33,3 +33,9 @@ func update_crewman_sprite():
 	if area != null:
 		area.update_crewman_sprite()
 	pass
+
+
+func update_alien_sprite(b):
+	if area != null:
+		area.update_alien_sprite(b)
+	pass

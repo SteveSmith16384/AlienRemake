@@ -2,39 +2,29 @@ extends Area2D
 
 export (Globals.Location) var location_id
 
-var main
+onready var main = get_tree().get_root().get_node("World")
 var location : Location
 
-var blip_scale : float = 1
-var blip_diff : int = 1
-
 func _ready():
-	main = get_tree().get_root().get_node("World")
+	$Crewman_Sprite.visible = false
+	$Alien_Sprite.visible = false
 	pass
-
-
+	
+	
 func _process(delta):
 	if location == null:
 		location = main.locations[location_id]
 		location.area = self
-
-	if $Crewman_Sprite.visible:
-		blip_scale = blip_scale + (delta * blip_diff * 1.5)
-		if blip_scale < 0.5:
-			blip_scale = 0.5
-			blip_diff = 1
-		elif blip_scale > 1:
-			blip_scale = 1
-			blip_diff = -1
-			
-		var sprite = $Crewman_Sprite
-		sprite.scale.x = blip_scale
-		sprite.scale.y = blip_scale
 	pass
 	
 	
 func update_crewman_sprite():
 	$Crewman_Sprite.visible = location.crew.size() > 0
+	pass
+	
+	
+func update_alien_sprite(b):
+	$Crewman_Sprite.visible = b
 	pass
 	
 	

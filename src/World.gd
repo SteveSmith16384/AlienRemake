@@ -3,6 +3,7 @@ extends Node2D
 
 var locations = {}
 var crew = {}
+var alien: Alien
 
 var time_left : float = 60 * 60
 var selected_crewman : Crewman
@@ -33,6 +34,7 @@ func _process(delta):
 	$LabelTimeLeft.text = "Time: " + str(int(time_left))
 	for c in crew.values():
 		c._process(delta)
+	alien._process(delta)
 	pass
 	
 	
@@ -130,6 +132,13 @@ func crewman_moved(crewman, prev_loc):
 	$CharacterSelector.update_statuses()
 	pass
 	
+
+func alien_moved(alien: Alien, prev_loc: Location):
+	prev_loc.update_alien_sprite(false)
+	$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
+	alien.location.update_alien_sprite(true)
+	pass
+	
 	
 func load_data():
 	# Middle deck
@@ -177,14 +186,16 @@ func load_data():
 	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", Globals.Location.COMMAND_CENTER)
 	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 	crew[android_crew_id].is_android = true
+	print(crew[android_crew_id].crew_name + " is an Android!")
 	
 	# Items - todo - place randomly
-	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location())
+	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
 	
+	alien = Alien.new(self, locations[get_random_location_id()])
 	pass
 	
 	
-func get_random_location():
+func get_random_location_id():
 	var loc_id = Globals.rnd.randi_range(0, locations.size()-1)
 	return loc_id
 	
