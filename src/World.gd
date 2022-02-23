@@ -92,10 +92,10 @@ func set_menu_mode(mode):
 	pass
 	
 	
-func location_selected(loc_id):
+func location_selected(loc_id, move_to: bool = false):
 	$Log.text = ""
 	var selected_location : Location = locations[loc_id]
-	if menu_mode == Globals.MenuMode.GO_TO:
+	if menu_mode == Globals.MenuMode.GO_TO or move_to:
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
 			append_log("That location is not adjacent")
 			return
@@ -179,19 +179,20 @@ func load_data():
 	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.ENGINE_3)
 	
 	# Crew
-	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", Globals.Location.COMMAND_CENTER)
-	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", Globals.Location.COMMAND_CENTER)
+	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_location_id())
+	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_location_id())
+	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", get_random_location_id())
+	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", get_random_location_id())
+	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_location_id())
+	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_location_id())
+	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_location_id())
 	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 	crew[android_crew_id].is_android = true
-	print(crew[android_crew_id].crew_name + " is an Android!")
+	#print(crew[android_crew_id].crew_name + " is an Android!")
 	
-	# Items - todo - place randomly
-	Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
+	# Items
+	for i in range(5):
+		Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
 	
 	alien = Alien.new(self, locations[get_random_location_id()])
 	pass
