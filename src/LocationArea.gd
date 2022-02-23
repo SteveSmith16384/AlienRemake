@@ -7,6 +7,7 @@ var location : Location
 
 func _ready():
 	$Crewman_Sprite.visible = false
+	$Crewman_Sprite_Faded.visible = false
 	$Alien_Sprite.visible = false
 	pass
 	
@@ -19,7 +20,13 @@ func _process(delta):
 	
 	
 func update_crewman_sprite():
-	$Crewman_Sprite.visible = location.crew.size() > 0
+	$Crewman_Sprite.visible = false
+	$Crewman_Sprite_Faded.visible = false
+	
+	if location.crew.has(main.selected_crewman):
+		$Crewman_Sprite.visible = true
+	elif location.crew.size() > 0:
+		$Crewman_Sprite_Faded.visible = true
 	pass
 	
 	

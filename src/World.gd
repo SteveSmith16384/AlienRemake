@@ -42,14 +42,19 @@ func crew_selected(crewman_id):
 	if selected_crewman != null and selected_crewman.id == crewman_id:
 		return
 		
+	var prev_loc : Location
+	if selected_crewman != null:
+		prev_loc = selected_crewman.location
 	selected_crewman = crew[crewman_id]
+	if prev_loc != null:
+		prev_loc.update_crewman_sprite() # to hide the bright blip
 	update_ui()
 	pass
 
 
 func update_ui(): # todo - rename
 	$CharacterSelector.update_statuses()
-	selected_crewman
+	selected_crewman.location.update_crewman_sprite()
 	
 	$Log.text = ""
 	

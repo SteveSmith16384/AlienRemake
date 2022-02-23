@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://LocationArea.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
 [ext_resource path="res://Assets/Images/greenblip.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Images/redblip.png" type="Texture" id=4]
 [ext_resource path="res://Components/PulseSprite.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Images/greenblip_faded.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -37,6 +38,12 @@ position = Vector2( 26.163, 10.6066 )
 texture = ExtResource( 4 )
 
 [node name="PulseSprite" parent="Alien_Sprite" instance=ExtResource( 5 )]
+
+[node name="Crewman_Sprite_Faded" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
+
+[node name="PulseSprite2" parent="Crewman_Sprite_Faded" instance=ExtResource( 5 )]
 
 [connection signal="input_event" from="." to="." method="_on_LocationArea_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_LocationArea_mouse_entered"]
