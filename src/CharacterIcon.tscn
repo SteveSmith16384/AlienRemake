@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://CharacterIcon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Images/face_dallas.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Themes/SmallFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Assets/Images/white_rect.png" type="Texture" id=4]
 
 [node name="CenterContainer" type="CenterContainer"]
 margin_left = -4.0
@@ -24,11 +25,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SelectedSprite" type="Sprite" parent="VBoxContainer"]
+visible = false
+position = Vector2( 25.0755, 21.4187 )
+texture = ExtResource( 4 )
+
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
 margin_right = 52.0
 margin_bottom = 42.0
 mouse_filter = 2
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label_Name" type="Label" parent="VBoxContainer"]
 margin_top = 46.0

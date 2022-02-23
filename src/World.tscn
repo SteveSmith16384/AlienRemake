@@ -70,5 +70,3 @@ text = "00:00"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[connection signal="CrewSelected" from="CharacterSelector" to="." method="_on_CharacterSelector_CrewSelected"]

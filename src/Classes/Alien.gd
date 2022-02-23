@@ -10,6 +10,7 @@ var health : int = 100
 func _init(_main, loc : Location):
 	main = _main
 	location = loc
+	main.alien_moved(self, loc)
 	pass
 	
 
@@ -23,7 +24,7 @@ func _process(delta):
 		var adj = location.adjacent
 		destination = adj[Globals.rnd.randi_range(0, adj.size()-1)]
 		dest_time = 12
-		print("New dest is " + destination.loc_name)
+		print("New alien dest is " + destination.loc_name)
 		
 	dest_time -= delta
 	if dest_time <= 0:

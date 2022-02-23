@@ -48,9 +48,11 @@ func crew_selected(crewman_id):
 
 
 func update_ui(): # todo - rename
+	$CharacterSelector.update_statuses()
+	selected_crewman
+	
 	$Log.text = ""
 	
-#	var crewman = crew[selected_crewman_id];
 	$Log.text += selected_crewman.crew_name + " selected.\n"
 	
 	var location = selected_crewman.location

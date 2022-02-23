@@ -9,6 +9,8 @@ onready var main = get_tree().get_root().get_node("World")
 func _ready():
 	find_node("Label_Name").text = crew_name
 	find_node("TextureRect").texture = load(image_path)
+	find_node("Label_Status").text = ""
+	find_node("SelectedSprite").visible = false
 	pass
 	
 	
@@ -21,5 +23,9 @@ func _on_CenterContainer_gui_input(event):
 func update_status():
 	$VBoxContainer/Label_Status.text = ""
 	var crew : Crewman = main.crew[Crewman]
+	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
 	if crew.destination != null:
 		$VBoxContainer/Label_Status.text = "Walking"
+	pass
+	
+	

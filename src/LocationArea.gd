@@ -24,7 +24,7 @@ func update_crewman_sprite():
 	
 	
 func update_alien_sprite(b):
-	$Crewman_Sprite.visible = b
+	$Alien_Sprite.visible = b
 	pass
 	
 	
