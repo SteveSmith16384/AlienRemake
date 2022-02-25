@@ -48,11 +48,11 @@ func crew_selected(crewman_id):
 	selected_crewman = crew[crewman_id]
 	if prev_loc != null:
 		prev_loc.update_crewman_sprite() # to hide the bright blip
-	update_ui()
-	pass
-
-
-func update_ui(): # todo - rename
+#	crewman_selected()
+#	pass
+#
+#
+#func crewman_selected():
 	$CharacterSelector.update_statuses()
 	selected_crewman.location.update_crewman_sprite()
 	
@@ -70,7 +70,15 @@ func update_ui(): # todo - rename
 	if selected_crewman.items.size() > 0:
 		append_log("They are carrying:")
 		for i in selected_crewman.items:
-			$Log.text += i.item_name + ","
+			$Log.text += i.item_name + ", "
+		$Log.text += "\n"
+
+	if location.items.size() > 0:
+		append_log("The following items are here:")
+		for i in location.items:
+			$Log.text += i.item_name + ", "
+		$Log.text += "\n"
+
 	$CommandOptions.update_menu(location)
 	
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -86,7 +94,12 @@ func set_menu_mode(mode):
 		$LocationSelector.visible = true
 		$ItemSelector.visible = false
 	elif menu_mode == Globals.MenuMode.PICK_UP:
-		$Log.text += "Select Item\n"
+		$Log.text = "Select Item to Pick up\n"
+		$CommandOptions.visible = false
+		$ItemSelector.update_list(selected_crewman.location)
+		$ItemSelector.visible = true
+	elif menu_mode == Globals.MenuMode.USE:
+		$Log.text = "Select Item to use\n"
 		$CommandOptions.visible = false
 		$ItemSelector.update_list(selected_crewman.location)
 		$ItemSelector.visible = true
@@ -142,7 +155,7 @@ func crewman_moved(crewman, prev_loc):
 
 func alien_moved(alien: Alien, prev_loc: Location):
 	prev_loc.update_alien_sprite(false)
-	$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
+	#$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
 	alien.location.update_alien_sprite(true)
 	pass
 	
@@ -226,5 +239,6 @@ func item_selected(type):
 		location.remove_item(type)
 		selected_crewman.items.push_back(item)
 		append_log(item.item_name + " picked up")
+		set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	

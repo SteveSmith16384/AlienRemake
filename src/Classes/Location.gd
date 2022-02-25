@@ -37,5 +37,5 @@ func update_crewman_sprite():
 
 func update_alien_sprite(b):
 	if area != null:
-		area.update_alien_sprite(b)
+		area.update_alien_sprite(b and crew.size() > 0)
 	pass

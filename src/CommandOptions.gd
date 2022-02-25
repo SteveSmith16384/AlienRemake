@@ -24,3 +24,13 @@ func _on_CancelButton_pressed():
 func _on_PickupButton_pressed():
 	main.set_menu_mode(Globals.MenuMode.PICK_UP)
 	pass
+
+
+func _on_UseButton_pressed():
+	main.set_menu_mode(Globals.MenuMode.USE)
+	pass
+
+
+func _on_SpecialButton_pressed():
+	main.set_menu_mode(Globals.MenuMode.SPECIAL)
+	pass
