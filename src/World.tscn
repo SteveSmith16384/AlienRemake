@@ -8,7 +8,7 @@
 [ext_resource path="res://LocationSelector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ItemSelector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/sfx/gain_walkers_Sci_Fi_Atmosphere_03.ogg" type="AudioStream" id=8]
-[ext_resource path="res://Assets/Themes/SmallFont.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Log.tscn" type="PackedScene" id=9]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -37,25 +37,6 @@ margin_top = 13.2142
 margin_right = 882.651
 margin_bottom = 53.2142
 
-[node name="Log" type="Label" parent="."]
-margin_left = 10.0793
-margin_top = 449.792
-margin_right = 50.0793
-margin_bottom = 591.792
-theme = ExtResource( 5 )
-custom_fonts/font = ExtResource( 9 )
-text = "1
-2
-3
-4
-5
-
-"
-max_lines_visible = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 autoplay = true
@@ -70,3 +51,6 @@ text = "00:00"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Log" parent="." instance=ExtResource( 9 )]
+position = Vector2( 15.102, 424.743 )

@@ -34,3 +34,8 @@ func _on_UseButton_pressed():
 func _on_SpecialButton_pressed():
 	main.set_menu_mode(Globals.MenuMode.SPECIAL)
 	pass
+
+
+func _on_DropButton_pressed():
+	main.set_menu_mode(Globals.MenuMode.DROP)
+	pass

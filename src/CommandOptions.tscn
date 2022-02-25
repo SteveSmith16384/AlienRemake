@@ -12,29 +12,36 @@ __meta__ = {
 }
 
 [node name="GoTo_Button" type="Button" parent="."]
-margin_right = 128.0
+margin_right = 150.0
 margin_bottom = 32.0
 theme = ExtResource( 2 )
-text = "Go To..."
+text = "Move To..."
 
 [node name="PickupButton" type="Button" parent="."]
 margin_top = 36.0
-margin_right = 128.0
+margin_right = 150.0
 margin_bottom = 68.0
 theme = ExtResource( 2 )
 text = "Pick Up"
 
-[node name="UseButton" type="Button" parent="."]
+[node name="DropButton" type="Button" parent="."]
 margin_top = 72.0
-margin_right = 128.0
+margin_right = 150.0
 margin_bottom = 104.0
+theme = ExtResource( 2 )
+text = "Drop"
+
+[node name="UseButton" type="Button" parent="."]
+margin_top = 108.0
+margin_right = 150.0
+margin_bottom = 140.0
 theme = ExtResource( 2 )
 text = "Use"
 
 [node name="SpecialButton" type="Button" parent="."]
-margin_top = 108.0
-margin_right = 128.0
-margin_bottom = 140.0
+margin_top = 144.0
+margin_right = 150.0
+margin_bottom = 176.0
 theme = ExtResource( 2 )
 text = "Special"
 
@@ -48,6 +55,7 @@ text = "CANCEL"
 
 [connection signal="pressed" from="GoTo_Button" to="." method="_on_GoTo_Button_pressed"]
 [connection signal="pressed" from="PickupButton" to="." method="_on_PickupButton_pressed"]
+[connection signal="pressed" from="DropButton" to="." method="_on_DropButton_pressed"]
 [connection signal="pressed" from="UseButton" to="." method="_on_UseButton_pressed"]
 [connection signal="pressed" from="SpecialButton" to="." method="_on_SpecialButton_pressed"]
 [connection signal="pressed" from="CancelButton" to="." method="_on_CancelButton_pressed"]

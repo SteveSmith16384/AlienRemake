@@ -56,12 +56,12 @@ func crew_selected(crewman_id):
 	$CharacterSelector.update_statuses()
 	selected_crewman.location.update_crewman_sprite()
 	
-	$Log.text = ""
+	#$Log.text = ""
 	
-	$Log.text += selected_crewman.crew_name + " selected.\n"
+	append_log(selected_crewman.crew_name + " selected")
 	
 	var location = selected_crewman.location
-	$Log.text += "They are in the " + location.loc_name + "\n"
+	append_log("They are in the " + location.loc_name)
 	
 	var dest = selected_crewman.destination
 	if dest != null:
@@ -70,14 +70,14 @@ func crew_selected(crewman_id):
 	if selected_crewman.items.size() > 0:
 		append_log("They are carrying:")
 		for i in selected_crewman.items:
-			$Log.text += i.item_name + ", "
-		$Log.text += "\n"
+			append_log(i.item_name)
+#		$Log.text += "\n"
 
 	if location.items.size() > 0:
 		append_log("The following items are here:")
 		for i in location.items:
-			$Log.text += i.item_name + ", "
-		$Log.text += "\n"
+			append_log(i.item_name)
+#		$Log.text += "\n"
 
 	$CommandOptions.update_menu(location)
 	
@@ -88,22 +88,28 @@ func crew_selected(crewman_id):
 func set_menu_mode(mode):
 	menu_mode = mode
 	if menu_mode == Globals.MenuMode.GO_TO:
-		$Log.text += "Select Destination\n"
+		append_log("Select Destination")
 		$CommandOptions.visible = false
 		$LocationSelector.update_list(selected_crewman.location)
 		$LocationSelector.visible = true
 		$ItemSelector.visible = false
 	elif menu_mode == Globals.MenuMode.PICK_UP:
-		$Log.text = "Select Item to Pick up\n"
+		append_log("Select Item to Pick up")
 		$CommandOptions.visible = false
 		$ItemSelector.update_list(selected_crewman.location)
 		$ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.USE:
-		$Log.text = "Select Item to use\n"
+		append_log("Select Item to use")
 		$CommandOptions.visible = false
 		$ItemSelector.update_list(selected_crewman.location)
 		$ItemSelector.visible = true
+	elif menu_mode == Globals.MenuMode.NONE:
+		$CommandOptions.visible = true
+		$LocationSelector.visible = false
+		$ItemSelector.visible = false
 	else:
+		if Globals.RELEASE_MODE == false:
+			push_error("Unknown menu mode: " + str(mode))
 		$CommandOptions.visible = true
 		$LocationSelector.visible = false
 		$ItemSelector.visible = false
@@ -111,7 +117,7 @@ func set_menu_mode(mode):
 	
 	
 func location_selected(loc_id, move_to: bool = false):
-	$Log.text = ""
+	#$Log.text = ""
 	var selected_location : Location = locations[loc_id]
 	if menu_mode == Globals.MenuMode.GO_TO or move_to:
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
@@ -119,17 +125,17 @@ func location_selected(loc_id, move_to: bool = false):
 			return
 		if selected_crewman.set_dest(selected_location):
 			$CharacterSelector.update_statuses()
-			$Log.text += selected_crewman.crew_name + " is now going to " + selected_location.loc_name + "\n"
+			append_log(selected_crewman.crew_name + " is now going to " + selected_location.loc_name)
 		else:
-			$Log.text += "They are already going to " + selected_crewman.destination.loc_name + "\n"
+			append_log("They are already going to " + selected_crewman.destination.loc_name)
 		pass
 	else:
-		$Log.text += "That is the " + selected_location.loc_name + "\n"
+		append_log("That is the " + selected_location.loc_name)
 		if selected_location.crew.size() > 0:
-			$Log.text += "The following are here:\n"
+			append_log("The following are here:")
 			for c in selected_location.crew:
-				$Log.text += c.crew_name + ", "
-			$Log.text += "\n"
+				append_log(c.crew_name)
+#			$Log.text += "\n"
 		else:
 			append_log("There is no-one here")
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -147,7 +153,7 @@ func cancel_selection():
 	
 func crewman_moved(crewman, prev_loc):
 	prev_loc.update_crewman_sprite()
-	$Log.text += crewman.crew_name + " has arrived in the " + crewman.location.loc_name + "\n"
+	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
 	crewman.location.update_crewman_sprite()
 	$CharacterSelector.update_statuses()
 	pass
@@ -228,7 +234,7 @@ func set_adjacent(loc1:int, loc2:int):
 	
 	
 func append_log(s):
-	$Log.text += s + "\n"
+	$Log.add(s)
 	pass
 	
 
