@@ -21,7 +21,6 @@ func _ready():
 		
 	crew_selected(crew[0].id)
 	$CharacterSelector.update_statuses()
-#	update_ui()
 	pass
 
 
@@ -58,7 +57,7 @@ func crew_selected(crewman_id):
 	
 	#$Log.text = ""
 	
-	append_log(selected_crewman.crew_name + " selected")
+	append_log(selected_crewman.crew_name + " selected", true)
 	
 	var location = selected_crewman.location
 	append_log("They are in the " + location.loc_name)
@@ -96,12 +95,17 @@ func set_menu_mode(mode):
 	elif menu_mode == Globals.MenuMode.PICK_UP:
 		append_log("Select Item to Pick up")
 		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.location)
+		$ItemSelector.update_list(selected_crewman.location.items)
+		$ItemSelector.visible = true
+	elif menu_mode == Globals.MenuMode.DROP:
+		append_log("Select Item to Drop")
+		$CommandOptions.visible = false
+		$ItemSelector.update_list(selected_crewman.items)
 		$ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.USE:
 		append_log("Select Item to use")
 		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.location)
+		$ItemSelector.update_list(selected_crewman.location.items)
 		$ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.NONE:
 		$CommandOptions.visible = true
@@ -159,7 +163,7 @@ func crewman_moved(crewman, prev_loc):
 	pass
 	
 
-func alien_moved(alien: Alien, prev_loc: Location):
+func alien_moved(prev_loc: Location):
 	prev_loc.update_alien_sprite(false)
 	#$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
 	alien.location.update_alien_sprite(true)
@@ -210,15 +214,18 @@ func load_data():
 	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_location_id())
 	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_location_id())
 	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_location_id())
+	
+	# Choose Android
 	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 	crew[android_crew_id].is_android = true
 	#print(crew[android_crew_id].crew_name + " is an Android!")
 	
 	# Items
-	for i in range(5):
-		Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
+	for _i in range(5):
+		var _unused = Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
 	
 	alien = Alien.new(self, locations[get_random_location_id()])
+	alien_moved(alien.location)
 	pass
 	
 	
@@ -233,18 +240,38 @@ func set_adjacent(loc1:int, loc2:int):
 	pass
 	
 	
-func append_log(s):
-	$Log.add(s)
+func append_log(s, clear:bool = false):
+	$Log.add(s, clear)
 	pass
 	
 
 func item_selected(type):
-	var location : Location = selected_crewman.location#locations[selected_crewman.location]
-	var item = location.get_item(type)
-	if item != null:
-		location.remove_item(type)
-		selected_crewman.items.push_back(item)
-		append_log(item.item_name + " picked up")
-		set_menu_mode(Globals.MenuMode.NONE)
+	if menu_mode == Globals.MenuMode.PICK_UP:
+		var location : Location = selected_crewman.location#locations[selected_crewman.location]
+		var item = find_item_by_type(location.items, type)
+		if item != null:
+			location.items.erase(item)
+			selected_crewman.items.push_back(item)
+			append_log(item.item_name + " picked up")
+			set_menu_mode(Globals.MenuMode.NONE)
+	elif menu_mode == Globals.MenuMode.DROP:
+#		var idx = selected_crewman.items.find(type)
+		var item = find_item_by_type(selected_crewman.items, type)
+		if item != null:
+			var location : Location = selected_crewman.location#locations[selected_crewman.location]
+			location.items.push_back(item)
+			selected_crewman.items.erase(item)
+			append_log(item.item_name + " dropped")
+			set_menu_mode(Globals.MenuMode.NONE)
+	else:
+		push_error("Unknown menu mode: " + str(menu_mode))
 	pass
+	
+
+func find_item_by_type(items, type):
+	for item in items:
+		if item.type == type:
+			return item
+	
+	return null
 	

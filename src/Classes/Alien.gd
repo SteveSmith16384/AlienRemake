@@ -10,7 +10,7 @@ var health : int = 100
 func _init(_main, loc : Location):
 	main = _main
 	location = loc
-	main.alien_moved(self, loc)
+#	main.alien_moved(loc)
 	pass
 	
 
@@ -30,7 +30,7 @@ func _process(delta):
 	if dest_time <= 0:
 		var prev_loc = location
 		location = destination
-		main.alien_moved(self, prev_loc)
+		main.alien_moved(prev_loc)
 		destination = null
 		pass
 	pass

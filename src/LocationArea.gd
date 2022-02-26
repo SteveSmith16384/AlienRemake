@@ -12,7 +12,7 @@ func _ready():
 	pass
 	
 	
-func _process(delta):
+func _process(_delta):
 	if location == null:
 		location = main.locations[location_id]
 		location.area = self
