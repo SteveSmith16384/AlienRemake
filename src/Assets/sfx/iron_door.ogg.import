@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/iron_door.ogg-3c54eb1fa44d644d3767af67ff651c4e.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/iron_door.ogg"
+dest_files=[ "res://.import/iron_door.ogg-3c54eb1fa44d644d3767af67ff651c4e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

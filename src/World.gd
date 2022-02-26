@@ -31,7 +31,7 @@ func _process(delta):
 		OS.window_fullscreen = !OS.window_fullscreen
 
 	time_left -= delta # todo - check when run out
-	$LabelTimeLeft.text = "Time: " + str(int(time_left))
+	$LabelTimeLeft.text = "TOOH: " + str(int(time_left))
 	for c in crew.values():
 		c._process(delta)
 	alien._process(delta)
@@ -80,7 +80,7 @@ func crew_selected(crewman_id):
 			append_log(i.item_name)
 #		$Log.text += "\n"
 
-	$CommandOptions.update_menu(location)
+	$CommandOptions.update_menu(location, selected_crewman)
 	
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
@@ -133,6 +133,7 @@ func location_selected(loc_id, move_to: bool = false):
 			append_log("That location is not adjacent")
 			return
 		if selected_crewman.set_dest(selected_location):
+			$AudioStreamPlayer_CommandGiven.play()
 			$CharacterSelector.update_statuses()
 			append_log(selected_crewman.crew_name + " is now going to " + selected_location.loc_name)
 		else:
@@ -161,6 +162,7 @@ func cancel_selection():
 	
 	
 func crewman_moved(crewman, prev_loc):
+	$AudioStreamPlayer_CrewmanArrived.play()
 	prev_loc.update_crewman_sprite()
 	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
 	crewman.location.update_crewman_sprite()
@@ -238,17 +240,17 @@ func load_data():
 		var _unused = Item.new(self, Globals.ItemType.INCINERATOR, "Incinerator", get_random_location_id())
 	for _i in range(3):
 		var _unused = Item.new(self, Globals.ItemType.LASER, "LASER", get_random_location_id())
-	for _i in range(2):
+	for _i in range(3):
 		var _unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", get_random_location_id())
-	for _i in range(2):
+	for _i in range(1):
 		var _unused = Item.new(self, Globals.ItemType.NET, "Net", get_random_location_id())
 	for _i in range(2):
 		var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", get_random_location_id())
-	for _i in range(2):
-		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
-	for _i in range(2):
-		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext.", get_random_location_id())
 	for _i in range(1):
+		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
+	for _i in range(4):
+		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext.", get_random_location_id())
+	for _i in range(2):
 		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
 	for _i in range(1):
 		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
@@ -286,6 +288,7 @@ func item_selected(type):
 			selected_crewman.items.push_back(item)
 			append_log(item.item_name + " picked up")
 			set_menu_mode(Globals.MenuMode.NONE)
+			$AudioStreamPlayer_CommandGiven.play()
 	elif menu_mode == Globals.MenuMode.DROP:
 #		var idx = selected_crewman.items.find(type)
 		var item = find_item_by_type(selected_crewman.items, type)
@@ -295,6 +298,7 @@ func item_selected(type):
 			selected_crewman.items.erase(item)
 			append_log(item.item_name + " dropped")
 			set_menu_mode(Globals.MenuMode.NONE)
+			$AudioStreamPlayer_CommandGiven.play()
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
 	pass
@@ -307,3 +311,7 @@ func find_item_by_type(items, type):
 	
 	return null
 	
+
+
+func _on_SfxTimer_timeout():
+	pass

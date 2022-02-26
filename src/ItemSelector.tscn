@@ -1,20 +1,26 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ItemSelector.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=3]
 
-[node name="ItemSelector" type="VBoxContainer"]
+[node name="ItemSelector" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Cancel" type="Button" parent="."]
+[node name="Cancel" type="Button" parent="VBoxContainer"]
 margin_right = 120.0
 margin_bottom = 32.0
 theme = ExtResource( 2 )
 text = "CANCEL"
 
-[connection signal="pressed" from="Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="VBoxContainer/Cancel" to="VBoxContainer" method="_on_Cancel_pressed"]

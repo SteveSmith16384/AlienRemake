@@ -32,6 +32,8 @@ func update_crewman_sprite():
 	
 func update_alien_sprite(b):
 	$Alien_Sprite.visible = b
+	if b:
+		$AudioStreamPlayer_Alien.play()
 	pass
 	
 	
@@ -50,7 +52,9 @@ func _on_LocationArea_mouse_exited():
 func _on_LocationArea_input_event(_viewport, event : InputEvent, _shape_idx):
 	if event.is_pressed():
 		if event.button_mask == 1:
+			$AudioStreamPlayer_Click.play()
 			main.location_selected(location_id)
 		elif event.button_mask == 2:
+			$AudioStreamPlayer_Click.play()
 			main.location_selected(location_id, true)
 	pass

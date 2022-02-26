@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/computerambience.mp3-30655f1eacd5b52d8d385fcf836f38ed.mp3str"
+
+[deps]
+
+source_file="res://Assets/sfx/computerambience.mp3"
+dest_files=[ "res://.import/computerambience.mp3-30655f1eacd5b52d8d385fcf836f38ed.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

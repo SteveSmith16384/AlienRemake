@@ -1,11 +1,11 @@
-extends VBoxContainer
+extends Node2D
 
 const button_class = preload("res://ItemButton.tscn")
 
 onready var main = get_tree().get_root().get_node("World")
 
 func update_list(items):
-	for c in self.get_children():
+	for c in $VBoxContainer.get_children():
 		if c.text != "CANCEL":
 			c.queue_free()
 		pass
@@ -15,11 +15,12 @@ func update_list(items):
 		button.item_type = item.type
 		button.text = Globals.ItemType.keys()[item.type]
 		button.connect("pressed", self, "button_pressed")
-		add_child(button)
+		$VBoxContainer.add_child(button)
 	pass
 	
 	
 func button_pressed(item_type):
+	$AudioStreamPlayer_Click.play()
 	main.item_selected(item_type)
 	pass
 	
