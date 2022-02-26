@@ -6,8 +6,10 @@ func _ready():
 	pass
 
 
-func update_menu(location : Location):
-	$PickupButton.visible = location.items.size() > 0
+func update_menu(location : Location, crew: Crewman):
+	$PickupButton.visible = location.items.size() > 0 and crew.items.size() < 2
+	$DropButton.visible = crew.items.size() > 0
+	$UseButton.visible = crew.items.size() > 0
 	pass
 	
 

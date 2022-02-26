@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://Classes/Item.gd"
 }, {
 "base": "Node",
+"class": "Jones",
+"language": "GDScript",
+"path": "res://Classes/Jones.gd"
+}, {
+"base": "Node",
 "class": "Location",
 "language": "GDScript",
 "path": "res://Classes/Location.gd"
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "Alien": "",
 "Crewman": "",
 "Item": "",
+"Jones": "",
 "Location": ""
 }
 

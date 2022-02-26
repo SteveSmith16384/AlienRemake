@@ -10,6 +10,7 @@ var dest_time : float
 var items = []
 var is_android = false
 var health : int = 100
+var morale : int = 100
 
 func _init(_main, _id : int, _name : String, loc : int):
 	main = _main

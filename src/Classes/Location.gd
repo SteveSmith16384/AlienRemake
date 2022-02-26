@@ -4,6 +4,7 @@ extends Node
 var id : int
 var loc_name : String
 var area #: LocationArea
+var damage : int = 0
 
 var items = []
 var crew = []

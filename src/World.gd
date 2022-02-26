@@ -4,6 +4,7 @@ extends Node2D
 var locations = {}
 var crew = {}
 var alien: Alien
+var jones: Jones
 
 var time_left : float = 60 * 60
 var selected_crewman : Crewman
@@ -34,6 +35,7 @@ func _process(delta):
 	for c in crew.values():
 		c._process(delta)
 	alien._process(delta)
+	jones._process(delta)
 	pass
 	
 	
@@ -107,6 +109,9 @@ func set_menu_mode(mode):
 		$CommandOptions.visible = false
 		$ItemSelector.update_list(selected_crewman.location.items)
 		$ItemSelector.visible = true
+	elif menu_mode == Globals.MenuMode.SPECIAL:
+		# todo
+		pass
 	elif menu_mode == Globals.MenuMode.NONE:
 		$CommandOptions.visible = true
 		$LocationSelector.visible = false
@@ -170,6 +175,14 @@ func alien_moved(prev_loc: Location):
 	pass
 	
 	
+func jones_moved():
+	if jones.location.crew.size() > 0:
+		var crew = jones.location.crew[0]
+		append_log(crew.crew_name + " has seen Jones in the " + jones.location.loc_name)
+		# todo - meow
+	pass
+	
+	
 func load_data():
 	# Middle deck
 	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
@@ -221,11 +234,30 @@ func load_data():
 	#print(crew[android_crew_id].crew_name + " is an Android!")
 	
 	# Items
-	for _i in range(5):
-		var _unused = Item.new(self, Globals.ItemType.FLAMETHROWER, "Flamethrower", get_random_location_id())
+	for _i in range(3):
+		var _unused = Item.new(self, Globals.ItemType.INCINERATOR, "Incinerator", get_random_location_id())
+	for _i in range(3):
+		var _unused = Item.new(self, Globals.ItemType.LASER, "LASER", get_random_location_id())
+	for _i in range(2):
+		var _unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", get_random_location_id())
+	for _i in range(2):
+		var _unused = Item.new(self, Globals.ItemType.NET, "Net", get_random_location_id())
+	for _i in range(2):
+		var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", get_random_location_id())
+	for _i in range(2):
+		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
+	for _i in range(2):
+		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext.", get_random_location_id())
+	for _i in range(1):
+		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
+	for _i in range(1):
+		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
 	
 	alien = Alien.new(self, locations[get_random_location_id()])
 	alien_moved(alien.location)
+
+	jones = Jones.new(self, locations[get_random_location_id()])
+	jones_moved()
 	pass
 	
 	

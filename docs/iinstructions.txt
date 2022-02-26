@@ -307,7 +307,6 @@ Screen Displays:
 Nostromo you are presented with three types of information:
 
 1) A Map of the ship where you can watch your crew members moving
-
 about. Each deck of the ship can be selected from the menu. You 
 can also find your way around the ducting in the vicinity of one 
 of the crew by removing the grilles and climbing in.
