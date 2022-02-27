@@ -3,6 +3,8 @@ extends Node
 const VERSION = "0.1"
 const RELEASE_MODE = false
 
+const START_TIME: int = 60 * 60
+
 enum Crew {DALLAS, KANE, RIPLEY, ASH, LAMBERT, PARKER, BRETT}
 
 enum ItemType {CAT_BOX, INCINERATOR, LASER, ELECTRIC_PROD, NET, SPANNER, HARPOON,

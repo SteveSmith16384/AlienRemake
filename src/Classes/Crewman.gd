@@ -34,6 +34,9 @@ func set_dest(loc) -> bool:
 	
 	
 func _process(delta):
+	if health <= 0:
+		return
+		
 	if destination != null:
 		dest_time -= delta
 		if dest_time <= 0:
@@ -46,4 +49,10 @@ func _process(delta):
 		pass
 	pass
 	
+	
+func died():
+	location.crew.erase(self)
+	health = 0
+	# todo - drop all equipment
+	pass
 	

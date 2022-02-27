@@ -22,8 +22,12 @@ func _on_CenterContainer_gui_input(event):
 
 
 func update_status():
-	$VBoxContainer/Label_Status.text = ""
 	var crew : Crewman = main.crew[Crewman]
+	if crew.health <= 0:
+		self.visible = false
+		return
+		
+	$VBoxContainer/Label_Status.text = ""
 	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
 	if crew.destination != null:
 		$VBoxContainer/Label_Status.text = "Walking"

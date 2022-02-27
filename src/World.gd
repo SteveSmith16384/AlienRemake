@@ -6,7 +6,7 @@ var crew = {}
 var alien: Alien
 var jones: Jones
 
-var time_left : float = 60 * 60
+var time_left : float = Globals.START_TIME
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 
@@ -32,9 +32,18 @@ func _process(delta):
 
 	time_left -= delta # todo - check when run out
 	$LabelTimeLeft.text = "TOOH: " + str(int(time_left))
+	
+	if alien == null and time_left < Globals.START_TIME-5:
+		var alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
+		crewman_died(crew[alien_crew_id])
+		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name)
+		alien = Alien.new(self, crew[alien_crew_id].location)
+		alien_moved(alien.location)
+	
 	for c in crew.values():
 		c._process(delta)
-	alien._process(delta)
+	if alien != null:
+		alien._process(delta)
 	jones._process(delta)
 	pass
 	
@@ -49,11 +58,7 @@ func crew_selected(crewman_id):
 	selected_crewman = crew[crewman_id]
 	if prev_loc != null:
 		prev_loc.update_crewman_sprite() # to hide the bright blip
-#	crewman_selected()
-#	pass
-#
-#
-#func crewman_selected():
+
 	$CharacterSelector.update_statuses()
 	selected_crewman.location.update_crewman_sprite()
 	
@@ -72,15 +77,15 @@ func crew_selected(crewman_id):
 		append_log("They are carrying:")
 		for i in selected_crewman.items:
 			append_log(i.item_name)
-#		$Log.text += "\n"
+		append_log("")
 
 	if location.items.size() > 0:
 		append_log("The following items are here:")
 		for i in location.items:
 			append_log(i.item_name)
-#		$Log.text += "\n"
+		append_log("")
 
-	$CommandOptions.update_menu(location, selected_crewman)
+#	$CommandOptions.update_menu(location, selected_crewman)
 	
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
@@ -107,12 +112,14 @@ func set_menu_mode(mode):
 	elif menu_mode == Globals.MenuMode.USE:
 		append_log("Select Item to use")
 		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.location.items)
+		$ItemSelector.update_list(selected_crewman.items)
 		$ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.SPECIAL:
 		# todo
 		pass
 	elif menu_mode == Globals.MenuMode.NONE:
+		$CommandOptions.update_menu(selected_crewman.location, selected_crewman)
+	
 		$CommandOptions.visible = true
 		$LocationSelector.visible = false
 		$ItemSelector.visible = false
@@ -145,7 +152,6 @@ func location_selected(loc_id, move_to: bool = false):
 			append_log("The following are here:")
 			for c in selected_location.crew:
 				append_log(c.crew_name)
-#			$Log.text += "\n"
 		else:
 			append_log("There is no-one here")
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -171,6 +177,7 @@ func crewman_moved(crewman, prev_loc):
 	
 
 func alien_moved(prev_loc: Location):
+	$AudioStreamPlayer_CrewmanArrived.play()
 	prev_loc.update_alien_sprite(false)
 	#$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
 	alien.location.update_alien_sprite(true)
@@ -255,9 +262,6 @@ func load_data():
 	for _i in range(1):
 		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
 	
-	alien = Alien.new(self, locations[get_random_location_id()])
-	alien_moved(alien.location)
-
 	jones = Jones.new(self, locations[get_random_location_id()])
 	jones_moved()
 	pass
@@ -312,6 +316,14 @@ func find_item_by_type(items, type):
 	return null
 	
 
-
 func _on_SfxTimer_timeout():
+	pass
+
+
+func crewman_died(crewman : Crewman):
+	$AudioStreamPlayer_Static.play()
+	var loc = crewman.location;
+	crewman.died()
+	loc.update_crewman_sprite()
+	$CharacterSelector.update_statuses()
 	pass

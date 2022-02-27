@@ -23,4 +23,4 @@ text = "CANCEL"
 [node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 
-[connection signal="pressed" from="VBoxContainer/Cancel" to="VBoxContainer" method="_on_Cancel_pressed"]
+[connection signal="pressed" from="VBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]

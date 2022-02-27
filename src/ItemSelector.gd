@@ -27,6 +27,7 @@ func button_pressed(item_type):
 
 
 func _on_Cancel_pressed():
+	$AudioStreamPlayer_Click.play()
 	main.cancel_selection()
 	pass
 

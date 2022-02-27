@@ -16,61 +16,61 @@ __meta__ = {
 [node name="Ripley" parent="HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 52.0
-margin_bottom = 99.0
+margin_right = 61.0
+margin_bottom = 100.0
 Crewman = 2
 crew_name = "Ripley"
 image_path = "res://Assets/Images/face_ripley.png"
 
 [node name="Dallas" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 56.0
+margin_left = 65.0
 margin_top = 0.0
-margin_right = 108.0
-margin_bottom = 99.0
+margin_right = 126.0
+margin_bottom = 100.0
 crew_name = "Dallas"
 image_path = "res://Assets/Images/face_dallas.png"
 
 [node name="Kane" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 112.0
+margin_left = 130.0
 margin_top = 0.0
-margin_right = 164.0
-margin_bottom = 99.0
+margin_right = 191.0
+margin_bottom = 100.0
 Crewman = 1
 crew_name = "Kane"
 image_path = "res://Assets/Images/face_kane.png"
 
 [node name="Ash" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 168.0
+margin_left = 195.0
 margin_top = 0.0
-margin_right = 220.0
-margin_bottom = 99.0
+margin_right = 256.0
+margin_bottom = 100.0
 Crewman = 3
 crew_name = "Ash"
 image_path = "res://Assets/Images/face_ash.png"
 
 [node name="Lambert" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 224.0
+margin_left = 260.0
 margin_top = 0.0
-margin_right = 276.0
-margin_bottom = 99.0
+margin_right = 321.0
+margin_bottom = 100.0
 Crewman = 4
 crew_name = "Lambert"
 image_path = "res://Assets/Images/face_lambert.png"
 
 [node name="Parker" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 280.0
+margin_left = 325.0
 margin_top = 0.0
-margin_right = 332.0
-margin_bottom = 99.0
+margin_right = 386.0
+margin_bottom = 100.0
 Crewman = 5
 crew_name = "Parker"
 image_path = "res://Assets/Images/face_parker.png"
 
 [node name="Brett" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 336.0
+margin_left = 390.0
 margin_top = 0.0
-margin_right = 388.0
-margin_bottom = 99.0
+margin_right = 451.0
+margin_bottom = 100.0
 Crewman = 6
 crew_name = "Brett"
 image_path = "res://Assets/Images/face_brett.png"

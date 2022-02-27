@@ -23,4 +23,4 @@ margin_bottom = 32.0
 theme = ExtResource( 2 )
 text = "CANCEL"
 
-[connection signal="pressed" from="VBoxContainer/Cancel" to="VBoxContainer" method="_on_Cancel_pressed"]
+[connection signal="pressed" from="VBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]
