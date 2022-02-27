@@ -15,7 +15,7 @@ func _init(_main, loc : Location):
 
 func _process(delta):
 	if location.crew.size() > 0:
-		# todo - fight
+		combat()
 		return
 		
 	if destination == null:
@@ -33,3 +33,10 @@ func _process(delta):
 		destination = null
 		pass
 	pass
+
+
+func combat():
+	
+	pass
+	
+	

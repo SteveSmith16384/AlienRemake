@@ -9,6 +9,7 @@ var jones: Jones
 var time_left : float = Globals.START_TIME
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
+var refresh_ui: bool = true
 
 func _ready():
 	load_data()
@@ -17,11 +18,12 @@ func _ready():
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
-	for l in locations.values():
-		l.update_crewman_sprite()
+#	for l in locations.values():
+#		l.update_crewman_sprite()
 		
 	crew_selected(crew[0].id)
-	$CharacterSelector.update_statuses()
+	#$CharacterSelector.update_statuses()
+	refresh_ui = true
 	pass
 
 
@@ -45,6 +47,19 @@ func _process(delta):
 	if alien != null:
 		alien._process(delta)
 	jones._process(delta)
+	
+	if refresh_ui:
+		update_ui()
+		refresh_ui = false
+	pass
+	
+	
+func update_ui():
+	$CharacterSelector.update_statuses()
+	for l in locations.values():
+		l.update_crewman_sprite()
+		if alien != null:
+			l.update_alien_sprite(alien.location == l)
 	pass
 	
 	
@@ -52,17 +67,15 @@ func crew_selected(crewman_id):
 	if selected_crewman != null and selected_crewman.id == crewman_id:
 		return
 		
-	var prev_loc : Location
-	if selected_crewman != null:
-		prev_loc = selected_crewman.location
+#	var prev_loc : Location
+#	if selected_crewman != null:
+#		prev_loc = selected_crewman.location
 	selected_crewman = crew[crewman_id]
-	if prev_loc != null:
-		prev_loc.update_crewman_sprite() # to hide the bright blip
+#	if prev_loc != null:
+#		prev_loc.update_crewman_sprite() # to hide the bright blip
 
-	$CharacterSelector.update_statuses()
-	selected_crewman.location.update_crewman_sprite()
-	
-	#$Log.text = ""
+#	$CharacterSelector.update_statuses()
+#	selected_crewman.location.update_crewman_sprite()
 	
 	append_log(selected_crewman.crew_name + " selected", true)
 	
@@ -86,6 +99,7 @@ func crew_selected(crewman_id):
 		append_log("")
 
 #	$CommandOptions.update_menu(location, selected_crewman)
+	refresh_ui = true
 	
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
@@ -133,7 +147,6 @@ func set_menu_mode(mode):
 	
 	
 func location_selected(loc_id, move_to: bool = false):
-	#$Log.text = ""
 	var selected_location : Location = locations[loc_id]
 	if menu_mode == Globals.MenuMode.GO_TO or move_to:
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
@@ -141,7 +154,7 @@ func location_selected(loc_id, move_to: bool = false):
 			return
 		if selected_crewman.set_dest(selected_location):
 			$AudioStreamPlayer_CommandGiven.play()
-			$CharacterSelector.update_statuses()
+			#$CharacterSelector.update_statuses()
 			append_log(selected_crewman.crew_name + " is now going to " + selected_location.loc_name)
 		else:
 			append_log("They are already going to " + selected_crewman.destination.loc_name)
@@ -154,6 +167,8 @@ func location_selected(loc_id, move_to: bool = false):
 				append_log(c.crew_name)
 		else:
 			append_log("There is no-one here")
+			
+	refresh_ui = true
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
@@ -169,18 +184,20 @@ func cancel_selection():
 	
 func crewman_moved(crewman, prev_loc):
 	$AudioStreamPlayer_CrewmanArrived.play()
-	prev_loc.update_crewman_sprite()
+	#prev_loc.update_crewman_sprite()
 	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
-	crewman.location.update_crewman_sprite()
-	$CharacterSelector.update_statuses()
+	#crewman.location.update_crewman_sprite()
+	#$CharacterSelector.update_statuses()
+	refresh_ui = true
 	pass
 	
 
 func alien_moved(prev_loc: Location):
 	$AudioStreamPlayer_CrewmanArrived.play()
-	prev_loc.update_alien_sprite(false)
+	#prev_loc.update_alien_sprite(false)
 	#$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
-	alien.location.update_alien_sprite(true)
+	#alien.location.update_alien_sprite(true)
+	refresh_ui = true
 	pass
 	
 	
@@ -189,6 +206,7 @@ func jones_moved():
 		var crew = jones.location.crew[0]
 		append_log(crew.crew_name + " has seen Jones in the " + jones.location.loc_name)
 		$AudioStreamPlayer_JonesSeen.play()
+		refresh_ui = true
 	pass
 	
 	
@@ -310,6 +328,7 @@ func item_selected(type):
 				append_log(selected_crewman.name + " has caught Jones")
 				item.name = "Catbox with Jones"
 				$AudioStreamPlayer_JonesCaught.play()
+				refresh_ui = true
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
 	pass
@@ -324,6 +343,7 @@ func find_item_by_type(items, type):
 	
 
 func _on_SfxTimer_timeout():
+	# todo
 	pass
 
 
@@ -331,6 +351,7 @@ func crewman_died(crewman : Crewman):
 	$AudioStreamPlayer_Static.play()
 	var loc = crewman.location;
 	crewman.died()
-	loc.update_crewman_sprite()
-	$CharacterSelector.update_statuses()
+	#loc.update_crewman_sprite()
+	#$CharacterSelector.update_statuses()
+	refresh_ui = true
 	pass

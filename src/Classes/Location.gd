@@ -15,20 +15,6 @@ func _init(_id : int, _name : String):
 	loc_name = _name
 	pass
 	
-
-#func get_item(type) -> Item:
-#	for item in items:
-#		if item.type == type:
-#			return item
-#	return null
-	
-	
-#func remove_item(type):
-#	for item in items:
-#		if item.type == type:
-#			items.erase(item)
-#	pass
-
 	
 func update_crewman_sprite():
 	if area != null:
