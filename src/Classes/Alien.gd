@@ -10,7 +10,6 @@ var health : int = 100
 func _init(_main, loc : Location):
 	main = _main
 	location = loc
-#	main.alien_moved(loc)
 	pass
 	
 

@@ -188,7 +188,7 @@ func jones_moved():
 	if jones.location.crew.size() > 0:
 		var crew = jones.location.crew[0]
 		append_log(crew.crew_name + " has seen Jones in the " + jones.location.loc_name)
-		# todo - meow
+		$AudioStreamPlayer_JonesSeen.play()
 	pass
 	
 	
@@ -294,7 +294,6 @@ func item_selected(type):
 			set_menu_mode(Globals.MenuMode.NONE)
 			$AudioStreamPlayer_CommandGiven.play()
 	elif menu_mode == Globals.MenuMode.DROP:
-#		var idx = selected_crewman.items.find(type)
 		var item = find_item_by_type(selected_crewman.items, type)
 		if item != null:
 			var location : Location = selected_crewman.location#locations[selected_crewman.location]
@@ -303,6 +302,14 @@ func item_selected(type):
 			append_log(item.item_name + " dropped")
 			set_menu_mode(Globals.MenuMode.NONE)
 			$AudioStreamPlayer_CommandGiven.play()
+	elif menu_mode == Globals.MenuMode.USE:
+		var item = find_item_by_type(selected_crewman.items, type)
+		if item != null:
+			if item.type == Globals.ItemType.CAT_BOX and selected_crewman.location.has(jones):
+				jones.is_in_catbox = true
+				append_log(selected_crewman.name + " has caught Jones")
+				item.name = "Catbox with Jones"
+				$AudioStreamPlayer_JonesCaught.play()
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
 	pass

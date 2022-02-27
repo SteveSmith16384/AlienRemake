@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Cat 8.wav-f4111401775d17ad165ee47088b8cd6d.sample"
+
+[deps]
+
+source_file="res://Assets/sfx/Cat 8.wav"
+dest_files=[ "res://.import/Cat 8.wav-f4111401775d17ad165ee47088b8cd6d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

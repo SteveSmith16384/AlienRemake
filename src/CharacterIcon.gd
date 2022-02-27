@@ -27,10 +27,15 @@ func update_status():
 		self.visible = false
 		return
 		
-	$VBoxContainer/Label_Status.text = ""
 	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
-	if crew.destination != null:
+	if main.alien != null and crew.location == main.alien.location:
+		$VBoxContainer/Label_Status.text = "ALIEN"
+	elif main.jones != null and crew.location == main.jones.location:
+		$VBoxContainer/Label_Status.text = "JONES"
+	elif crew.destination != null:
 		$VBoxContainer/Label_Status.text = "Walking"
+	else:
+		$VBoxContainer/Label_Status.text = ""
 	pass
 	
 	

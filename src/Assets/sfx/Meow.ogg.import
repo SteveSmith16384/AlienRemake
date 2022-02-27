@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Meow.ogg-64887fe869cac5e365df207a5ad509f4.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/Meow.ogg"
+dest_files=[ "res://.import/Meow.ogg-64887fe869cac5e365df207a5ad509f4.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
