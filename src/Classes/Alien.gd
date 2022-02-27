@@ -14,8 +14,15 @@ func _init(_main, loc : Location):
 	
 
 func _process(delta):
+	if health <= 0:
+		return
+		
 	if location.crew.size() > 0:
-		combat()
+		destination = null
+		dest_time -= delta
+		if dest_time <= 0:
+			main.combat(location)
+			dest_time = 3
 		return
 		
 	if destination == null:
@@ -35,8 +42,3 @@ func _process(delta):
 	pass
 
 
-func combat():
-	
-	pass
-	
-	

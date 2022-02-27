@@ -77,7 +77,8 @@ func crew_selected(crewman_id):
 #	$CharacterSelector.update_statuses()
 #	selected_crewman.location.update_crewman_sprite()
 	
-	append_log(selected_crewman.crew_name + " selected", true)
+	append_log("")
+	append_log(selected_crewman.crew_name + " selected")
 	
 	var location = selected_crewman.location
 	append_log("They are in the " + location.loc_name)
@@ -343,15 +344,52 @@ func find_item_by_type(items, type):
 	
 
 func _on_SfxTimer_timeout():
-	# todo
+	# Check for tracker
+	if alien == null:
+		return
+		
+	for c in crew.values():
+		if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
+			if alien.location == c.location or is_location_adjacent(alien.location, c.location):
+				$AudioStreamPlayer_Tracker.play()
+			
+	pass
+
+
+func crewman_wounded(crewman : Crewman, amt:int):
+	crewman.health -= amt
+	if crewman.health <= 0:
+		crewman_died(crewman)
 	pass
 
 
 func crewman_died(crewman : Crewman):
+	$AudioStreamPlayer_CrewDied.play()
 	$AudioStreamPlayer_Static.play()
-	var loc = crewman.location;
 	crewman.died()
-	#loc.update_crewman_sprite()
-	#$CharacterSelector.update_statuses()
 	refresh_ui = true
 	pass
+
+
+func combat(location : Location):
+	var all_crew = location.crew
+	var alien_attacks_crew = all_crew[Globals.rnd.randi_range(0, all_crew.size()-1)]
+	
+	append_log("The Alien attacks " + alien_attacks_crew.crew_name)
+	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
+
+	for c in location.crew:
+		# todo - choose weapon, sfx
+		alien.health -= Globals.rnd.randi_range(5, 10)
+		append_log(c.crew_name + " attacks the Alien")
+		if alien.health <= 0:
+			append_log("The Alien has been killed")
+			$AudioStreamPlayer_AlienDeath.play()
+			alien = null
+			alien.queue_free()
+			return
+		pass
+		
+	pass
+	
+	
