@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -17,27 +17,37 @@
 [ext_resource path="res://Assets/sfx/aliendeath4.wav" type="AudioStream" id=15]
 [ext_resource path="res://Assets/sfx/deathscream1.wav" type="AudioStream" id=16]
 [ext_resource path="res://Assets/sfx/tracker_reduced.wav" type="AudioStream" id=17]
+[ext_resource path="res://LowerDeck.tscn" type="PackedScene" id=18]
+[ext_resource path="res://UpperDeck.tscn" type="PackedScene" id=19]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="MiddleDeck" parent="." instance=ExtResource( 1 )]
-position = Vector2( 445.028, 271.111 )
+[node name="DeckNode" type="Node2D" parent="."]
+position = Vector2( 550.653, 321.979 )
+
+[node name="MiddleDeck" parent="DeckNode" instance=ExtResource( 1 )]
+
+[node name="UpperDeck" parent="DeckNode" instance=ExtResource( 19 )]
+visible = false
+
+[node name="LowerDeck" parent="DeckNode" instance=ExtResource( 18 )]
+visible = false
 
 [node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
 position = Vector2( 6.60699, 4.71917 )
 
 [node name="CommandOptions" parent="." instance=ExtResource( 4 )]
-margin_left = 738.938
+margin_left = 835.213
 margin_top = 13.5972
-margin_right = 778.938
-margin_bottom = 53.5972
+margin_right = 985.213
+margin_bottom = 189.597
 
 [node name="LocationSelector" parent="." instance=ExtResource( 6 )]
-position = Vector2( 739.997, 11.3265 )
+position = Vector2( 834.384, 16.9897 )
 
 [node name="ItemSelector" parent="." instance=ExtResource( 7 )]
-position = Vector2( 739.997, 9.43875 )
+position = Vector2( 832.496, 15.102 )
 
 [node name="LabelTimeLeft" type="Label" parent="."]
 margin_left = 16.9897
@@ -54,7 +64,7 @@ __meta__ = {
 position = Vector2( 15.102, 424.743 )
 
 [node name="AlertLog" parent="." instance=ExtResource( 9 )]
-position = Vector2( 738.109, 239.744 )
+position = Vector2( 819.282, 364.335 )
 Red = true
 
 [node name="SfxTimer" type="Timer" parent="."]
@@ -88,4 +98,36 @@ stream = ExtResource( 16 )
 [node name="AudioStreamPlayer_Tracker" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 
+[node name="DeckSelector" type="VBoxContainer" parent="."]
+margin_left = 12.8877
+margin_top = 222.959
+margin_right = 220.888
+margin_bottom = 349.959
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectUpperDeck" type="Button" parent="DeckSelector"]
+margin_right = 208.0
+margin_bottom = 32.0
+theme = ExtResource( 5 )
+text = "upper deck"
+
+[node name="SelectMiddleDeck" type="Button" parent="DeckSelector"]
+margin_top = 36.0
+margin_right = 208.0
+margin_bottom = 68.0
+theme = ExtResource( 5 )
+text = "middle deck"
+
+[node name="SelectLowerDeck" type="Button" parent="DeckSelector"]
+margin_top = 72.0
+margin_right = 208.0
+margin_bottom = 104.0
+theme = ExtResource( 5 )
+text = "lower deck"
+
 [connection signal="timeout" from="SfxTimer" to="." method="_on_SfxTimer_timeout"]
+[connection signal="pressed" from="DeckSelector/SelectUpperDeck" to="." method="_on_SelectUpperDeck_pressed"]
+[connection signal="pressed" from="DeckSelector/SelectMiddleDeck" to="." method="_on_SelectMiddleDeck_pressed"]
+[connection signal="pressed" from="DeckSelector/SelectLowerDeck" to="." method="_on_SelectLowerDeck_pressed"]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://LocationArea.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Images/upper_deck.png" type="Texture" id=2]
+
+[node name="UpperDeck" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 3.5, 3.5 )
+texture = ExtResource( 2 )
+
+[node name="LocationArea" parent="." instance=ExtResource( 1 )]
+position = Vector2( -147.889, -60.5811 )
+
+[node name="LocationArea2" parent="." instance=ExtResource( 1 )]
+position = Vector2( -39.1995, -130.071 )
+
+[node name="LocationArea3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 97.9988, -133.635 )
+
+[node name="LocationArea4" parent="." instance=ExtResource( 1 )]
+position = Vector2( -42.7632, -16.0362 )
+
+[node name="LocationArea5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 55.2357, -12.4726 )
+
+[node name="LocationArea6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 137.198, -8.909 )
+
+[node name="LocationArea7" parent="." instance=ExtResource( 1 )]
+position = Vector2( -151.453, 67.7083 )
+
+[node name="LocationArea8" parent="." instance=ExtResource( 1 )]
+position = Vector2( -26.727, 121.162 )
+
+[node name="LocationArea9" parent="." instance=ExtResource( 1 )]
+position = Vector2( 94.4352, 128.289 )

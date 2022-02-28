@@ -62,7 +62,7 @@ func update_ui():
 			l.update_alien_sprite(alien.location == l)
 			
 	$AlertLog.clear_log()
-	$AlertLog.add("Test")
+#	$AlertLog.add("Test")
 	pass
 	
 	
@@ -207,6 +207,27 @@ func jones_moved():
 	
 	
 func load_data():
+	# Upper Deck
+	locations[Globals.Location.LIVING_QUARTERS] = Location.new(Globals.Location.LIVING_QUARTERS, "Living Quarters")
+	locations[Globals.Location.AIRLOCK_1] = Location.new(Globals.Location.AIRLOCK_1, "Airlock 1")
+	locations[Globals.Location.STORES_2] = Location.new(Globals.Location.STORES_2, "Stores 2")
+	locations[Globals.Location.MESS] = Location.new(Globals.Location.MESS, "Mess")
+	locations[Globals.Location.CORRIDOR_6] = Location.new(Globals.Location.CORRIDOR_6, "Corridor 6")
+	locations[Globals.Location.COMPUTER] = Location.new(Globals.Location.COMPUTER, "Computer")
+	locations[Globals.Location.RECREATION_AREA] = Location.new(Globals.Location.RECREATION_AREA, "Recreation Area")
+	locations[Globals.Location.AIRLOCK_2] = Location.new(Globals.Location.AIRLOCK_2, "Airlock 2")
+	locations[Globals.Location.STORES_3] = Location.new(Globals.Location.STORES_3, "Stores 3")
+
+	# Upper deck adjacent
+	set_adjacent(Globals.Location.LIVING_QUARTERS, Globals.Location.MESS)
+	set_adjacent(Globals.Location.AIRLOCK_1, Globals.Location.CORRIDOR_6)
+	set_adjacent(Globals.Location.STORES_2, Globals.Location.COMPUTER)
+	set_adjacent(Globals.Location.MESS, Globals.Location.CORRIDOR_6)
+	set_adjacent(Globals.Location.CORRIDOR_6, Globals.Location.COMPUTER)
+	set_adjacent(Globals.Location.RECREATION_AREA, Globals.Location.MESS)
+	set_adjacent(Globals.Location.AIRLOCK_2, Globals.Location.CORRIDOR_6)
+	set_adjacent(Globals.Location.STORES_3, Globals.Location.CORRIDOR_6)
+	
 	# Middle deck
 	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
 	locations[Globals.Location.INFIRMARY] = Location.new(Globals.Location.INFIRMARY, "Infirmary")
@@ -225,6 +246,7 @@ func load_data():
 	locations[Globals.Location.ENGINE_2] = Location.new(Globals.Location.ENGINE_2, "Engine 2")
 	locations[Globals.Location.ENGINE_3] = Location.new(Globals.Location.ENGINE_3, "Engine 3")
 	
+	# Middle deck adjacent
 	set_adjacent(Globals.Location.COMMAND_CENTER, Globals.Location.CORRIDOR_1)
 	set_adjacent(Globals.Location.INFIRMARY, Globals.Location.CORRIDOR_1)
 	set_adjacent(Globals.Location.LABORATORY, Globals.Location.CORRIDOR_1)
@@ -242,6 +264,28 @@ func load_data():
 	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.STORES_1)
 	set_adjacent(Globals.Location.CORRIDOR_5, Globals.Location.ENGINE_3)
 	
+	
+	# Lower Deck
+	locations[Globals.Location.SHUTTLE_STORE] = Location.new(Globals.Location.SHUTTLE_STORE, "Shuttle Store")
+	locations[Globals.Location.CARGO_POD_1] = Location.new(Globals.Location.CARGO_POD_1, "Cargo Pod 1")
+	locations[Globals.Location.SHUTTLE_BAY] = Location.new(Globals.Location.SHUTTLE_BAY, "Shuttle Bay")
+	locations[Globals.Location.CARGO_POD_2] = Location.new(Globals.Location.CARGO_POD_2, "Cargo Pod 2")
+	locations[Globals.Location.CORRIDOR_7] = Location.new(Globals.Location.CORRIDOR_7, "Corridor 7")
+	locations[Globals.Location.LIFE_SUPPORT] = Location.new(Globals.Location.LIFE_SUPPORT, "Life Support")
+	locations[Globals.Location.ENGINEERING] = Location.new(Globals.Location.ENGINEERING, "Engineering")
+	locations[Globals.Location.ENG_STORES] = Location.new(Globals.Location.ENG_STORES, "Eng Stores")
+	locations[Globals.Location.CARGO_POD_3] = Location.new(Globals.Location.CARGO_POD_3, "Cargo Pod 3")
+	
+	# Lower deck adjacent
+	set_adjacent(Globals.Location.SHUTTLE_STORE, Globals.Location.SHUTTLE_BAY)
+	set_adjacent(Globals.Location.CARGO_POD_1, Globals.Location.CARGO_POD_2)
+	set_adjacent(Globals.Location.SHUTTLE_BAY, Globals.Location.CARGO_POD_2)
+	set_adjacent(Globals.Location.CARGO_POD_2, Globals.Location.CORRIDOR_7)
+	set_adjacent(Globals.Location.LIFE_SUPPORT, Globals.Location.CORRIDOR_7)
+	set_adjacent(Globals.Location.SHUTTLE_BAY, Globals.Location.ENGINEERING)
+	set_adjacent(Globals.Location.ENG_STORES, Globals.Location.ENGINEERING)
+	set_adjacent(Globals.Location.CARGO_POD_2, Globals.Location.CARGO_POD_3)
+
 	# Crew
 	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_location_id())
 	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_location_id())
@@ -386,10 +430,29 @@ func combat(location : Location):
 			append_log("The Alien has been killed")
 			$AudioStreamPlayer_AlienDeath.play()
 			alien = null
-			alien.queue_free()
+			#alien.queue_free()
 			return
 		pass
 		
 	pass
 	
 	
+func _on_SelectUpperDeck_pressed():
+	$DeckNode/UpperDeck.visible = true
+	$DeckNode/MiddleDeck.visible = false
+	$DeckNode/LowerDeck.visible = false
+	pass
+
+
+func _on_SelectMiddleDeck_pressed():
+	$DeckNode/UpperDeck.visible = false
+	$DeckNode/MiddleDeck.visible = true
+	$DeckNode/LowerDeck.visible = false
+	pass
+
+
+func _on_SelectLowerDeck_pressed():
+	$DeckNode/UpperDeck.visible = false
+	$DeckNode/MiddleDeck.visible = false
+	$DeckNode/LowerDeck.visible = true
+	pass
