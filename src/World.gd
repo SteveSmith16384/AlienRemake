@@ -60,6 +60,9 @@ func update_ui():
 		l.update_crewman_sprite()
 		if alien != null:
 			l.update_alien_sprite(alien.location == l)
+			
+	$AlertLog.clear_log()
+	$AlertLog.add("Test")
 	pass
 	
 	
@@ -67,15 +70,7 @@ func crew_selected(crewman_id):
 	if selected_crewman != null and selected_crewman.id == crewman_id:
 		return
 		
-#	var prev_loc : Location
-#	if selected_crewman != null:
-#		prev_loc = selected_crewman.location
 	selected_crewman = crew[crewman_id]
-#	if prev_loc != null:
-#		prev_loc.update_crewman_sprite() # to hide the bright blip
-
-#	$CharacterSelector.update_statuses()
-#	selected_crewman.location.update_crewman_sprite()
 	
 	append_log("")
 	append_log(selected_crewman.crew_name + " selected")

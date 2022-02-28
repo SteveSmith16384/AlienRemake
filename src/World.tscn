@@ -53,6 +53,10 @@ __meta__ = {
 [node name="Log" parent="." instance=ExtResource( 9 )]
 position = Vector2( 15.102, 424.743 )
 
+[node name="AlertLog" parent="." instance=ExtResource( 9 )]
+position = Vector2( 738.109, 239.744 )
+Red = true
+
 [node name="SfxTimer" type="Timer" parent="."]
 autostart = true
 
