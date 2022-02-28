@@ -10,7 +10,8 @@ var dest_time : float
 var items = []
 var is_android = false
 var health : int = 100
-var morale : int = 100
+var base_morale : int = 100 # Affected by events
+var adjusted_morale : int = 100 # Base morale then adjusted by current circumstance
 
 func _init(_main, _id : int, _name : String, loc : int):
 	main = _main
@@ -37,6 +38,10 @@ func _process(delta):
 	if health <= 0:
 		return
 		
+	if adjusted_morale < 10:
+		return
+		
+	calc_morale()
 	if destination != null:
 		dest_time -= delta
 		if dest_time <= 0:
@@ -53,6 +58,15 @@ func _process(delta):
 func died():
 	location.crew.erase(self)
 	health = 0
-	# todo - drop all equipment
+
+	# Drop all equipment
+	location.items.append_array(self.items)
+	self.items.clear()
 	pass
+	
+
+func calc_morale():
+	# todo
+	pass
+	
 	

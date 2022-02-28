@@ -5,8 +5,7 @@ var main
 var location : Location
 var destination : Location
 var dest_time : float
-#var health : int = 100
-var is_in_catbox: bool = false
+var is_in_net: bool = false
 
 func _init(_main, loc : Location):
 	main = _main
@@ -15,7 +14,7 @@ func _init(_main, loc : Location):
 	
 
 func _process(delta):
-	if is_in_catbox:
+	if is_in_net:
 		return
 		
 	if destination == null:

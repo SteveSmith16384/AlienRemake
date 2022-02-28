@@ -319,10 +319,10 @@ func item_selected(type):
 	elif menu_mode == Globals.MenuMode.USE:
 		var item = find_item_by_type(selected_crewman.items, type)
 		if item != null:
-			if item.type == Globals.ItemType.CAT_BOX and selected_crewman.location.has(jones):
-				jones.is_in_catbox = true
-				append_log(selected_crewman.name + " has caught Jones")
-				item.name = "Catbox with Jones"
+			if item.type == Globals.ItemType.NET and selected_crewman.location.has(jones):
+				jones.is_in_net = true
+				append_log(selected_crewman.name + " has caught Jones in the net")
+				item.name = "Net with Jones"
 				$AudioStreamPlayer_JonesCaught.play()
 				refresh_ui = true
 	else:
@@ -347,7 +347,11 @@ func _on_SfxTimer_timeout():
 		if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
 			if alien.location == c.location or is_location_adjacent(alien.location, c.location):
 				$AudioStreamPlayer_Tracker.play()
-			
+				return
+			if jones.location == c.location or is_location_adjacent(jones.location, c.location):
+				$AudioStreamPlayer_Tracker.play()
+				return
+		pass
 	pass
 
 
@@ -361,6 +365,7 @@ func crewman_wounded(crewman : Crewman, amt:int):
 func crewman_died(crewman : Crewman):
 	$AudioStreamPlayer_CrewDied.play()
 	$AudioStreamPlayer_Static.play()
+	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Corpse of " + crewman.crew_name, crewman.location.id)
 	crewman.died()
 	refresh_ui = true
 	pass
