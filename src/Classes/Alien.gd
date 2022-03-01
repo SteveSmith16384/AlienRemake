@@ -29,7 +29,7 @@ func _process(delta):
 		# Get new dest
 		var adj = location.adjacent
 		destination = adj[Globals.rnd.randi_range(0, adj.size()-1)]
-		dest_time = 12
+		dest_time = 9
 		#print("New alien dest is " + destination.loc_name)
 		
 	dest_time -= delta

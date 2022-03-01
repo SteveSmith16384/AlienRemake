@@ -409,7 +409,7 @@ func crewman_wounded(crewman : Crewman, amt:int):
 func crewman_died(crewman : Crewman):
 	$AudioStreamPlayer_CrewDied.play()
 	$AudioStreamPlayer_Static.play()
-	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Corpse of " + crewman.crew_name, crewman.location.id)
+	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Body of " + crewman.crew_name, crewman.location.id)
 	crewman.died()
 	refresh_ui = true
 	pass

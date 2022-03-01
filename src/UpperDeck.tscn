@@ -10,28 +10,37 @@ scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 2 )
 
 [node name="LocationArea" parent="." instance=ExtResource( 1 )]
-position = Vector2( -147.889, -60.5811 )
+position = Vector2( -122.944, -62.3629 )
+location_id = 16
 
 [node name="LocationArea2" parent="." instance=ExtResource( 1 )]
-position = Vector2( -39.1995, -130.071 )
+position = Vector2( 8.39233e-05, -126.507 )
+location_id = 17
 
 [node name="LocationArea3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 97.9988, -133.635 )
+position = Vector2( 126.508, -124.726 )
+location_id = 20
 
 [node name="LocationArea4" parent="." instance=ExtResource( 1 )]
-position = Vector2( -42.7632, -16.0362 )
+position = Vector2( -16.0362, -3.5636 )
+location_id = 19
 
 [node name="LocationArea5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 55.2357, -12.4726 )
+position = Vector2( 81.9627, -1.7818 )
+location_id = 22
 
 [node name="LocationArea6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 137.198, -8.909 )
+position = Vector2( 155.016, -1.7818 )
+location_id = 23
 
 [node name="LocationArea7" parent="." instance=ExtResource( 1 )]
-position = Vector2( -151.453, 67.7083 )
+position = Vector2( -121.162, 60.5811 )
+location_id = 24
 
 [node name="LocationArea8" parent="." instance=ExtResource( 1 )]
-position = Vector2( -26.727, 121.162 )
+position = Vector2( 3.56353, 126.507 )
+location_id = 18
 
 [node name="LocationArea9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 94.4352, 128.289 )
+position = Vector2( 124.726, 126.507 )
+location_id = 21
