@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SpecialSelector.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
 
 [node name="SpecialSelector" type="Node2D"]
 script = ExtResource( 1 )
@@ -11,64 +13,106 @@ script = ExtResource( 1 )
 stream = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 200.0
+margin_bottom = 386.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpenAirlock1" type="Button" parent="VBoxContainer"]
-margin_right = 338.0
-margin_bottom = 32.0
+[node name="LaunchNarcissus" type="Label" parent="VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 55.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "OPEN AIRLOCK 1"
+custom_styles/normal = SubResource( 1 )
+text = "Launch
+Narcissus"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="OpenAirlock2" type="Button" parent="VBoxContainer"]
-margin_top = 36.0
-margin_right = 338.0
-margin_bottom = 68.0
+[node name="OpenAirlock1" type="Label" parent="VBoxContainer"]
+margin_top = 59.0
+margin_right = 200.0
+margin_bottom = 114.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "OPEN airlock 2"
+custom_styles/normal = SubResource( 1 )
+text = "Open
+Airlock 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="EnterHypersleep" type="Button" parent="VBoxContainer"]
-margin_top = 72.0
-margin_right = 338.0
-margin_bottom = 104.0
+[node name="OpenAirlock2" type="Label" parent="VBoxContainer"]
+margin_top = 118.0
+margin_right = 200.0
+margin_bottom = 173.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "ENTER HYPERSLEEP"
+custom_styles/normal = SubResource( 1 )
+text = "Open
+Airlock 2"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="LaunchNarcissus" type="Button" parent="VBoxContainer"]
-margin_top = 108.0
-margin_right = 338.0
-margin_bottom = 140.0
+[node name="EnterHypersleep" type="Label" parent="VBoxContainer"]
+margin_top = 177.0
+margin_right = 200.0
+margin_bottom = 232.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "Launch Narcissus"
+custom_styles/normal = SubResource( 1 )
+text = "Enter
+Hypersleep"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="StartAutoDestruct" type="Button" parent="VBoxContainer"]
-margin_top = 144.0
-margin_right = 338.0
-margin_bottom = 176.0
+[node name="StartAutoDestruct" type="Label" parent="VBoxContainer"]
+margin_top = 236.0
+margin_right = 200.0
+margin_bottom = 291.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "START Auto-Destruct"
+custom_styles/normal = SubResource( 1 )
+text = "START Auto
+Destruct"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="StopAutoDestruct" type="Button" parent="VBoxContainer"]
-margin_top = 180.0
-margin_right = 338.0
-margin_bottom = 212.0
+[node name="StopAutoDestruct" type="Label" parent="VBoxContainer"]
+margin_top = 295.0
+margin_right = 200.0
+margin_bottom = 350.0
+mouse_filter = 0
 theme = ExtResource( 2 )
-text = "START Auto-Destruct"
+custom_styles/normal = SubResource( 1 )
+text = "STOP Auto
+Destruct"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CancelButton" type="Button" parent="VBoxContainer"]
-margin_top = 216.0
-margin_right = 338.0
-margin_bottom = 248.0
+margin_top = 354.0
+margin_right = 200.0
+margin_bottom = 386.0
 theme = ExtResource( 2 )
 text = "CANCEL"
 
-[connection signal="pressed" from="VBoxContainer/OpenAirlock1" to="." method="_on_OpenAirlock1_pressed"]
-[connection signal="pressed" from="VBoxContainer/OpenAirlock2" to="." method="_on_OpenAirlock2_pressed"]
-[connection signal="pressed" from="VBoxContainer/EnterHypersleep" to="." method="_on_EnterHypersleep_pressed"]
-[connection signal="pressed" from="VBoxContainer/LaunchNarcissus" to="." method="_on_LaunchNarcissus_pressed"]
-[connection signal="pressed" from="VBoxContainer/StartAutoDestruct" to="." method="_on_StartAutoDestruct_pressed"]
-[connection signal="pressed" from="VBoxContainer/StopAutoDestruct" to="." method="_on_StopAutoDestruct_pressed"]
+[connection signal="gui_input" from="VBoxContainer/LaunchNarcissus" to="." method="_on_LaunchNarcissus_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/OpenAirlock1" to="." method="_on_OpenAirlock1_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/OpenAirlock2" to="." method="_on_OpenAirlock2_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/EnterHypersleep" to="." method="_on_EnterHypersleep_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/StartAutoDestruct" to="." method="_on_StartAutoDestruct_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/StopAutoDestruct" to="." method="_on_StopAutoDestruct_gui_input"]
 [connection signal="pressed" from="VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]

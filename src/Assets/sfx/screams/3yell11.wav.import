@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/selfdestruct.wav-068ff80ad7de5738eaa13ca518e17f7f.sample"
+path="res://.import/3yell11.wav-01621fda5e4abc3ef36f769bc7e8a5ba.sample"
 
 [deps]
 
-source_file="res://Assets/sfx/selfdestruct.wav"
-dest_files=[ "res://.import/selfdestruct.wav-068ff80ad7de5738eaa13ca518e17f7f.sample" ]
+source_file="res://Assets/sfx/screams/3yell11.wav"
+dest_files=[ "res://.import/3yell11.wav-01621fda5e4abc3ef36f769bc7e8a5ba.sample" ]
 
 [params]
 

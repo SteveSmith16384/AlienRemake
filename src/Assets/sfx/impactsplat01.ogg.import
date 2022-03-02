@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/impactsplat01.ogg-fb5df9fc530a73492103ee38f7866323.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/impactsplat01.ogg"
+dest_files=[ "res://.import/impactsplat01.ogg-fb5df9fc530a73492103ee38f7866323.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

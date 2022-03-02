@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/selfdestruct.wav-068ff80ad7de5738eaa13ca518e17f7f.sample"
+path="res://.import/alarm.wav-9f6bfdedc79e0260a0c861e3da29b5fe.sample"
 
 [deps]
 
-source_file="res://Assets/sfx/selfdestruct.wav"
-dest_files=[ "res://.import/selfdestruct.wav-068ff80ad7de5738eaa13ca518e17f7f.sample" ]
+source_file="res://Assets/sfx/alarm.wav"
+dest_files=[ "res://.import/alarm.wav-9f6bfdedc79e0260a0c861e3da29b5fe.sample" ]
 
 [params]
 

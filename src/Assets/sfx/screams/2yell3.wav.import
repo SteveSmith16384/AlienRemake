@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/deathscream1.wav-cab1f6b241e22542acbfdf75e04c9afe.sample"
+path="res://.import/2yell3.wav-72d46f79644cb2aa37f5a15a5c17990a.sample"
 
 [deps]
 
-source_file="res://Assets/sfx/deathscream1.wav"
-dest_files=[ "res://.import/deathscream1.wav-cab1f6b241e22542acbfdf75e04c9afe.sample" ]
+source_file="res://Assets/sfx/screams/2yell3.wav"
+dest_files=[ "res://.import/2yell3.wav-72d46f79644cb2aa37f5a15a5c17990a.sample" ]
 
 [params]
 

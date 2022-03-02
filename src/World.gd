@@ -10,6 +10,7 @@ var time_left : float = Globals.START_TIME
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
+var self_destruct_activated = false
 
 func _ready():
 	load_data()
@@ -36,6 +37,7 @@ func _process(delta):
 	if alien == null and time_left < Globals.START_TIME-5:
 		var alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 		crewman_died(crew[alien_crew_id])
+		$Audio/AudioStreamPlayer_AlienBorn.play()
 		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name)
 		alien = Alien.new(self, crew[alien_crew_id].location)
 		alien_moved(alien.location)
@@ -108,6 +110,9 @@ func set_menu_mode(mode):
 	$Menus/CommandOptions.visible = false
 	$Menus/ItemSelector.visible = false
 	$Menus/SpecialSelector.visible = false
+
+	if selected_crewman == null:
+		return
 
 	menu_mode = mode
 	if menu_mode == Globals.MenuMode.GO_TO:
@@ -186,10 +191,7 @@ func crewman_moved(crewman, prev_loc):
 	
 
 func alien_moved(prev_loc: Location):
-	$AudioStreamPlayer_CrewmanArrived.play()
-	#prev_loc.update_alien_sprite(false)
-	#$Log.text += "Alien has arrived in the " + alien.location.loc_name + "\n"
-	#alien.location.update_alien_sprite(true)
+	$Audio/AudioStreamPlayer_CrewmanArrived.play()
 	refresh_ui = true
 	pass
 	
@@ -198,7 +200,7 @@ func jones_moved():
 	if jones.location.crew.size() > 0:
 		var crew = jones.location.crew[0]
 		append_log(crew.crew_name + " has seen Jones in the " + jones.location.loc_name)
-		$AudioStreamPlayer_JonesSeen.play()
+		$Audio/AudioStreamPlayer_JonesSeen.play()
 		refresh_ui = true
 	pass
 	
@@ -347,7 +349,7 @@ func item_selected(type):
 			selected_crewman.items.push_back(item)
 			append_log(item.item_name + " picked up")
 			set_menu_mode(Globals.MenuMode.NONE)
-			$AudioStreamPlayer_CommandGiven.play()
+			$Audio/AudioStreamPlayer_CommandGiven.play()
 	elif menu_mode == Globals.MenuMode.DROP:
 		var item = find_item_by_type(selected_crewman.items, type)
 		if item != null:
@@ -356,7 +358,7 @@ func item_selected(type):
 			selected_crewman.items.erase(item)
 			append_log(item.item_name + " dropped")
 			set_menu_mode(Globals.MenuMode.NONE)
-			$AudioStreamPlayer_CommandGiven.play()
+			$Audio/AudioStreamPlayer_CommandGiven.play()
 	elif menu_mode == Globals.MenuMode.USE:
 		var item = find_item_by_type(selected_crewman.items, type)
 		if item != null:
@@ -364,7 +366,7 @@ func item_selected(type):
 				jones.is_in_net = true
 				append_log(selected_crewman.name + " has caught Jones in the net")
 				item.name = "Net with Jones"
-				$AudioStreamPlayer_JonesCaught.play()
+				$Audio/AudioStreamPlayer_JonesCaught.play()
 				refresh_ui = true
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
@@ -387,12 +389,17 @@ func _on_SfxTimer_timeout():
 	for c in crew.values():
 		if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
 			if alien.location == c.location or is_location_adjacent(alien.location, c.location):
-				$AudioStreamPlayer_Tracker.play()
+				$Audio/AudioStreamPlayer_Tracker.play()
 				return
 			if jones.location == c.location or is_location_adjacent(jones.location, c.location):
-				$AudioStreamPlayer_Tracker.play()
+				$Audio/AudioStreamPlayer_Tracker.play()
 				return
 		pass
+
+	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas ot be populated
+
+#	if self_destruct_activated:
+#		$Audio/AudioStreamPlayer_Alarm.play()  Annoying?
 	pass
 
 
@@ -404,10 +411,12 @@ func crewman_wounded(crewman : Crewman, amt:int):
 
 
 func crewman_died(crewman : Crewman):
-	$AudioStreamPlayer_CrewDied.play()
-	$AudioStreamPlayer_Static.play()
+	$Audio/AudioStreamPlayer_CrewDeath.play()
+	$Audio/AudioStreamPlayer_Static.play()
 	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Body of " + crewman.crew_name, crewman.location.id)
 	crewman.died()
+	if crewman == selected_crewman:
+		selected_crewman = null
 	refresh_ui = true
 	pass
 
@@ -435,6 +444,7 @@ func combat(location : Location):
 	
 	
 func _on_SelectUpperDeck_pressed():
+	$Audio/AudioStreamPlayer_Click.play()
 	$DeckNode/UpperDeck.visible = true
 	$DeckNode/MiddleDeck.visible = false
 	$DeckNode/LowerDeck.visible = false
@@ -442,6 +452,7 @@ func _on_SelectUpperDeck_pressed():
 
 
 func _on_SelectMiddleDeck_pressed():
+	$Audio/AudioStreamPlayer_Click.play()
 	$DeckNode/UpperDeck.visible = false
 	$DeckNode/MiddleDeck.visible = true
 	$DeckNode/LowerDeck.visible = false
@@ -449,6 +460,7 @@ func _on_SelectMiddleDeck_pressed():
 
 
 func _on_SelectLowerDeck_pressed():
+	$Audio/AudioStreamPlayer_Click.play()
 	$DeckNode/UpperDeck.visible = false
 	$DeckNode/MiddleDeck.visible = false
 	$DeckNode/LowerDeck.visible = true
@@ -456,5 +468,8 @@ func _on_SelectLowerDeck_pressed():
 
 
 func start_autodestruct():
-	$AudioStreamPlayer_SelfDestruct.play()
+	# todo - check adjacent
+	$Audio/AudioStreamPlayer_SelfDestruct.play()
+	set_menu_mode(Globals.MenuMode.NONE)
+	self_destruct_activated = true
 	pass

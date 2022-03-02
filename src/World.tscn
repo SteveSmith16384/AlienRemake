@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -15,11 +15,15 @@
 [ext_resource path="res://Assets/sfx/Meow.ogg" type="AudioStream" id=13]
 [ext_resource path="res://Assets/sfx/Cat 8.wav" type="AudioStream" id=14]
 [ext_resource path="res://Assets/sfx/aliendeath4.wav" type="AudioStream" id=15]
-[ext_resource path="res://Assets/sfx/deathscream1.wav" type="AudioStream" id=16]
+[ext_resource path="res://Assets/sfx/screams/3yell10.wav" type="AudioStream" id=16]
 [ext_resource path="res://Assets/sfx/tracker_reduced.wav" type="AudioStream" id=17]
 [ext_resource path="res://LowerDeck.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UpperDeck.tscn" type="PackedScene" id=19]
 [ext_resource path="res://SpecialSelector.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Assets/sfx/impactsplat01.ogg" type="AudioStream" id=21]
+[ext_resource path="res://Assets/sfx/selfdestruct.wav" type="AudioStream" id=22]
+[ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=23]
+[ext_resource path="res://Assets/sfx/alarm.wav" type="AudioStream" id=24]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -64,6 +68,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LabelSelfDestructTimeLeft" type="Label" parent="."]
+margin_left = 16.9897
+margin_top = 151.019
+margin_right = 97.9897
+margin_bottom = 177.019
+theme = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Log" parent="." instance=ExtResource( 9 )]
 position = Vector2( 15.102, 424.743 )
 
@@ -72,37 +88,8 @@ position = Vector2( 819.282, 364.335 )
 Red = true
 
 [node name="SfxTimer" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
-
-[node name="AudioStreamPlayer_CrewmanArrived" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 10 )
-
-[node name="AudioStreamPlayer_Ambience" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
-autoplay = true
-
-[node name="AudioStreamPlayer_CommandGiven" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 11 )
-
-[node name="AudioStreamPlayer_Static" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 12 )
-
-[node name="AudioStreamPlayer_JonesCaught" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 14 )
-
-[node name="AudioStreamPlayer_JonesSeen" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 13 )
-
-[node name="AudioStreamPlayer_AlienDeath" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 15 )
-
-[node name="AudioStreamPlayer_CrewDied" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 16 )
-
-[node name="AudioStreamPlayer_Tracker" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 17 )
-
-[node name="AudioStreamPlayer_SelfDestruct" type="AudioStreamPlayer" parent="."]
 
 [node name="DeckSelector" type="VBoxContainer" parent="."]
 margin_left = 12.8877
@@ -132,6 +119,48 @@ margin_right = 208.0
 margin_bottom = 104.0
 theme = ExtResource( 5 )
 text = "lower deck"
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 23 )
+
+[node name="AudioStreamPlayer_AlienBorn" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 21 )
+
+[node name="AudioStreamPlayer_CrewmanArrived" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 10 )
+
+[node name="AudioStreamPlayer_Ambience" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 8 )
+autoplay = true
+
+[node name="AudioStreamPlayer_CommandGiven" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 11 )
+
+[node name="AudioStreamPlayer_Static" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 12 )
+
+[node name="AudioStreamPlayer_JonesCaught" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 14 )
+
+[node name="AudioStreamPlayer_JonesSeen" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 13 )
+
+[node name="AudioStreamPlayer_AlienDeath" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 15 )
+
+[node name="AudioStreamPlayer_CrewDeath" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 16 )
+
+[node name="AudioStreamPlayer_Tracker" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 17 )
+
+[node name="AudioStreamPlayer_SelfDestruct" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 22 )
+
+[node name="AudioStreamPlayer_Alarm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 24 )
 
 [connection signal="timeout" from="SfxTimer" to="." method="_on_SfxTimer_timeout"]
 [connection signal="pressed" from="DeckSelector/SelectUpperDeck" to="." method="_on_SelectUpperDeck_pressed"]
