@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -19,9 +19,25 @@
 [ext_resource path="res://Assets/sfx/tracker_reduced.wav" type="AudioStream" id=17]
 [ext_resource path="res://LowerDeck.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UpperDeck.tscn" type="PackedScene" id=19]
+[ext_resource path="res://SpecialSelector.tscn" type="PackedScene" id=20]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
+
+[node name="Menus" type="Node2D" parent="."]
+position = Vector2( 832, 15 )
+
+[node name="CommandOptions" parent="Menus" instance=ExtResource( 4 )]
+margin_left = 0.828918
+margin_top = 0.382996
+margin_right = 150.829
+margin_bottom = 176.383
+
+[node name="ItemSelector" parent="Menus" instance=ExtResource( 7 )]
+
+[node name="LocationSelector" parent="Menus" instance=ExtResource( 6 )]
+
+[node name="SpecialSelector" parent="Menus" instance=ExtResource( 20 )]
 
 [node name="DeckNode" type="Node2D" parent="."]
 position = Vector2( 550.653, 321.979 )
@@ -36,18 +52,6 @@ visible = false
 
 [node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
 position = Vector2( 6.60699, 4.71917 )
-
-[node name="CommandOptions" parent="." instance=ExtResource( 4 )]
-margin_left = 835.213
-margin_top = 13.5972
-margin_right = 985.213
-margin_bottom = 189.597
-
-[node name="LocationSelector" parent="." instance=ExtResource( 6 )]
-position = Vector2( 834.384, 16.9897 )
-
-[node name="ItemSelector" parent="." instance=ExtResource( 7 )]
-position = Vector2( 832.496, 15.102 )
 
 [node name="LabelTimeLeft" type="Label" parent="."]
 margin_left = 16.9897
@@ -97,6 +101,8 @@ stream = ExtResource( 16 )
 
 [node name="AudioStreamPlayer_Tracker" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
+
+[node name="AudioStreamPlayer_SelfDestruct" type="AudioStreamPlayer" parent="."]
 
 [node name="DeckSelector" type="VBoxContainer" parent="."]
 margin_left = 12.8877

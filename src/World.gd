@@ -13,16 +13,14 @@ var refresh_ui: bool = true
 
 func _ready():
 	load_data()
-	$LocationSelector.visible = false
-	$ItemSelector.visible = false
+	$Menus/LocationSelector.visible = false
+	$Menus/ItemSelector.visible = false
+	$Menus/SpecialSelector.visible = false
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
-#	for l in locations.values():
-#		l.update_crewman_sprite()
-		
 	crew_selected(crew[0].id)
-	#$CharacterSelector.update_statuses()
+
 	refresh_ui = true
 	pass
 
@@ -67,8 +65,8 @@ func update_ui():
 	
 	
 func crew_selected(crewman_id):
-	if selected_crewman != null and selected_crewman.id == crewman_id:
-		return
+#	if selected_crewman != null and selected_crewman.id == crewman_id:
+#		return
 		
 	selected_crewman = crew[crewman_id]
 	
@@ -94,7 +92,12 @@ func crew_selected(crewman_id):
 			append_log(i.item_name)
 		append_log("")
 
-#	$CommandOptions.update_menu(location, selected_crewman)
+
+	$DeckNode/LowerDeck.visible = false
+	$DeckNode/MiddleDeck.visible = false
+	$DeckNode/UpperDeck.visible = false
+	location.area.get_parent().visible = true
+	
 	refresh_ui = true
 	
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -102,43 +105,37 @@ func crew_selected(crewman_id):
 	
 
 func set_menu_mode(mode):
+	$Menus/CommandOptions.visible = false
+	$Menus/ItemSelector.visible = false
+	$Menus/SpecialSelector.visible = false
+
 	menu_mode = mode
 	if menu_mode == Globals.MenuMode.GO_TO:
 		append_log("Select Destination")
-		$CommandOptions.visible = false
-		$LocationSelector.update_list(selected_crewman.location)
-		$LocationSelector.visible = true
-		$ItemSelector.visible = false
+		$Menus/LocationSelector.update_list(selected_crewman.location)
+		$Menus/LocationSelector.visible = true
 	elif menu_mode == Globals.MenuMode.PICK_UP:
 		append_log("Select Item to Pick up")
-		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.location.items)
-		$ItemSelector.visible = true
+		$Menus/ItemSelector.update_list(selected_crewman.location.items)
+		$Menus/ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.DROP:
 		append_log("Select Item to Drop")
-		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.items)
-		$ItemSelector.visible = true
+		$Menus/ItemSelector.update_list(selected_crewman.items)
+		$Menus/ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.USE:
 		append_log("Select Item to use")
-		$CommandOptions.visible = false
-		$ItemSelector.update_list(selected_crewman.items)
-		$ItemSelector.visible = true
+		$Menus/ItemSelector.update_list(selected_crewman.items)
+		$Menus/ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.SPECIAL:
-		# todo
-		pass
+		$Menus/SpecialSelector.update_list(selected_crewman.location)
+		$Menus/SpecialSelector.visible = true
 	elif menu_mode == Globals.MenuMode.NONE:
-		$CommandOptions.update_menu(selected_crewman.location, selected_crewman)
-	
-		$CommandOptions.visible = true
-		$LocationSelector.visible = false
-		$ItemSelector.visible = false
+		$Menus/CommandOptions.update_menu(selected_crewman.location, selected_crewman)
+		$Menus/CommandOptions.visible = true
 	else:
 		if Globals.RELEASE_MODE == false:
 			push_error("Unknown menu mode: " + str(mode))
-		$CommandOptions.visible = true
-		$LocationSelector.visible = false
-		$ItemSelector.visible = false
+		$Menus/CommandOptions.visible = true
 	pass
 	
 	
@@ -314,7 +311,7 @@ func load_data():
 	for _i in range(1):
 		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
 	for _i in range(4):
-		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext.", get_random_location_id())
+		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Extinguisher", get_random_location_id())
 	for _i in range(2):
 		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
 	for _i in range(1):
@@ -455,4 +452,9 @@ func _on_SelectLowerDeck_pressed():
 	$DeckNode/UpperDeck.visible = false
 	$DeckNode/MiddleDeck.visible = false
 	$DeckNode/LowerDeck.visible = true
+	pass
+
+
+func start_autodestruct():
+	$AudioStreamPlayer_SelfDestruct.play()
 	pass

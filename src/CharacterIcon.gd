@@ -15,9 +15,10 @@ func _ready():
 	
 	
 func _on_CenterContainer_gui_input(event):
-	if event.button_mask != 0:
-		$AudioStreamPlayer_Click.play()
-		main.crew_selected(Crewman)
+	if event.is_pressed():
+		if event.button_mask != 0:
+			$AudioStreamPlayer_Click.play()
+			main.crew_selected(Crewman)
 	pass
 
 
