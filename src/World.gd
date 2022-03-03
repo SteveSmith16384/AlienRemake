@@ -6,7 +6,7 @@ var crew = {}
 var alien: Alien
 var jones: Jones
 
-var time_left : float = Globals.OXYGEN
+var exygen : float = Globals.OXYGEN
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
@@ -19,6 +19,7 @@ func _ready():
 	$Menus/LocationSelector.visible = false
 	$Menus/ItemSelector.visible = false
 	$Menus/SpecialSelector.visible = false
+	$LabelSelfDestructTimeLeft.visible = false
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
@@ -30,18 +31,18 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_pressed("toggle_fullscreen"):
-		#$AudioStreamPlayer_Keypress.play()
+		$Audio/AudioStreamPlayer_Click.play()
 		OS.window_fullscreen = !OS.window_fullscreen
 
-	time_left -= delta # todo - check when run out
-	$LabelTimeLeft.text = "TOOH: " + str(int(time_left))
+	#time_left -= delta # todo - check when run out
+	$LabelTimeLeft.text = "TOOH: " + str(int(exygen))
 	
 	if self_destruct_activated:
 		self_destruct_time_left -= delta # todo - check when run out
-		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(time_left))
+		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
 		# todo - checki if run out
 		
-	if alien == null and time_left < Globals.OXYGEN-5:
+	if alien == null and exygen < Globals.OXYGEN-5:
 		var alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
@@ -62,7 +63,7 @@ func _process(delta):
 	
 	
 func update_ui():
-	$CanvasLayer/CharacterSelector.update_statuses()
+	$CharacterSelector.update_statuses()
 	for l in locations.values():
 		l.update_crewman_sprite()
 		if alien != null:
@@ -158,7 +159,7 @@ func location_selected(loc_id, move_to: bool = false):
 			append_log("That location is not adjacent")
 			return
 		if selected_crewman.set_dest(selected_location):
-			$AudioStreamPlayer_CommandGiven.play()
+			$Audio/AudioStreamPlayer_CommandGiven.play()
 			#$CharacterSelector.update_statuses()
 			append_log(selected_crewman.crew_name + " is now going to " + selected_location.loc_name)
 		else:
@@ -188,7 +189,7 @@ func cancel_selection():
 	
 	
 func crewman_moved(crewman):
-	$AudioStreamPlayer_CrewmanArrived.play()
+	$Audio/AudioStreamPlayer_CrewmanArrived.play()
 	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
 	refresh_ui = true
 	pass
@@ -437,16 +438,20 @@ func combat(location : Location):
 		alien.health -= Globals.rnd.randi_range(5, 10)
 		append_log(c.crew_name + " attacks the Alien")
 		if alien.health <= 0:
-			append_log("The Alien has been killed")
-			$AudioStreamPlayer_AlienDeath.play()
-			alien = null
-			#alien.queue_free()
+			alien_killed()
 			return
 		pass
 		
 	pass
 	
+
+func alien_killed():
+	append_log("The Alien has been killed")
+	$Audio/AudioStreamPlayer_AlienDeath.play()
+	alien = null
+	pass
 	
+		
 func _on_SelectUpperDeck_pressed():
 	$Audio/AudioStreamPlayer_Click.play()
 	$DeckNode/UpperDeck.visible = true
@@ -492,5 +497,26 @@ func stop_autodestruct():
 	pass
 
 
-func _on_TVShader_gui_input(event):
-	pass # Replace with function body.
+func open_airlock1():
+	$Audio/AudioStreamPlayer_Airlock.play()
+	for c in locations[Globals.Location.AIRLOCK_1].crew:
+		append_log(c.crew_name + " has been sucked out of the airlock")
+		crewman_died(c)
+	if alien.location == locations[Globals.Location.AIRLOCK_1]:
+		alien_killed()
+	pass
+	
+	
+func open_airlock2():
+	$Audio/AudioStreamPlayer_Airlock.play()
+	for c in locations[Globals.Location.AIRLOCK_2].crew:
+		append_log(c.crew_name + " has been sucked out of the airlock")
+		crewman_died(c)
+	if alien.location == locations[Globals.Location.AIRLOCK_2]:
+		alien_killed()
+	pass
+	
+	
+func _on_OneSecondTimer_timeout():
+	exygen -= crew.size()
+	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -25,16 +25,17 @@
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=23]
 [ext_resource path="res://Assets/sfx/alarm.wav" type="AudioStream" id=24]
 [ext_resource path="res://TVShader.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Assets/sfx/airlock_siren.wav" type="AudioStream" id=26]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CharacterSelector" parent="CanvasLayer" instance=ExtResource( 2 )]
-position = Vector2( 6.60699, 4.71917 )
-
 [node name="TVShader" parent="CanvasLayer" instance=ExtResource( 25 )]
+
+[node name="CharacterSelector" parent="." instance=ExtResource( 2 )]
+position = Vector2( 6.60699, 4.71917 )
 
 [node name="DeckNode" type="Node2D" parent="."]
 position = Vector2( 550.653, 321.979 )
@@ -167,8 +168,14 @@ stream = ExtResource( 22 )
 [node name="AudioStreamPlayer_Alarm" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 24 )
 
-[connection signal="gui_input" from="CanvasLayer/TVShader" to="." method="_on_TVShader_gui_input"]
+[node name="AudioStreamPlayer_Airlock" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 26 )
+
+[node name="OneSecondTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="SfxTimer" to="." method="_on_SfxTimer_timeout"]
 [connection signal="pressed" from="DeckSelector/SelectUpperDeck" to="." method="_on_SelectUpperDeck_pressed"]
 [connection signal="pressed" from="DeckSelector/SelectMiddleDeck" to="." method="_on_SelectMiddleDeck_pressed"]
 [connection signal="pressed" from="DeckSelector/SelectLowerDeck" to="." method="_on_SelectLowerDeck_pressed"]
+[connection signal="timeout" from="OneSecondTimer" to="." method="_on_OneSecondTimer_timeout"]
