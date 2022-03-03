@@ -4,7 +4,7 @@ extends Node
 var main
 var location : Location
 var destination : Location
-var dest_time : float
+var action_time : float
 var health : int = 100
 
 func _init(_main, loc : Location):
@@ -19,21 +19,21 @@ func _process(delta):
 		
 	if location.crew.size() > 0:
 		destination = null
-		dest_time -= delta
-		if dest_time <= 0:
+		action_time -= delta
+		if action_time <= 0:
 			main.combat(location)
-			dest_time = 3
+			action_time = 3
 		return
 		
 	if destination == null:
 		# Get new dest
 		var adj = location.adjacent
 		destination = adj[Globals.rnd.randi_range(0, adj.size()-1)]
-		dest_time = 9
+		action_time = 9
 		#print("New alien dest is " + destination.loc_name)
 		
-	dest_time -= delta
-	if dest_time <= 0:
+	action_time -= delta
+	if action_time <= 0:
 		location = destination
 		main.alien_moved()
 		destination = null

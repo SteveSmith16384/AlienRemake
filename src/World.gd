@@ -14,6 +14,9 @@ var refresh_ui: bool = true
 var self_destruct_activated = false
 var self_destruct_time_left : float
 
+var airlock1_open = false
+var airlock2_open = false
+
 func _ready():
 	load_data()
 	$Menus/LocationSelector.visible = false
@@ -157,6 +160,12 @@ func location_selected(loc_id, move_to: bool = false):
 	if menu_mode == Globals.MenuMode.GO_TO or move_to:
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
 			append_log("That location is not adjacent")
+			return
+		elif loc_id == Globals.Location.AIRLOCK_1 and airlock1_open:
+			append_log("Airlock 1 is open")
+			return
+		elif loc_id == Globals.Location.AIRLOCK_2 and airlock2_open:
+			append_log("Airlock 2 is open")
 			return
 		if selected_crewman.set_dest(selected_location):
 			$Audio/AudioStreamPlayer_CommandGiven.play()
@@ -418,6 +427,7 @@ func crewman_wounded(crewman : Crewman, amt:int):
 func crewman_died(crewman : Crewman):
 	$Audio/AudioStreamPlayer_CrewDeath.play()
 	$Audio/AudioStreamPlayer_Static.play()
+	crewman.location.crew.erase(crewman)
 	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Body of " + crewman.crew_name, crewman.location.id)
 	crewman.died()
 	if crewman == selected_crewman:
@@ -504,6 +514,12 @@ func open_airlock1():
 		crewman_died(c)
 	if alien.location == locations[Globals.Location.AIRLOCK_1]:
 		alien_killed()
+	airlock1_open = true
+	
+	# Cancel destinations
+	for c in crew:
+		if c.destination == locations[Globals.Location.AIRLOCK_1]:
+			c.destination = null
 	pass
 	
 	
@@ -514,9 +530,22 @@ func open_airlock2():
 		crewman_died(c)
 	if alien.location == locations[Globals.Location.AIRLOCK_2]:
 		alien_killed()
+	airlock2_open = true
+	
+	# Cancel destinations
+	for c in crew:
+		if c.destination == locations[Globals.Location.AIRLOCK_2]:
+			c.destination = null
+	pass
+	
+	
+func close_airlock1():
+	# todo - sfx
+	airlock1_open = false
 	pass
 	
 	
 func _on_OneSecondTimer_timeout():
-	exygen -= crew.size()
+	# todo - sfx
+	airlock2_open = false
 	pass

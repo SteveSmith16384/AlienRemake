@@ -46,10 +46,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpenAirlock2" type="Label" parent="VBoxContainer"]
+[node name="CloseAirlock1" type="Label" parent="VBoxContainer"]
 margin_top = 118.0
 margin_right = 200.0
 margin_bottom = 173.0
+mouse_filter = 0
+theme = ExtResource( 2 )
+custom_styles/normal = SubResource( 1 )
+text = "Close
+Airlock 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenAirlock2" type="Label" parent="VBoxContainer"]
+margin_top = 177.0
+margin_right = 200.0
+margin_bottom = 232.0
 mouse_filter = 0
 theme = ExtResource( 2 )
 custom_styles/normal = SubResource( 1 )
@@ -60,10 +74,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EnterHypersleep" type="Label" parent="VBoxContainer"]
-margin_top = 177.0
+[node name="CloseAirlock2" type="Label" parent="VBoxContainer"]
+margin_top = 236.0
 margin_right = 200.0
-margin_bottom = 232.0
+margin_bottom = 291.0
+mouse_filter = 0
+theme = ExtResource( 2 )
+custom_styles/normal = SubResource( 1 )
+text = "Close
+Airlock 2"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnterHypersleep" type="Label" parent="VBoxContainer"]
+margin_top = 295.0
+margin_right = 200.0
+margin_bottom = 350.0
 mouse_filter = 0
 theme = ExtResource( 2 )
 custom_styles/normal = SubResource( 1 )
@@ -75,9 +103,9 @@ __meta__ = {
 }
 
 [node name="StartAutoDestruct" type="Label" parent="VBoxContainer"]
-margin_top = 236.0
+margin_top = 354.0
 margin_right = 200.0
-margin_bottom = 291.0
+margin_bottom = 409.0
 mouse_filter = 0
 theme = ExtResource( 2 )
 custom_styles/normal = SubResource( 1 )
@@ -89,9 +117,9 @@ __meta__ = {
 }
 
 [node name="StopAutoDestruct" type="Label" parent="VBoxContainer"]
-margin_top = 295.0
+margin_top = 413.0
 margin_right = 200.0
-margin_bottom = 350.0
+margin_bottom = 468.0
 mouse_filter = 0
 theme = ExtResource( 2 )
 custom_styles/normal = SubResource( 1 )
@@ -103,15 +131,17 @@ __meta__ = {
 }
 
 [node name="CancelButton" type="Button" parent="VBoxContainer"]
-margin_top = 354.0
+margin_top = 472.0
 margin_right = 200.0
-margin_bottom = 386.0
+margin_bottom = 504.0
 theme = ExtResource( 2 )
 text = "CANCEL"
 
 [connection signal="gui_input" from="VBoxContainer/LaunchNarcissus" to="." method="_on_LaunchNarcissus_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/OpenAirlock1" to="." method="_on_OpenAirlock1_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/CloseAirlock1" to="." method="_on_CloseAirlock1_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/OpenAirlock2" to="." method="_on_OpenAirlock2_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/CloseAirlock2" to="." method="_on_CloseAirlock2_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/EnterHypersleep" to="." method="_on_EnterHypersleep_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/StartAutoDestruct" to="." method="_on_StartAutoDestruct_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/StopAutoDestruct" to="." method="_on_StopAutoDestruct_gui_input"]
