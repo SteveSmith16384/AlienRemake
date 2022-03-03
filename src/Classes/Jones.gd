@@ -26,7 +26,6 @@ func _process(delta):
 		
 	dest_time -= delta
 	if dest_time <= 0:
-		var prev_loc = location
 		location = destination
 		main.jones_moved()
 		destination = null

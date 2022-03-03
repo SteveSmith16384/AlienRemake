@@ -34,9 +34,8 @@ func _process(delta):
 		
 	dest_time -= delta
 	if dest_time <= 0:
-		var prev_loc = location
 		location = destination
-		main.alien_moved(prev_loc)
+		main.alien_moved()
 		destination = null
 		pass
 	pass

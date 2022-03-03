@@ -6,11 +6,13 @@ var crew = {}
 var alien: Alien
 var jones: Jones
 
-var time_left : float = Globals.START_TIME
+var time_left : float = Globals.OXYGEN
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
+
 var self_destruct_activated = false
+var self_destruct_time_left : float
 
 func _ready():
 	load_data()
@@ -34,13 +36,18 @@ func _process(delta):
 	time_left -= delta # todo - check when run out
 	$LabelTimeLeft.text = "TOOH: " + str(int(time_left))
 	
-	if alien == null and time_left < Globals.START_TIME-5:
+	if self_destruct_activated:
+		self_destruct_time_left -= delta # todo - check when run out
+		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(time_left))
+		# todo - checki if run out
+		
+	if alien == null and time_left < Globals.OXYGEN-5:
 		var alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
 		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name)
 		alien = Alien.new(self, crew[alien_crew_id].location)
-		alien_moved(alien.location)
+		alien_moved()
 	
 	for c in crew.values():
 		c._process(delta)
@@ -55,7 +62,7 @@ func _process(delta):
 	
 	
 func update_ui():
-	$CharacterSelector.update_statuses()
+	$CanvasLayer/CharacterSelector.update_statuses()
 	for l in locations.values():
 		l.update_crewman_sprite()
 		if alien != null:
@@ -180,17 +187,14 @@ func cancel_selection():
 	pass
 	
 	
-func crewman_moved(crewman, prev_loc):
+func crewman_moved(crewman):
 	$AudioStreamPlayer_CrewmanArrived.play()
-	#prev_loc.update_crewman_sprite()
 	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
-	#crewman.location.update_crewman_sprite()
-	#$CharacterSelector.update_statuses()
 	refresh_ui = true
 	pass
 	
 
-func alien_moved(prev_loc: Location):
+func alien_moved():
 	$Audio/AudioStreamPlayer_CrewmanArrived.play()
 	refresh_ui = true
 	pass
@@ -198,8 +202,8 @@ func alien_moved(prev_loc: Location):
 	
 func jones_moved():
 	if jones.location.crew.size() > 0:
-		var crew = jones.location.crew[0]
-		append_log(crew.crew_name + " has seen Jones in the " + jones.location.loc_name)
+		var crewman = jones.location.crew[0]
+		append_log(crewman.crew_name + " has seen Jones in the " + jones.location.loc_name)
 		$Audio/AudioStreamPlayer_JonesSeen.play()
 		refresh_ui = true
 	pass
@@ -468,8 +472,25 @@ func _on_SelectLowerDeck_pressed():
 
 
 func start_autodestruct():
-	# todo - check adjacent
+	# todo - check in right room
+	self_destruct_time_left = 600
 	$Audio/AudioStreamPlayer_SelfDestruct.play()
+	$Audio/AudioStreamPlayer_Alarm.play()
 	set_menu_mode(Globals.MenuMode.NONE)
 	self_destruct_activated = true
+	$LabelSelfDestructTimeLeft.visible = true
 	pass
+
+
+func stop_autodestruct():
+	# todo - check within time limit
+	# todo - check right room
+	$Audio/AudioStreamPlayer_Alarm.stop()
+	set_menu_mode(Globals.MenuMode.NONE)
+	self_destruct_activated = false
+	$LabelSelfDestructTimeLeft.visible = false
+	pass
+
+
+func _on_TVShader_gui_input(event):
+	pass # Replace with function body.

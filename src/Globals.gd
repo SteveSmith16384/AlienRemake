@@ -3,7 +3,7 @@ extends Node
 const VERSION = "0.1"
 const RELEASE_MODE = false
 
-const START_TIME: int = 60 * 60
+const OXYGEN: int = 7500
 
 enum Crew {DALLAS, KANE, RIPLEY, ASH, LAMBERT, PARKER, BRETT}
 
