@@ -3,13 +3,14 @@ extends Node2D
 
 var locations = {}
 var crew = {}
-var alien: Alien
+var alien#: Alien
 var jones: Jones
 
-var exygen : float = Globals.OXYGEN
+var oxygen : float = Globals.OXYGEN
 var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
+var alien_crew_id : int
 
 var self_destruct_activated = false
 var self_destruct_time_left : float
@@ -38,21 +39,22 @@ func _process(delta):
 		OS.window_fullscreen = !OS.window_fullscreen
 
 	#time_left -= delta # todo - check when run out
-	$LabelTimeLeft.text = "TOOH: " + str(int(exygen))
+	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
 	if self_destruct_activated:
 		self_destruct_time_left -= delta # todo - check when run out
 		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
 		# todo - checki if run out
 		
-	if alien == null and exygen < Globals.OXYGEN-5:
-		var alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
+	if alien == null and oxygen < Globals.OXYGEN-5:
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
-		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name)
+		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
 		alien = Alien.new(self, crew[alien_crew_id].location)
 		alien_moved()
 	
+	for l in locations.values():
+		l._process(delta)
 	for c in crew.values():
 		c._process(delta)
 	if alien != null:
@@ -299,45 +301,85 @@ func load_data():
 	set_adjacent(Globals.Location.ENG_STORES, Globals.Location.ENGINEERING)
 	set_adjacent(Globals.Location.CARGO_POD_2, Globals.Location.CARGO_POD_3)
 
+	# Between floors
+	set_adjacent(Globals.Location.CARGO_POD_2, Globals.Location.CORRIDOR_2)
+	set_adjacent(Globals.Location.CORRIDOR_1, Globals.Location.LIVING_QUARTERS)
+		
 	# Crew
-	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_location_id())
-	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_location_id())
-	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", get_random_location_id())
-	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", get_random_location_id())
-	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_location_id())
-	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_location_id())
-	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_location_id())
+	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_start_location_id())
+	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_start_location_id())
+	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", get_random_start_location_id())
+	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", get_random_start_location_id())
+	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_start_location_id())
+	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_start_location_id())
+	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_start_location_id())
 	
+	# Choose alien
+	alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
+	var alien_crew = crew[alien_crew_id]
+	alien_crew.location.crew.erase(alien_crew)
+	alien_crew.location = locations[get_random_location_id()]
+	alien_crew.location.crew.push_back(alien_crew)
+
 	# Choose Android
 	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
 	crew[android_crew_id].is_android = true
 	#print(crew[android_crew_id].crew_name + " is an Android!")
 	
 	# Items
-	for _i in range(3):
-		var _unused = Item.new(self, Globals.ItemType.INCINERATOR, "Incinerator", get_random_location_id())
-	for _i in range(3):
-		var _unused = Item.new(self, Globals.ItemType.LASER, "LASER", get_random_location_id())
-	for _i in range(3):
-		var _unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", get_random_location_id())
-	for _i in range(1):
-		var _unused = Item.new(self, Globals.ItemType.NET, "Net", get_random_location_id())
-	for _i in range(2):
-		var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", get_random_location_id())
-	for _i in range(1):
-		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
-	for _i in range(4):
-		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Extinguisher", get_random_location_id())
-	for _i in range(2):
-		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
-	for _i in range(1):
-		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
+	var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", Globals.Location.STORES_2)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.INFIRMARY)
+	_unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", Globals.Location.LABORATORY)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.INF_STORES)
+	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_1)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_2)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_3)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.LAB_STORES)
+	_unused = Item.new(self, Globals.ItemType.NET, "Net", Globals.Location.LAB_STORES)
+	_unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", Globals.Location.SHUTTLE_BAY)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.ENG_STORES)
+	_unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", Globals.Location.ENG_STORES)
+
+
+#
+#	for _i in range(3):
+#		var _unused = Item.new(self, Globals.ItemType.INCINERATOR, "Incinerator", get_random_location_id())
+#	for _i in range(3):
+#		var _unused = Item.new(self, Globals.ItemType.LASER, "LASER", get_random_location_id())
+#	for _i in range(3):
+#		var _unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", get_random_location_id())
+#	for _i in range(1):
+#		var _unused = Item.new(self, Globals.ItemType.NET, "Net", get_random_location_id())
+#	for _i in range(2):
+#		var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", get_random_location_id())
+#	for _i in range(1):
+#		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
+#	for _i in range(4):
+#		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Extinguisher", get_random_location_id())
+#	for _i in range(2):
+#		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
+#	for _i in range(1):
+#		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
 	
 	jones = Jones.new(self, locations[get_random_location_id()])
 	jones_moved()
 	pass
 	
-	
+
+func get_random_start_location_id():
+	var x = Globals.rnd.randi_range(1, 2)
+	if x == 1:
+		return Globals.Location.COMMAND_CENTER
+	else:
+		return Globals.Location.MESS
+	pass
+		
 func get_random_location_id():
 	var loc_id = Globals.rnd.randi_range(0, locations.size()-1)
 	return loc_id
@@ -349,8 +391,8 @@ func set_adjacent(loc1:int, loc2:int):
 	pass
 	
 	
-func append_log(s, clear:bool = false):
-	$Log.add(s, clear)
+func append_log(s, color: Color = Color.white):
+	$Log.add(s, color)
 	pass
 	
 
@@ -545,7 +587,12 @@ func close_airlock1():
 	pass
 	
 	
-func _on_OneSecondTimer_timeout():
+func close_airlock2():
 	# todo - sfx
 	airlock2_open = false
+	pass
+	
+	
+func _on_OneSecondTimer_timeout():
+	oxygen -= crew.size()
 	pass

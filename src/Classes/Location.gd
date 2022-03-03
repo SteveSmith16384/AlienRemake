@@ -16,6 +16,11 @@ func _init(_id : int, _name : String):
 	pass
 	
 	
+func _process(delta: float):
+	# todo - check damage
+	pass
+	
+	
 func update_crewman_sprite():
 	if area != null:
 		area.update_crewman_sprite()

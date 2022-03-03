@@ -1,11 +1,14 @@
 class_name Alien
 extends Node
 
+enum Mode {NONE, MOVE, ATTACK, DAMAGE}
+
 var main
 var location : Location
-var destination : Location
+#var destination : Location
 var action_time : float
 var health : int = 100
+var current_mode = Mode.NONE
 
 func _init(_main, loc : Location):
 	main = _main
@@ -16,28 +19,40 @@ func _init(_main, loc : Location):
 func _process(delta):
 	if health <= 0:
 		return
-		
-	if location.crew.size() > 0:
-		destination = null
-		action_time -= delta
-		if action_time <= 0:
-			main.combat(location)
+	
+	if current_mode == Mode.NONE:
+		if location.crew.size() == 1:
+			current_mode = Mode.ATTACK
 			action_time = 3
+		elif location.crew.size() > 1 or Globals.rnd.randi_range(1, 4) < 4:
+			current_mode = Mode.MOVE
+			action_time = 9
+		else:
+			current_mode = Mode.DAMAGE
+			action_time = 9
 		return
-		
-	if destination == null:
-		# Get new dest
-		var adj = location.adjacent
-		destination = adj[Globals.rnd.randi_range(0, adj.size()-1)]
-		action_time = 9
-		#print("New alien dest is " + destination.loc_name)
+
 		
 	action_time -= delta
 	if action_time <= 0:
-		location = destination
-		main.alien_moved()
-		destination = null
-		pass
+		if current_mode == Mode.ATTACK:
+			main.combat(location)
+		elif current_mode == Mode.DAMAGE:
+			damage_location()
+		elif current_mode == Mode.MOVE:
+			move()
+		current_mode = Mode.NONE
+	pass
+	
+	
+func move():
+	var adj = location.adjacent
+	location = adj[Globals.rnd.randi_range(0, adj.size()-1)]
+	main.alien_moved()
 	pass
 
 
+func damage_location():
+	location.damage += Globals.rnd.randi_range(5, 20)
+	pass
+	

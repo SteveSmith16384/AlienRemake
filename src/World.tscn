@@ -41,6 +41,7 @@ position = Vector2( 6.60699, 4.71917 )
 position = Vector2( 550.653, 321.979 )
 
 [node name="MiddleDeck" parent="DeckNode" instance=ExtResource( 1 )]
+position = Vector2( -15.7145, 0 )
 
 [node name="UpperDeck" parent="DeckNode" instance=ExtResource( 19 )]
 visible = false
@@ -62,6 +63,7 @@ margin_bottom = 176.383
 [node name="LocationSelector" parent="Menus" instance=ExtResource( 6 )]
 
 [node name="SpecialSelector" parent="Menus" instance=ExtResource( 20 )]
+position = Vector2( -11.2246, 0 )
 
 [node name="LabelTimeLeft" type="Label" parent="."]
 margin_left = 16.9897
@@ -87,11 +89,10 @@ __meta__ = {
 }
 
 [node name="Log" parent="." instance=ExtResource( 9 )]
-position = Vector2( 15.102, 424.743 )
+position = Vector2( 19.5919, 366.375 )
 
 [node name="AlertLog" parent="." instance=ExtResource( 9 )]
 position = Vector2( 819.282, 364.335 )
-Red = true
 
 [node name="SfxTimer" type="Timer" parent="."]
 wait_time = 3.0

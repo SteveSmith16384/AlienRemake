@@ -46,11 +46,11 @@ func _process(delta):
 		dest_time -= delta
 		if dest_time <= 0:
 			location.crew.erase(self)
-			var prev_loc = location
+			#var prev_loc = location
 			location = destination
 			location.crew.push_back(self)
 			destination = null
-			main.crewman_moved(self, prev_loc)
+			main.crewman_moved(self)
 		pass
 	pass
 	
