@@ -123,6 +123,7 @@ func set_menu_mode(mode):
 	$Menus/CommandOptions.visible = false
 	$Menus/ItemSelector.visible = false
 	$Menus/SpecialSelector.visible = false
+	$Menus/LocationSelector.visible = false
 
 	if selected_crewman == null:
 		return
@@ -306,13 +307,13 @@ func load_data():
 	set_adjacent(Globals.Location.CORRIDOR_1, Globals.Location.LIVING_QUARTERS)
 		
 	# Crew
-	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_start_location_id())
-	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_start_location_id())
-	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", get_random_start_location_id())
-	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", get_random_start_location_id())
-	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_start_location_id())
-	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_start_location_id())
-	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_start_location_id())
+	crew[Globals.Crew.DALLAS] = Crewman.new(self, Globals.Crew.DALLAS, "Dallas", get_random_start_location_id(), true)
+	crew[Globals.Crew.KANE] = Crewman.new(self, Globals.Crew.KANE, "Kane", get_random_start_location_id(), true)
+	crew[Globals.Crew.RIPLEY] = Crewman.new(self, Globals.Crew.RIPLEY, "Ripley", get_random_start_location_id(), false)
+	crew[Globals.Crew.ASH] = Crewman.new(self, Globals.Crew.ASH, "Ash", get_random_start_location_id(), true)
+	crew[Globals.Crew.LAMBERT] = Crewman.new(self, Globals.Crew.LAMBERT, "Lambert", get_random_start_location_id(), false)
+	crew[Globals.Crew.PARKER] = Crewman.new(self, Globals.Crew.PARKER, "Parker", get_random_start_location_id(), true)
+	crew[Globals.Crew.BRETT] = Crewman.new(self, Globals.Crew.BRETT, "Brett", get_random_start_location_id(), true)
 	
 	# Choose alien
 	alien_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
@@ -327,24 +328,24 @@ func load_data():
 	#print(crew[android_crew_id].crew_name + " is an Android!")
 	
 	# Items
-	var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", Globals.Location.STORES_2)
-	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.COMMAND_CENTER)
-	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.COMMAND_CENTER)
-	_unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", Globals.Location.COMMAND_CENTER)
-	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.INFIRMARY)
-	_unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", Globals.Location.LABORATORY)
-	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.INF_STORES)
-	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
-	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
-	_unused = Item.new(self, Globals.ItemType.LASER, "Laser Pistol", Globals.Location.ARMOURY)
-	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_1)
-	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_2)
-	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Ext", Globals.Location.ENGINE_3)
-	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", Globals.Location.LAB_STORES)
-	_unused = Item.new(self, Globals.ItemType.NET, "Net", Globals.Location.LAB_STORES)
-	_unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", Globals.Location.SHUTTLE_BAY)
-	_unused = Item.new(self, Globals.ItemType.INCINERATOR, "Flamethrower", Globals.Location.ENG_STORES)
-	_unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", Globals.Location.ENG_STORES)
+	var _unused = Item.new(self, Globals.ItemType.SPANNER, Globals.Location.STORES_2)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.TRACKER, Globals.Location.COMMAND_CENTER)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, Globals.Location.INFIRMARY)
+	_unused = Item.new(self, Globals.ItemType.CAT_BOX, Globals.Location.LABORATORY)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, Globals.Location.INF_STORES)
+	_unused = Item.new(self, Globals.ItemType.LASER, Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.LASER, Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.LASER, Globals.Location.ARMOURY)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, Globals.Location.ENGINE_1)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, Globals.Location.ENGINE_2)
+	_unused = Item.new(self, Globals.ItemType.FIRE_EXT, Globals.Location.ENGINE_3)
+	_unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, Globals.Location.LAB_STORES)
+	_unused = Item.new(self, Globals.ItemType.NET, Globals.Location.LAB_STORES)
+	_unused = Item.new(self, Globals.ItemType.HARPOON, Globals.Location.SHUTTLE_BAY)
+	_unused = Item.new(self, Globals.ItemType.INCINERATOR, Globals.Location.ENG_STORES)
+	_unused = Item.new(self, Globals.ItemType.TRACKER, Globals.Location.ENG_STORES)
 
 
 #
@@ -463,14 +464,20 @@ func crewman_wounded(crewman : Crewman, amt:int):
 	crewman.health -= amt
 	if crewman.health <= 0:
 		crewman_died(crewman)
+	else:
+		if crewman.male:
+			$Audio/AudioStreamPlayer_MaleCrewPain.play()
+		else:
+			$Audio/AudioStreamPlayer_FemaleCrewPain.play()
 	pass
 
 
 func crewman_died(crewman : Crewman):
-	$Audio/AudioStreamPlayer_CrewDeath.play()
+	$Audio/AudioStreamPlayer_MaleCrewDeath.play() # todo - female when I have one
 	$Audio/AudioStreamPlayer_Static.play()
-	crewman.location.crew.erase(crewman)
-	var _unused = Item.new(self, Globals.ItemType.CORPSE, "Body of " + crewman.crew_name, crewman.location.id)
+	#crewman.location.crew.erase(crewman)
+	var item = Item.new(self, Globals.ItemType.CORPSE, crewman.location.id)
+	item.name = "Body of " + crewman.crew_name
 	crewman.died()
 	if crewman == selected_crewman:
 		selected_crewman = null
@@ -480,20 +487,25 @@ func crewman_died(crewman : Crewman):
 
 func combat(location : Location):
 	var all_crew = location.crew
+	if all_crew.size() <= 0:
+		return
+		
 	var alien_attacks_crew = all_crew[Globals.rnd.randi_range(0, all_crew.size()-1)]
 	
-	append_log("The Alien attacks " + alien_attacks_crew.crew_name)
+	#append_log("The Alien attacks " + alien_attacks_crew.crew_name)
 	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
 
 	for c in location.crew:
 		# todo - choose weapon, sfx
-		alien.health -= Globals.rnd.randi_range(5, 10)
-		append_log(c.crew_name + " attacks the Alien")
+		var dam = c.get_main_weapon_power()
+		alien.health -= Globals.rnd.randi_range(5, dam)
+		location.damage += Globals.rnd.randi_range(5, dam)
+		#append_log(c.crew_name + " attacks the Alien")
+		# todo - if harpoon, kill crew
 		if alien.health <= 0:
 			alien_killed()
 			return
 		pass
-		
 	pass
 	
 
@@ -543,9 +555,9 @@ func stop_autodestruct():
 	# todo - check within time limit
 	# todo - check right room
 	$Audio/AudioStreamPlayer_Alarm.stop()
-	set_menu_mode(Globals.MenuMode.NONE)
 	self_destruct_activated = false
 	$LabelSelfDestructTimeLeft.visible = false
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 
 
@@ -559,9 +571,10 @@ func open_airlock1():
 	airlock1_open = true
 	
 	# Cancel destinations
-	for c in crew:
+	for c in crew.values():
 		if c.destination == locations[Globals.Location.AIRLOCK_1]:
 			c.destination = null
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 	
@@ -575,24 +588,40 @@ func open_airlock2():
 	airlock2_open = true
 	
 	# Cancel destinations
-	for c in crew:
+	for c in crew.values():
 		if c.destination == locations[Globals.Location.AIRLOCK_2]:
 			c.destination = null
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 	
 func close_airlock1():
 	# todo - sfx
 	airlock1_open = false
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 	
 func close_airlock2():
 	# todo - sfx
 	airlock2_open = false
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 	
 	
 func _on_OneSecondTimer_timeout():
-	oxygen -= crew.size()
+	for c in crew.values():
+		if c.in_cryo == false:
+			oxygen -= 1
 	pass
+
+
+func enter_hypersleep():
+	$Audio/AudioStreamPlayer_Hypersleep.play()
+	selected_crewman.in_cryo = true
+	selected_crewman.location.crew.erase(selected_crewman)
+	selected_crewman = null
+	refresh_ui = true
+	pass
+	
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://LocationArea.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Images/greenblip_faded.png" type="Texture" id=6]
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/sfx/blobmove.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Images/yellow.png" type="Texture" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -35,14 +36,20 @@ __meta__ = {
 }
 
 [node name="Alien_Sprite" type="Sprite" parent="."]
-visible = false
 position = Vector2( 26.163, 10.6066 )
 texture = ExtResource( 4 )
 
 [node name="PulseSprite" parent="Alien_Sprite" instance=ExtResource( 5 )]
+speed = 2.0
+
+[node name="Fire_Sprite" type="Sprite" parent="."]
+position = Vector2( 29.663, -12.3934 )
+texture = ExtResource( 9 )
+
+[node name="PulseSprite" parent="Fire_Sprite" instance=ExtResource( 5 )]
+speed = 1.5
 
 [node name="Crewman_Sprite_Faded" type="Sprite" parent="."]
-visible = false
 texture = ExtResource( 6 )
 
 [node name="PulseSprite2" parent="Crewman_Sprite_Faded" instance=ExtResource( 5 )]

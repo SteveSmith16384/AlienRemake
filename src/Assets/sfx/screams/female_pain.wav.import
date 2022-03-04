@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/female_pain.wav-48b092a5353c268789bbae79fa630758.sample"
+
+[deps]
+
+source_file="res://Assets/sfx/screams/female_pain.wav"
+dest_files=[ "res://.import/female_pain.wav-48b092a5353c268789bbae79fa630758.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

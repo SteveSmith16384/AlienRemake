@@ -9,6 +9,7 @@ func _ready():
 	$Crewman_Sprite.visible = false
 	$Crewman_Sprite_Faded.visible = false
 	$Alien_Sprite.visible = false
+	$Fire_Sprite.visible = false
 	pass
 	
 	
@@ -34,6 +35,11 @@ func update_alien_sprite(b):
 	$Alien_Sprite.visible = b
 	if b:
 		$AudioStreamPlayer_Alien.play()
+	pass
+	
+	
+func update_fire_sprite(b):
+	$Fire_Sprite.visible = location.fire
 	pass
 	
 	

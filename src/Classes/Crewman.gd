@@ -12,12 +12,15 @@ var is_android = false
 var health : int = 100
 var base_morale : int = 100 # Affected by events
 var adjusted_morale : int = 100 # Base morale then adjusted by current circumstance
+var male: bool = true
+var in_cryo: bool = false
 
-func _init(_main, _id : int, _name : String, loc : int):
+func _init(_main, _id : int, _name : String, loc : int, _male: bool):
 	main = _main
 	id = _id
 	crew_name = _name
 	location = main.locations[loc]
+	male = _male
 	
 	# Put them in the location
 	main.locations[loc].crew.push_back(self)
@@ -46,7 +49,6 @@ func _process(delta):
 		dest_time -= delta
 		if dest_time <= 0:
 			location.crew.erase(self)
-			#var prev_loc = location
 			location = destination
 			location.crew.push_back(self)
 			destination = null
@@ -69,4 +71,15 @@ func calc_morale():
 	# todo
 	pass
 	
-	
+
+func get_main_weapon_power():
+	if items.size() == 0:
+		return 1
+	elif items.size() == 1:
+		return items[0].weapon_power
+	elif items.size() > 1:
+		if items[0].weapon_power > items[1].weapon_power:
+			return items[0].weapon_power
+		else:
+			return items[1].weapon_power
+	pass

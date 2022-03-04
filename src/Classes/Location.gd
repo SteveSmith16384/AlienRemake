@@ -4,7 +4,9 @@ extends Node
 var id : int
 var loc_name : String
 var area #: LocationArea
-var damage : int = 0
+var damage : float = 0
+var prev_damage : int = 0
+var fire = false
 
 var items = []
 var crew = []
@@ -17,13 +19,29 @@ func _init(_id : int, _name : String):
 	
 	
 func _process(delta: float):
-	# todo - check damage
+	if fire:
+		damage += delta
+	if damage > 50 and prev_damage < 50:
+		damage_effect()
+	prev_damage = damage
+	pass
+	
+
+func damage_effect():
+	if id == Globals.Location.ENGINE_1 or id == Globals.Location.ENGINE_2 or id == Globals.Location.ENGINE_3:
+		fire = true
 	pass
 	
 	
 func update_crewman_sprite():
 	if area != null:
 		area.update_crewman_sprite()
+	pass
+
+
+func update_fire_sprite():
+	if area != null:
+		area.update_fire_sprite()
 	pass
 
 

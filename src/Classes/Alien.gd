@@ -35,6 +35,10 @@ func _process(delta):
 		
 	action_time -= delta
 	if action_time <= 0:
+		# Check if a crewmember has arrived in the meantime
+		if location.crew.size() == 1:
+			current_mode = Mode.ATTACK
+
 		if current_mode == Mode.ATTACK:
 			main.combat(location)
 		elif current_mode == Mode.DAMAGE:
@@ -47,12 +51,13 @@ func _process(delta):
 	
 func move():
 	var adj = location.adjacent
-	location = adj[Globals.rnd.randi_range(0, adj.size()-1)]
+	location = adj[Globals.rnd.randi_range(0, adj.size()-1)] # todo - check if empty
 	main.alien_moved()
 	pass
 
 
 func damage_location():
 	location.damage += Globals.rnd.randi_range(5, 20)
+	# todo - sfx
 	pass
 	

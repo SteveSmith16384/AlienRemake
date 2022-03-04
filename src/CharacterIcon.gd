@@ -24,7 +24,7 @@ func _on_CenterContainer_gui_input(event):
 
 func update_status():
 	var crew : Crewman = main.crew[Crewman]
-	if crew.health <= 0:
+	if crew.health <= 0 or crew.in_cryo:
 		self.visible = false
 		return
 		

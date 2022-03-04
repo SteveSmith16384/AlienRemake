@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/overloading.wav-084e82718ed1cddb6413cad32e12402b.sample"
+
+[deps]
+
+source_file="res://Assets/sfx/overloading.wav"
+dest_files=[ "res://.import/overloading.wav-084e82718ed1cddb6413cad32e12402b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
