@@ -70,11 +70,8 @@ func update_ui():
 	$CharacterSelector.update_statuses()
 	for l in locations.values():
 		l.update_sprites()
-#		if alien != null:
-#			l.update_alien_sprite(alien.location == l)
 			
 	$AlertLog.clear_log()
-#	$AlertLog.add("Test")
 	pass
 	
 	
@@ -84,7 +81,7 @@ func crew_selected(crewman_id):
 		
 	selected_crewman = crew[crewman_id]
 	
-	append_log("")
+	append_log("----")
 	append_log(selected_crewman.crew_name + " selected")
 	
 	var location = selected_crewman.location
@@ -145,10 +142,10 @@ func set_menu_mode(mode):
 		$Menus/ItemSelector.update_list(selected_crewman.items)
 		$Menus/ItemSelector.visible = true
 	elif menu_mode == Globals.MenuMode.SPECIAL:
-		$Menus/SpecialSelector.update_list(selected_crewman.location)
 		$Menus/SpecialSelector.visible = true
 	elif menu_mode == Globals.MenuMode.NONE:
-		$Menus/CommandOptions.update_menu(selected_crewman.location, selected_crewman)
+		var show_special = $Menus/SpecialSelector.update_list(selected_crewman.location)
+		$Menus/CommandOptions.update_menu(selected_crewman.location, selected_crewman, show_special)
 		$Menus/CommandOptions.visible = true
 	else:
 		if Globals.RELEASE_MODE == false:
@@ -453,7 +450,7 @@ func _on_SfxTimer_timeout():
 					return
 		pass
 
-	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas ot be populated
+	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas to be populated
 
 #	if self_destruct_activated:
 #		$Audio/AudioStreamPlayer_Alarm.play()  Annoying?
@@ -465,6 +462,7 @@ func crewman_wounded(crewman, amt:int):
 	if crewman.health <= 0:
 		crewman_died(crewman)
 	else:
+		yield(get_tree().create_timer(.3), "timeout") # to give the attack sound time
 		if crewman.male:
 			$Audio/AudioStreamPlayer_MaleCrewPain.play()
 		else:
@@ -475,7 +473,6 @@ func crewman_wounded(crewman, amt:int):
 func crewman_died(crewman : Crewman, scream:bool = true):
 	if scream:
 		$Audio/AudioStreamPlayer_MaleCrewDeath.play() # todo - female when I have one
-	$Audio/AudioStreamPlayer_Static.play()
 	var item = Item.new(self, Globals.ItemType.CORPSE, crewman.location.id)
 	item.name = "Body of " + crewman.crew_name
 	crewman.died()
@@ -491,6 +488,9 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 			break;
 	if go:
 		game_over()
+
+	yield(get_tree().create_timer(2), "timeout")
+	$Audio/AudioStreamPlayer_Static.play()
 	pass
 
 
@@ -500,11 +500,12 @@ func combat(location : Location):
 		return
 		
 	var alien_attacks_crew = all_crew[Globals.rnd.randi_range(0, all_crew.size()-1)]
-	
+	$Audio/AudioStreamPlayer_AlienAttack.play()
 	#append_log("The Alien attacks " + alien_attacks_crew.crew_name)
 	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
 
 	for c in location.crew:
+		yield(get_tree().create_timer(.2), "timeout") # Wait to allow the areas ot be populated
 		# todo - choose weapon, sfx
 		var alien_damage = c.get_main_weapon_alien_damage()
 		alien.health -= Globals.rnd.randi_range(5, alien_damage)
@@ -574,6 +575,7 @@ func stop_autodestruct():
 
 func open_airlock1():
 	append_log("Airlock 1 open")
+	$Audio/AirlockOpenClose.play()
 	$Audio/AudioStreamPlayer_Airlock.play()
 	for c in locations[Globals.Location.AIRLOCK_1].crew:
 		append_log(c.crew_name + " has been sucked out of the airlock")
@@ -592,6 +594,7 @@ func open_airlock1():
 	
 func open_airlock2():
 	append_log("Airlock 2 open")
+	$Audio/AirlockOpenClose.play()
 	$Audio/AudioStreamPlayer_Airlock.play()
 	for c in locations[Globals.Location.AIRLOCK_2].crew:
 		append_log(c.crew_name + " has been sucked out of the airlock")
@@ -609,7 +612,7 @@ func open_airlock2():
 	
 	
 func close_airlock1():
-	# todo - sfx
+	$Audio/AirlockOpenClose.play()
 	airlock1_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
 	append_log("Airlock 1 closed")
@@ -617,7 +620,7 @@ func close_airlock1():
 	
 	
 func close_airlock2():
-	# todo - sfx
+	$Audio/AirlockOpenClose.play()
 	airlock2_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
 	append_log("Airlock 2 closed")

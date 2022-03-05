@@ -2,7 +2,7 @@ extends Node2D
 
 onready var main = get_tree().get_root().get_node("World")
 
-func update_list(location: Location):
+func update_list(location: Location) -> bool:
 	$VBoxContainer/OpenAirlock1.visible = location.id == Globals.Location.CORRIDOR_6 and main.airlock1_open == false
 	$VBoxContainer/OpenAirlock2.visible = location.id == Globals.Location.CORRIDOR_6 and main.airlock2_open == false 
 	$VBoxContainer/CloseAirlock1.visible = location.id == Globals.Location.CORRIDOR_6 and main.airlock1_open
@@ -11,7 +11,12 @@ func update_list(location: Location):
 	$VBoxContainer/LaunchNarcissus.visible = location.id == Globals.Location.SHUTTLE_BAY 
 	$VBoxContainer/StartAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER and main.self_destruct_activated == false
 	$VBoxContainer/StopAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER  and main.self_destruct_activated
-	pass
+	
+	var count = 0
+	for c in $VBoxContainer.get_children():
+		if c.visible:
+			count += 1
+	return count >= 2
 	
 	
 func _on_CancelButton_pressed():

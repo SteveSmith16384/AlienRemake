@@ -23,11 +23,11 @@ func _init(_main, _id : int, _name : String):
 func _process(delta: float):
 	if fire:
 		damage += delta
-	if damage > 50 and prev_damage < 50:
+	if damage > 50 and prev_damage <= 50:
 		damage_effect()
-	elif damage < 50 and prev_damage > 50:
+	elif damage <= 50 and prev_damage > 50:
 		fire = false
-		main.update_ui = true
+		main.refresh_ui = true
 	prev_damage = damage
 	pass
 	
@@ -35,8 +35,8 @@ func _process(delta: float):
 func damage_effect():
 	if id == Globals.Location.ENGINE_1 or id == Globals.Location.ENGINE_2 or id == Globals.Location.ENGINE_3:
 		fire = true
-		main.update_ui = true
-	
+		main.refresh_ui = true
+		main.append_log("A fire has started at " + loc_name, Color.red)
 	pass
 	
 	

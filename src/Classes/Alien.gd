@@ -24,7 +24,7 @@ func _process(delta):
 		if location.crew.size() == 1:
 			current_mode = Mode.ATTACK
 			action_time = 3
-		elif location.crew.size() > 1 or Globals.rnd.randi_range(1, 4) < 5:
+		elif location.crew.size() > 1 or Globals.rnd.randi_range(1, 5) <= 4:
 			current_mode = Mode.MOVE
 			action_time = 9
 		else:
