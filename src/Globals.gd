@@ -17,6 +17,8 @@ enum Location {COMMAND_CENTER, CORRIDOR_1, INFIRMARY, LABORATORY, CORRIDOR_2, CO
 
 enum MenuMode {NONE, GO_TO, PICK_UP, DROP, USE, SPECIAL}
 
+var data = {}
+
 var rnd : RandomNumberGenerator
 
 func _ready():

@@ -48,7 +48,7 @@ func _process(delta):
 	if alien == null and oxygen < Globals.OXYGEN-5:
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
-		append_log("AN ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
+		append_log("An ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
 		alien = Alien.new(self, crew[alien_crew_id].location)
 		alien_moved()
 	
@@ -443,13 +443,14 @@ func _on_SfxTimer_timeout():
 		return
 		
 	for c in crew.values():
-		if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
-			if alien.location == c.location or is_location_adjacent(alien.location, c.location):
-				$Audio/AudioStreamPlayer_Tracker.play()
-				return
-			if jones.location == c.location or is_location_adjacent(jones.location, c.location):
-				$Audio/AudioStreamPlayer_Tracker.play()
-				return
+		if c.is_in_game():
+			if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
+				if alien.location == c.location or is_location_adjacent(alien.location, c.location):
+					$Audio/AudioStreamPlayer_Tracker.play()
+					return
+				if jones.location == c.location or is_location_adjacent(jones.location, c.location):
+					$Audio/AudioStreamPlayer_Tracker.play()
+					return
 		pass
 
 	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas ot be populated
@@ -471,16 +472,25 @@ func crewman_wounded(crewman, amt:int):
 	pass
 
 
-func crewman_died(crewman : Crewman):
-	$Audio/AudioStreamPlayer_MaleCrewDeath.play() # todo - female when I have one
+func crewman_died(crewman : Crewman, scream:bool = true):
+	if scream:
+		$Audio/AudioStreamPlayer_MaleCrewDeath.play() # todo - female when I have one
 	$Audio/AudioStreamPlayer_Static.play()
-	#crewman.location.crew.erase(crewman)
 	var item = Item.new(self, Globals.ItemType.CORPSE, crewman.location.id)
 	item.name = "Body of " + crewman.crew_name
 	crewman.died()
 	if crewman == selected_crewman:
 		selected_crewman = null
 	refresh_ui = true
+	
+	# Check if game over
+	var go = true
+	for c in crew.values():
+		if c.is_in_game():
+			go = false
+			break;
+	if go:
+		game_over()
 	pass
 
 
@@ -513,6 +523,7 @@ func alien_killed():
 	append_log("The Alien has been killed")
 	$Audio/AudioStreamPlayer_AlienDeath.play()
 	alien = null
+	game_over()
 	pass
 	
 		
@@ -614,17 +625,25 @@ func close_airlock2():
 	
 	
 func _on_OneSecondTimer_timeout():
-	for c in crew.values():
-		if c.in_cryo == false:
-			oxygen -= 1
+	if oxygen > 0:
+		for c in crew.values():
+			if c.is_in_game():
+				oxygen -= 1
 	#todo - check when run out
+	if oxygen <= 0:
+		oxygen = 0
+		for c in crew.values():
+			if c.is_in_game():
+				c.health -= 1
+				if c.health <= 0:
+					crewman_died(c, false)
 	pass
 
 
 func enter_hypersleep():
 	$Audio/AudioStreamPlayer_Hypersleep.play()
 	selected_crewman.in_cryo = true
-	selected_crewman.location.crew.erase(selected_crewman)
+	#selected_crewman.location.crew.erase(selected_crewman)
 	selected_crewman = null
 	refresh_ui = true
 	append_log(selected_crewman.crew_name + " has entered hypersleep")
@@ -637,3 +656,10 @@ func damage_location(loc):
 	pass
 	
 
+func game_over():
+	Globals.data["crew"] = crew
+	Globals.data["alien"] = alien
+	var _unused = get_tree().change_scene("res://GameOverScene.tscn")
+	pass
+	
+	

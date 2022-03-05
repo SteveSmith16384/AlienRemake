@@ -38,7 +38,7 @@ func set_dest(loc) -> bool:
 	
 	
 func _process(delta):
-	if health <= 0:
+	if is_in_game() == false:
 		return
 		
 	if adjusted_morale < 10:
@@ -68,7 +68,6 @@ func has_item(type):
 		if i.type == type:
 			return true
 	return false
-	pass
 	
 	
 func died():
@@ -109,3 +108,7 @@ func get_main_weapon_location_damage():
 		else:
 			return items[1].weapon_power
 	pass
+
+
+func is_in_game():
+	return in_cryo == false and health > 0

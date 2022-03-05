@@ -65,6 +65,7 @@ margin_bottom = 176.383
 [node name="ItemSelector" parent="Menus" instance=ExtResource( 7 )]
 
 [node name="LocationSelector" parent="Menus" instance=ExtResource( 6 )]
+position = Vector2( -92, -4 )
 
 [node name="SpecialSelector" parent="Menus" instance=ExtResource( 20 )]
 position = Vector2( -11.2246, 0 )
