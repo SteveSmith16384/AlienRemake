@@ -43,8 +43,10 @@ func _process(delta):
 	if self_destruct_activated:
 		self_destruct_time_left -= delta # todo - check when run out
 		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
-		# todo - check if run out
-		
+		if self_destruct_time_left <= 0:
+			ship_exploded()
+			return
+			
 	if alien == null and oxygen < Globals.OXYGEN-5:
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
@@ -76,6 +78,9 @@ func update_ui():
 		if l.fire:
 			$AlertLog.add("Fire in " + l.loc_name, Color.red)
 	
+	if oxygen <= 0:
+		$AlertLog.add("There is no oxygen left", Color.red)
+
 #	if alien.location.crew.size() > 0:
 #		$AlertLog.add("The alien has been found")
 	pass
@@ -89,11 +94,10 @@ func crew_selected(crewman_id):
 	
 	append_log("----")
 	append_log(selected_crewman.crew_name + " selected")
+	append_log("They are " + selected_crewman.get_health_string())
 	
 	var location = selected_crewman.location
-	append_log("They are in the " + location.loc_name)
-
-	append_log("They are " + selected_crewman.get_health_string())
+	append_log("They are in " + location.loc_name + ".  Damage: " + str(int(location.damage)) + "%")
 	
 	var dest = selected_crewman.destination
 	if dest != null:
@@ -664,10 +668,9 @@ func _on_OneSecondTimer_timeout():
 func enter_hypersleep():
 	$Audio/AudioStreamPlayer_Hypersleep.play()
 	selected_crewman.in_cryo = true
-	#selected_crewman.location.crew.erase(selected_crewman)
+	append_log(selected_crewman.crew_name + " has entered hypersleep")
 	selected_crewman = null
 	refresh_ui = true
-	append_log(selected_crewman.crew_name + " has entered hypersleep")
 	pass
 	
 
@@ -683,4 +686,18 @@ func game_over():
 	var _unused = get_tree().change_scene("res://GameOverScene.tscn")
 	pass
 	
+
+func ship_exploded():
+	$Audio/BigExplosion.play()
+	game_over()
+	pass
+	
+	
+func cryo_destroyed():
+	$Audio/SmallExplosion.play()
+	for c in crew.values():
+		if c.in_cryo:
+			append_log(c.crew_name + " has died in cryo", Color.red)
+			c.health  = 0
+	pass
 	

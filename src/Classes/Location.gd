@@ -28,6 +28,8 @@ func _process(delta: float):
 	elif damage <= 50 and prev_damage > 50:
 		fire = false
 		main.refresh_ui = true
+	elif damage > 99 and prev_damage <= 99:
+		terminal_damage()
 	prev_damage = damage
 	pass
 	
@@ -37,9 +39,18 @@ func damage_effect():
 		fire = true
 		main.refresh_ui = true
 		main.append_log("A fire has started at " + loc_name, Color.red)
+	elif id == Globals.Location.CRYO_VAULT:
+		main.append_log("Cryogenics malfunction")
 	pass
 	
 	
+func terminal_damage():
+	if id == Globals.Location.ENGINE_1 or id == Globals.Location.ENGINE_2 or id == Globals.Location.ENGINE_3:
+		main.ship_exploded()
+	elif id == Globals.Location.CRYO_VAULT:
+		main.cryo_destroyed()
+	pass
+
 func update_sprites():
 	if area != null:
 		area.update_sprites(main.alien.location == self and crew.size() > 0)
