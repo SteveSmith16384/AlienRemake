@@ -20,7 +20,7 @@ func _process(_delta):
 	pass
 	
 	
-func update_crewman_sprite():
+func update_sprites(show_alien):
 	$Crewman_Sprite.visible = false
 	$Crewman_Sprite_Faded.visible = false
 	
@@ -28,19 +28,17 @@ func update_crewman_sprite():
 		$Crewman_Sprite.visible = true
 	elif location.crew.size() > 0:
 		$Crewman_Sprite_Faded.visible = true
-	pass
-	
-	
-func update_alien_sprite(b):
-	$Alien_Sprite.visible = b
-	if b:
+
+	$Fire_Sprite.visible = location.fire
+
+	$Alien_Sprite.visible = show_alien
+	if show_alien:
 		$AudioStreamPlayer_Alien.play()
 	pass
 	
 	
-func update_fire_sprite(b):
-	$Fire_Sprite.visible = location.fire
-	pass
+#func update_alien_sprite(b):
+#	pass
 	
 	
 func _on_LocationArea_mouse_entered():

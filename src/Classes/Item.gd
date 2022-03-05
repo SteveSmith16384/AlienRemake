@@ -4,7 +4,8 @@ extends Node
 var main
 var type : int
 var item_name : String
-var weapon_power: int = 2 # Default
+var alien_damage: int = 2 # Default
+var location_damage: int = 0 # Default
 
 func _init(_main, _type : int, loc : int):
 	main = _main
@@ -17,24 +18,27 @@ func _init(_main, _type : int, loc : int):
 			pass
 		Globals.ItemType.ELECTRIC_PROD:
 			item_name = "Electric Prod"
-			weapon_power = 10
+			alien_damage = 10
 		Globals.ItemType.FIRE_EXT:
 			item_name = "Fire Ext."
-			weapon_power = 5
+			alien_damage = 5
 		Globals.ItemType.HARPOON:
 			item_name = "Harpoon"
-			weapon_power = 40
+			alien_damage = 40
+			location_damage = 10
 		Globals.ItemType.INCINERATOR:
 			item_name = "Flamethrower"
-			weapon_power = 20
+			alien_damage = 20
+			location_damage = 20
 		Globals.ItemType.LASER:
 			item_name = "Las Pistol"
-			weapon_power = 10
+			alien_damage = 10
+			location_damage = 10
 		Globals.ItemType.NET:
 			item_name = "Net"
 		Globals.ItemType.SPANNER:
 			item_name = "Spanner"
-			weapon_power = 5
+			alien_damage = 5
 		Globals.ItemType.TRACKER:
 			item_name = "Tracker"
 		_:

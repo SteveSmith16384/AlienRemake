@@ -38,13 +38,12 @@ func _process(delta):
 		$Audio/AudioStreamPlayer_Click.play()
 		OS.window_fullscreen = !OS.window_fullscreen
 
-	#time_left -= delta # todo - check when run out
 	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
 	if self_destruct_activated:
 		self_destruct_time_left -= delta # todo - check when run out
 		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
-		# todo - checki if run out
+		# todo - check if run out
 		
 	if alien == null and oxygen < Globals.OXYGEN-5:
 		crewman_died(crew[alien_crew_id])
@@ -70,9 +69,9 @@ func _process(delta):
 func update_ui():
 	$CharacterSelector.update_statuses()
 	for l in locations.values():
-		l.update_crewman_sprite()
-		if alien != null:
-			l.update_alien_sprite(alien.location == l)
+		l.update_sprites()
+#		if alien != null:
+#			l.update_alien_sprite(alien.location == l)
 			
 	$AlertLog.clear_log()
 #	$AlertLog.add("Test")
@@ -224,15 +223,15 @@ func jones_moved():
 	
 func load_data():
 	# Upper Deck
-	locations[Globals.Location.LIVING_QUARTERS] = Location.new(Globals.Location.LIVING_QUARTERS, "Living Quarters")
-	locations[Globals.Location.AIRLOCK_1] = Location.new(Globals.Location.AIRLOCK_1, "Airlock 1")
-	locations[Globals.Location.STORES_2] = Location.new(Globals.Location.STORES_2, "Stores 2")
-	locations[Globals.Location.MESS] = Location.new(Globals.Location.MESS, "Mess")
-	locations[Globals.Location.CORRIDOR_6] = Location.new(Globals.Location.CORRIDOR_6, "Corridor 6")
-	locations[Globals.Location.COMPUTER] = Location.new(Globals.Location.COMPUTER, "Computer")
-	locations[Globals.Location.RECREATION_AREA] = Location.new(Globals.Location.RECREATION_AREA, "Recreation Area")
-	locations[Globals.Location.AIRLOCK_2] = Location.new(Globals.Location.AIRLOCK_2, "Airlock 2")
-	locations[Globals.Location.STORES_3] = Location.new(Globals.Location.STORES_3, "Stores 3")
+	locations[Globals.Location.LIVING_QUARTERS] = Location.new(self, Globals.Location.LIVING_QUARTERS, "Living Quarters")
+	locations[Globals.Location.AIRLOCK_1] = Location.new(self, Globals.Location.AIRLOCK_1, "Airlock 1")
+	locations[Globals.Location.STORES_2] = Location.new(self, Globals.Location.STORES_2, "Stores 2")
+	locations[Globals.Location.MESS] = Location.new(self, Globals.Location.MESS, "Mess")
+	locations[Globals.Location.CORRIDOR_6] = Location.new(self, Globals.Location.CORRIDOR_6, "Corridor 6")
+	locations[Globals.Location.COMPUTER] = Location.new(self, Globals.Location.COMPUTER, "Computer")
+	locations[Globals.Location.RECREATION_AREA] = Location.new(self, Globals.Location.RECREATION_AREA, "Recreation Area")
+	locations[Globals.Location.AIRLOCK_2] = Location.new(self, Globals.Location.AIRLOCK_2, "Airlock 2")
+	locations[Globals.Location.STORES_3] = Location.new(self, Globals.Location.STORES_3, "Stores 3")
 
 	# Upper deck adjacent
 	set_adjacent(Globals.Location.LIVING_QUARTERS, Globals.Location.MESS)
@@ -245,22 +244,22 @@ func load_data():
 	set_adjacent(Globals.Location.STORES_3, Globals.Location.CORRIDOR_6)
 	
 	# Middle deck
-	locations[Globals.Location.COMMAND_CENTER] = Location.new(Globals.Location.COMMAND_CENTER, "Command Centre")
-	locations[Globals.Location.INFIRMARY] = Location.new(Globals.Location.INFIRMARY, "Infirmary")
-	locations[Globals.Location.CORRIDOR_1] = Location.new(Globals.Location.CORRIDOR_1, "Corridor 1")
-	locations[Globals.Location.LABORATORY] = Location.new(Globals.Location.LABORATORY, "Laboratory")
-	locations[Globals.Location.CORRIDOR_2] = Location.new(Globals.Location.CORRIDOR_2, "Corridor 2")
-	locations[Globals.Location.INF_STORES] = Location.new(Globals.Location.INF_STORES, "Inf Stores")
-	locations[Globals.Location.CRYO_VAULT] = Location.new(Globals.Location.CRYO_VAULT, "Cryo Vault")
-	locations[Globals.Location.LAB_STORES] = Location.new(Globals.Location.LAB_STORES, "Lab Stores")
-	locations[Globals.Location.ARMOURY] = Location.new(Globals.Location.ARMOURY, "Armoury")
-	locations[Globals.Location.CORRIDOR_3] = Location.new(Globals.Location.CORRIDOR_3, "Corridor 3")
-	locations[Globals.Location.CORRIDOR_4] = Location.new(Globals.Location.CORRIDOR_4, "Corridor 4")
-	locations[Globals.Location.CORRIDOR_5] = Location.new(Globals.Location.CORRIDOR_5, "Corridor 5")
-	locations[Globals.Location.STORES_1] = Location.new(Globals.Location.STORES_1, "Stores 1")
-	locations[Globals.Location.ENGINE_1] = Location.new(Globals.Location.ENGINE_1, "Engine 1")
-	locations[Globals.Location.ENGINE_2] = Location.new(Globals.Location.ENGINE_2, "Engine 2")
-	locations[Globals.Location.ENGINE_3] = Location.new(Globals.Location.ENGINE_3, "Engine 3")
+	locations[Globals.Location.COMMAND_CENTER] = Location.new(self, Globals.Location.COMMAND_CENTER, "Command Centre")
+	locations[Globals.Location.INFIRMARY] = Location.new(self, Globals.Location.INFIRMARY, "Infirmary")
+	locations[Globals.Location.CORRIDOR_1] = Location.new(self, Globals.Location.CORRIDOR_1, "Corridor 1")
+	locations[Globals.Location.LABORATORY] = Location.new(self, Globals.Location.LABORATORY, "Laboratory")
+	locations[Globals.Location.CORRIDOR_2] = Location.new(self, Globals.Location.CORRIDOR_2, "Corridor 2")
+	locations[Globals.Location.INF_STORES] = Location.new(self, Globals.Location.INF_STORES, "Inf Stores")
+	locations[Globals.Location.CRYO_VAULT] = Location.new(self, Globals.Location.CRYO_VAULT, "Cryo Vault")
+	locations[Globals.Location.LAB_STORES] = Location.new(self, Globals.Location.LAB_STORES, "Lab Stores")
+	locations[Globals.Location.ARMOURY] = Location.new(self, Globals.Location.ARMOURY, "Armoury")
+	locations[Globals.Location.CORRIDOR_3] = Location.new(self, Globals.Location.CORRIDOR_3, "Corridor 3")
+	locations[Globals.Location.CORRIDOR_4] = Location.new(self, Globals.Location.CORRIDOR_4, "Corridor 4")
+	locations[Globals.Location.CORRIDOR_5] = Location.new(self, Globals.Location.CORRIDOR_5, "Corridor 5")
+	locations[Globals.Location.STORES_1] = Location.new(self, Globals.Location.STORES_1, "Stores 1")
+	locations[Globals.Location.ENGINE_1] = Location.new(self, Globals.Location.ENGINE_1, "Engine 1")
+	locations[Globals.Location.ENGINE_2] = Location.new(self, Globals.Location.ENGINE_2, "Engine 2")
+	locations[Globals.Location.ENGINE_3] = Location.new(self, Globals.Location.ENGINE_3, "Engine 3")
 	
 	# Middle deck adjacent
 	set_adjacent(Globals.Location.COMMAND_CENTER, Globals.Location.CORRIDOR_1)
@@ -282,15 +281,15 @@ func load_data():
 	
 	
 	# Lower Deck
-	locations[Globals.Location.SHUTTLE_STORE] = Location.new(Globals.Location.SHUTTLE_STORE, "Shuttle Store")
-	locations[Globals.Location.CARGO_POD_1] = Location.new(Globals.Location.CARGO_POD_1, "Cargo Pod 1")
-	locations[Globals.Location.SHUTTLE_BAY] = Location.new(Globals.Location.SHUTTLE_BAY, "Shuttle Bay")
-	locations[Globals.Location.CARGO_POD_2] = Location.new(Globals.Location.CARGO_POD_2, "Cargo Pod 2")
-	locations[Globals.Location.CORRIDOR_7] = Location.new(Globals.Location.CORRIDOR_7, "Corridor 7")
-	locations[Globals.Location.LIFE_SUPPORT] = Location.new(Globals.Location.LIFE_SUPPORT, "Life Support")
-	locations[Globals.Location.ENGINEERING] = Location.new(Globals.Location.ENGINEERING, "Engineering")
-	locations[Globals.Location.ENG_STORES] = Location.new(Globals.Location.ENG_STORES, "Eng Stores")
-	locations[Globals.Location.CARGO_POD_3] = Location.new(Globals.Location.CARGO_POD_3, "Cargo Pod 3")
+	locations[Globals.Location.SHUTTLE_STORE] = Location.new(self, Globals.Location.SHUTTLE_STORE, "Shuttle Store")
+	locations[Globals.Location.CARGO_POD_1] = Location.new(self, Globals.Location.CARGO_POD_1, "Cargo Pod 1")
+	locations[Globals.Location.SHUTTLE_BAY] = Location.new(self, Globals.Location.SHUTTLE_BAY, "Shuttle Bay")
+	locations[Globals.Location.CARGO_POD_2] = Location.new(self, Globals.Location.CARGO_POD_2, "Cargo Pod 2")
+	locations[Globals.Location.CORRIDOR_7] = Location.new(self, Globals.Location.CORRIDOR_7, "Corridor 7")
+	locations[Globals.Location.LIFE_SUPPORT] = Location.new(self, Globals.Location.LIFE_SUPPORT, "Life Support")
+	locations[Globals.Location.ENGINEERING] = Location.new(self, Globals.Location.ENGINEERING, "Engineering")
+	locations[Globals.Location.ENG_STORES] = Location.new(self, Globals.Location.ENG_STORES, "Eng Stores")
+	locations[Globals.Location.CARGO_POD_3] = Location.new(self, Globals.Location.CARGO_POD_3, "Cargo Pod 3")
 	
 	# Lower deck adjacent
 	set_adjacent(Globals.Location.SHUTTLE_STORE, Globals.Location.SHUTTLE_BAY)
@@ -460,7 +459,7 @@ func _on_SfxTimer_timeout():
 	pass
 
 
-func crewman_wounded(crewman : Crewman, amt:int):
+func crewman_wounded(crewman, amt:int):
 	crewman.health -= amt
 	if crewman.health <= 0:
 		crewman_died(crewman)
@@ -497,9 +496,10 @@ func combat(location : Location):
 
 	for c in location.crew:
 		# todo - choose weapon, sfx
-		var dam = c.get_main_weapon_power()
-		alien.health -= Globals.rnd.randi_range(5, dam)
-		location.damage += Globals.rnd.randi_range(5, dam)
+		var alien_damage = c.get_main_weapon_alien_damage()
+		alien.health -= Globals.rnd.randi_range(5, alien_damage)
+		var location_damage = c.get_main_weapon_location_damage()
+		location.damage += Globals.rnd.randi_range(5, location_damage)
 		#append_log(c.crew_name + " attacks the Alien")
 		# todo - if harpoon, kill crew
 		if alien.health <= 0:
@@ -562,6 +562,7 @@ func stop_autodestruct():
 
 
 func open_airlock1():
+	append_log("Airlock 1 open")
 	$Audio/AudioStreamPlayer_Airlock.play()
 	for c in locations[Globals.Location.AIRLOCK_1].crew:
 		append_log(c.crew_name + " has been sucked out of the airlock")
@@ -579,6 +580,7 @@ func open_airlock1():
 	
 	
 func open_airlock2():
+	append_log("Airlock 2 open")
 	$Audio/AudioStreamPlayer_Airlock.play()
 	for c in locations[Globals.Location.AIRLOCK_2].crew:
 		append_log(c.crew_name + " has been sucked out of the airlock")
@@ -599,6 +601,7 @@ func close_airlock1():
 	# todo - sfx
 	airlock1_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
+	append_log("Airlock 1 closed")
 	pass
 	
 	
@@ -606,6 +609,7 @@ func close_airlock2():
 	# todo - sfx
 	airlock2_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
+	append_log("Airlock 2 closed")
 	pass
 	
 	
@@ -613,6 +617,7 @@ func _on_OneSecondTimer_timeout():
 	for c in crew.values():
 		if c.in_cryo == false:
 			oxygen -= 1
+	#todo - check when run out
 	pass
 
 
@@ -622,6 +627,13 @@ func enter_hypersleep():
 	selected_crewman.location.crew.erase(selected_crewman)
 	selected_crewman = null
 	refresh_ui = true
+	append_log(selected_crewman.crew_name + " has entered hypersleep")
 	pass
 	
+
+func damage_location(loc):
+	$Audio/AudioStreamPlayer_Crash.play()
+	loc.damage += Globals.rnd.randi_range(5, 20)
+	pass
 	
+

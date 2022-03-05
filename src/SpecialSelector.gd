@@ -9,8 +9,8 @@ func update_list(location: Location):
 	$VBoxContainer/CloseAirlock2.visible = location.id == Globals.Location.CORRIDOR_6 and main.airlock2_open
 	$VBoxContainer/EnterHypersleep.visible = location.id == Globals.Location.CRYO_VAULT 
 	$VBoxContainer/LaunchNarcissus.visible = location.id == Globals.Location.SHUTTLE_BAY 
-	$VBoxContainer/StartAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER 
-	$VBoxContainer/StopAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER 
+	$VBoxContainer/StartAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER and main.self_destruct_activated == false
+	$VBoxContainer/StopAutoDestruct.visible = location.id == Globals.Location.COMMAND_CENTER  and main.self_destruct_activated
 	pass
 	
 	

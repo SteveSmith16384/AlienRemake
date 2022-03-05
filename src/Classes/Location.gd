@@ -1,6 +1,7 @@
 class_name Location
 extends Node
 
+var main
 var id : int
 var loc_name : String
 var area #: LocationArea
@@ -12,7 +13,8 @@ var items = []
 var crew = []
 var adjacent = []
 
-func _init(_id : int, _name : String):
+func _init(_main, _id : int, _name : String):
+	main = _main
 	id = _id
 	loc_name = _name
 	pass
@@ -23,6 +25,9 @@ func _process(delta: float):
 		damage += delta
 	if damage > 50 and prev_damage < 50:
 		damage_effect()
+	elif damage < 50 and prev_damage > 50:
+		fire = false
+		main.update_ui = true
 	prev_damage = damage
 	pass
 	
@@ -30,22 +35,18 @@ func _process(delta: float):
 func damage_effect():
 	if id == Globals.Location.ENGINE_1 or id == Globals.Location.ENGINE_2 or id == Globals.Location.ENGINE_3:
 		fire = true
+		main.update_ui = true
+	
 	pass
 	
 	
-func update_crewman_sprite():
+func update_sprites():
 	if area != null:
-		area.update_crewman_sprite()
+		area.update_sprites(main.alien.location == self and crew.size() > 0)
 	pass
 
 
-func update_fire_sprite():
-	if area != null:
-		area.update_fire_sprite()
-	pass
-
-
-func update_alien_sprite(b):
-	if area != null:
-		area.update_alien_sprite(b and crew.size() > 0)
-	pass
+#func update_alien_sprite(b):
+#	if area != null:
+#		area.update_alien_sprite(b and crew.size() > 0)
+#	pass

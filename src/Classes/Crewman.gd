@@ -45,6 +45,12 @@ func _process(delta):
 		return
 		
 	calc_morale()
+	
+	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:
+		location.damage -= delta * 5
+		# todo - sfx
+		pass
+		
 	if destination != null:
 		dest_time -= delta
 		if dest_time <= 0:
@@ -54,6 +60,14 @@ func _process(delta):
 			destination = null
 			main.crewman_moved(self)
 		pass
+	pass
+	
+
+func has_item(type):
+	for i in items:
+		if i.type == type:
+			return true
+	return false
 	pass
 	
 	
@@ -72,9 +86,21 @@ func calc_morale():
 	pass
 	
 
-func get_main_weapon_power():
+func get_main_weapon_alien_damage():
 	if items.size() == 0:
 		return 1
+	elif items.size() == 1:
+		return items[0].weapon_power
+	elif items.size() > 1:
+		if items[0].weapon_power > items[1].weapon_power:
+			return items[0].weapon_power
+		else:
+			return items[1].weapon_power
+	pass
+
+func get_main_weapon_location_damage():
+	if items.size() == 0:
+		return 0
 	elif items.size() == 1:
 		return items[0].weapon_power
 	elif items.size() > 1:

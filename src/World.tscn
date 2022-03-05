@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://Assets/sfx/screams/yell11.wav" type="AudioStream" id=27]
 [ext_resource path="res://Assets/sfx/screams/1yell6.wav" type="AudioStream" id=28]
 [ext_resource path="res://Assets/sfx/overloading.wav" type="AudioStream" id=29]
+[ext_resource path="res://Assets/sfx/qubodup-BangLong.ogg" type="AudioStream" id=30]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -183,6 +184,9 @@ stream = ExtResource( 28 )
 
 [node name="AudioStreamPlayer_Hypersleep" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 29 )
+
+[node name="AudioStreamPlayer_Crash" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 30 )
 
 [node name="OneSecondTimer" type="Timer" parent="."]
 autostart = true
