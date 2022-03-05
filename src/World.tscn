@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -32,6 +32,9 @@
 [ext_resource path="res://Assets/sfx/qubodup-BangLong.ogg" type="AudioStream" id=30]
 [ext_resource path="res://Assets/sfx/punch_1b.wav" type="AudioStream" id=31]
 [ext_resource path="res://Assets/sfx/elevator_door.wav" type="AudioStream" id=32]
+[ext_resource path="res://Assets/sfx/flame.ogg" type="AudioStream" id=33]
+[ext_resource path="res://Assets/sfx/continuousspark.wav" type="AudioStream" id=34]
+[ext_resource path="res://Assets/sfx/laser4.wav" type="AudioStream" id=35]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -196,6 +199,15 @@ stream = ExtResource( 31 )
 
 [node name="AirlockOpenClose" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 32 )
+
+[node name="Flamethrower" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 33 )
+
+[node name="Zap" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 34 )
+
+[node name="Laser" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 35 )
 
 [node name="OneSecondTimer" type="Timer" parent="."]
 autostart = true

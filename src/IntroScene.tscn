@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/music/Spacearray.ogg" type="AudioStream" id=1]
 [ext_resource path="res://IntroScene.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=3]
 
 [node name="IntroScene" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer_Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
+
+[node name="Label" type="Label" parent="."]
+margin_left = 783.415
+margin_top = 16.9897
+margin_right = 907.415
+margin_bottom = 42.9897
+theme = ExtResource( 3 )
+text = "VERSION:"
+__meta__ = {
+"_edit_use_anchors_": false
+}

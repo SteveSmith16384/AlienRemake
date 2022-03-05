@@ -506,7 +506,7 @@ func combat(location : Location):
 
 	for c in location.crew:
 		yield(get_tree().create_timer(.2), "timeout") # Wait to allow the areas ot be populated
-		# todo - choose weapon, sfx
+		play_weapon_sfx(c.get_main_weapon_type())
 		var alien_damage = c.get_main_weapon_alien_damage()
 		alien.health -= Globals.rnd.randi_range(5, alien_damage)
 		var location_damage = c.get_main_weapon_location_damage()
@@ -520,6 +520,17 @@ func combat(location : Location):
 	pass
 	
 
+func play_weapon_sfx(type):
+	match type:
+		Globals.ItemType.INCINERATOR:
+			$Audio/Flamethrower.play()
+		Globals.ItemType.ELECTRIC_PROD:
+			$Audio/Zap.play()
+		Globals.ItemType.LASER:
+			$Audio/Laser.play()
+	pass
+	
+	
 func alien_killed():
 	append_log("The Alien has been killed")
 	$Audio/AudioStreamPlayer_AlienDeath.play()

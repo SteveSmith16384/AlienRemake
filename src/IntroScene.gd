@@ -5,4 +5,5 @@ func _ready():
 	if Globals.RELEASE_MODE:
 		OS.window_fullscreen = true
 
+	$AudioStreamPlayer_Music.play()
 	pass
