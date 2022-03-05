@@ -43,7 +43,13 @@ func _process(delta):
 		
 	if adjusted_morale < 10:
 		return
-		
+	
+	if location.id == Globals.Location.INFIRMARY:
+		if health > 50:
+			health += delta/2
+			if health >= 100:
+				health = 100
+			
 	calc_morale()
 	
 	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:
@@ -85,30 +91,50 @@ func calc_morale():
 	pass
 	
 
-func get_main_weapon_alien_damage():
+func _get_main_weapon():
 	if items.size() == 0:
-		return 1
+		return null
 	elif items.size() == 1:
-		return items[0].weapon_power
+		return items[0]
 	elif items.size() > 1:
-		if items[0].weapon_power > items[1].weapon_power:
-			return items[0].weapon_power
+		if items[0].alien_damage > items[1].alien_damage:
+			return items[0]
 		else:
-			return items[1].weapon_power
+			return items[1]
+	pass
+	
+	
+func get_main_weapon_alien_damage():
+	var wep = _get_main_weapon()
+	if wep == null:
+		return 1
+	else:
+		return wep.alien_damage
 	pass
 
+
 func get_main_weapon_location_damage():
-	if items.size() == 0:
-		return 0
-	elif items.size() == 1:
-		return items[0].weapon_power
-	elif items.size() > 1:
-		if items[0].weapon_power > items[1].weapon_power:
-			return items[0].weapon_power
-		else:
-			return items[1].weapon_power
+	var wep = _get_main_weapon()
+	if wep == null:
+		return 1
+	else:
+		return wep.location_damage
 	pass
 
 
 func is_in_game():
 	return in_cryo == false and health > 0
+
+
+func get_health_string() -> String:
+	if health > 90:
+		return "ok"
+	elif health > 50:
+		return "wounded"
+	elif health > 0:
+		return "collapsed"
+	else:
+		return "dead"
+	pass
+	
+	

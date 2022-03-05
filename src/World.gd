@@ -72,6 +72,12 @@ func update_ui():
 		l.update_sprites()
 			
 	$AlertLog.clear_log()
+	for l in locations.values():
+		if l.fire:
+			$AlertLog.add("Fire in " + l.loc_name, Color.red)
+	
+#	if alien.location.crew.size() > 0:
+#		$AlertLog.add("The alien has been found")
 	pass
 	
 	
@@ -86,23 +92,24 @@ func crew_selected(crewman_id):
 	
 	var location = selected_crewman.location
 	append_log("They are in the " + location.loc_name)
+
+	append_log("They are " + selected_crewman.get_health_string())
 	
 	var dest = selected_crewman.destination
 	if dest != null:
 		append_log("They going to the " + dest.loc_name)
 	
 	if selected_crewman.items.size() > 0:
-		append_log("They are carrying:")
+		var s = "They are carrying: "
 		for i in selected_crewman.items:
-			append_log(i.item_name)
-		append_log("")
+			s += i.item_name + ","
+		append_log(s)
 
 	if location.items.size() > 0:
-		append_log("The following items are here:")
+		var s = "Also here: "
 		for i in location.items:
-			append_log(i.item_name)
-		append_log("")
-
+			s += i.item_name + ","
+		append_log(s)
 
 	$DeckNode/LowerDeck.visible = false
 	$DeckNode/MiddleDeck.visible = false
