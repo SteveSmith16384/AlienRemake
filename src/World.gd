@@ -62,6 +62,10 @@ func _process(delta):
 		alien._process(delta)
 	jones._process(delta)
 	
+	var life_support = locations[Globals.Location.LIFE_SUPPORT]
+	if life_support.damage > 50:
+		oxygen -= delta
+
 	if refresh_ui:
 		update_ui()
 		refresh_ui = false
@@ -575,7 +579,6 @@ func _on_SelectLowerDeck_pressed():
 
 
 func start_autodestruct():
-	# todo - check in right room
 	self_destruct_time_left = 600
 	$Audio/AudioStreamPlayer_SelfDestruct.play()
 	$Audio/AudioStreamPlayer_Alarm.play()
@@ -587,10 +590,9 @@ func start_autodestruct():
 
 func stop_autodestruct():
 	if self_destruct_time_left < 300:
-		# Todo speech say unable
+		$Audio/CannotCancelSelfDestruct.play()
 		return
 
-	# todo - check right room
 	$Audio/AudioStreamPlayer_Alarm.stop()
 	$Audio/SelfDestructCancelled.play()
 	self_destruct_activated = false
@@ -671,6 +673,7 @@ func _on_OneSecondTimer_timeout():
 
 func enter_hypersleep():
 	$Audio/AudioStreamPlayer_Hypersleep.play()
+	$Audio/HypersleepActivated.play()
 	selected_crewman.in_cryo = true
 	append_log(selected_crewman.crew_name + " has entered hypersleep")
 	selected_crewman = null
@@ -704,4 +707,12 @@ func cryo_destroyed():
 			append_log(c.crew_name + " has died in cryo", Color.red)
 			c.health  = 0
 	pass
+	
+
+func activate_location(location):
+	location.activated = true
+	if location.id == Globals.Location.INFIRMARY:
+		$Audio/InfirmeryActivated.play()
+	pass
+	
 	

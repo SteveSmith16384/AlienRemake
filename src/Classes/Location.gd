@@ -8,6 +8,7 @@ var area #: LocationArea
 var damage : float = 0
 var prev_damage : int = 0
 var fire = false
+var activated = false #  e.g. infirmery
 
 var items = []
 var crew = []
@@ -25,11 +26,12 @@ func _process(delta: float):
 		damage += delta
 	if damage > 50 and prev_damage <= 50:
 		damage_effect()
-	elif damage <= 50 and prev_damage > 50:
+	elif damage <= 50 and prev_damage > 50: # getting better
 		fire = false
 		main.refresh_ui = true
 	elif damage > 99 and prev_damage <= 99:
 		terminal_damage()
+		
 	prev_damage = damage
 	pass
 	
@@ -40,7 +42,9 @@ func damage_effect():
 		main.refresh_ui = true
 		main.append_log("A fire has started at " + loc_name, Color.red)
 	elif id == Globals.Location.CRYO_VAULT:
-		main.append_log("Cryogenics malfunction")
+		main.append_log("Cryogenics malfunction") # todo - speech
+	elif id == Globals.Location.LIFE_SUPPORT:
+		main.append_log("Life support malfunction.  Oxygen being depleted") # todo - speech
 	pass
 	
 	
@@ -51,13 +55,9 @@ func terminal_damage():
 		main.cryo_destroyed()
 	pass
 
+
 func update_sprites():
 	if area != null:
 		area.update_sprites(main.alien != null and main.alien.location == self and crew.size() > 0)
 	pass
 
-
-#func update_alien_sprite(b):
-#	if area != null:
-#		area.update_alien_sprite(b and crew.size() > 0)
-#	pass

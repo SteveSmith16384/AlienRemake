@@ -51,8 +51,11 @@ func _process(delta):
 	
 func move():
 	var adj = location.adjacent
-	location = adj[Globals.rnd.randi_range(0, adj.size()-1)] # todo - check if empty
-	main.alien_moved()
+	for idx in range(4): # try 4 times
+		location = adj[Globals.rnd.randi_range(0, adj.size()-1)]
+		if location.crew.size() <= 1:
+			main.alien_moved()
+		return
 	pass
 
 

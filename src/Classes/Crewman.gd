@@ -45,10 +45,13 @@ func _process(delta):
 		return
 	
 	if location.id == Globals.Location.INFIRMARY:
-		if health > 50:
+		if health > 50 and health < 100:
+			if location.activated == false:
+				main.activate_location(location)
 			health += delta/2
 			if health >= 100:
 				health = 100
+				location.activated = false
 			
 	calc_morale()
 	
