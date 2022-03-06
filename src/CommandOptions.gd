@@ -9,7 +9,7 @@ func _ready():
 func update_menu(location : Location, crew: Crewman, show_special):
 	$PickupButton.visible = location.items.size() > 0 and crew.items.size() < 2
 	$DropButton.visible = crew.items.size() > 0
-	$UseButton.visible = crew.items.size() > 0
+	$UseButton.visible = false #crew.items.size() > 0 Not needed?
 	$SpecialButton.visible = show_special
 	pass
 	

@@ -53,7 +53,7 @@ func terminal_damage():
 
 func update_sprites():
 	if area != null:
-		area.update_sprites(main.alien.location == self and crew.size() > 0)
+		area.update_sprites(main.alien != null and main.alien.location == self and crew.size() > 0)
 	pass
 
 

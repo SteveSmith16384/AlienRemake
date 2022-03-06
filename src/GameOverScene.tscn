@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Log.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameOverScene.gd" type="Script" id=2]
+[ext_resource path="res://Assets/music/bleeding_out2.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=4]
 
 [node name="GameOverScene" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Log" parent="." instance=ExtResource( 1 )]
 MaxLines = 100
+interval = 1.0
+
+[node name="AudioStreamPlayer_Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )

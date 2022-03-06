@@ -122,6 +122,15 @@ func get_main_weapon_location_damage():
 	pass
 
 
+func get_main_weapon_type():
+	var wep = _get_main_weapon()
+	if wep == null:
+		return -1
+	else:
+		return wep.type
+	pass
+
+
 func is_in_game():
 	return in_cryo == false and health > 0
 

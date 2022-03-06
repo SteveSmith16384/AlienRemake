@@ -1,17 +1,24 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/music/Spacearray.ogg" type="AudioStream" id=1]
 [ext_resource path="res://IntroScene.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=3]
+[ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=4]
+[ext_resource path="res://Log.tscn" type="PackedScene" id=5]
 
 [node name="IntroScene" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="Log" parent="." instance=ExtResource( 5 )]
+position = Vector2( 50.9692, 75.5099 )
+MaxLines = 100
+interval = 2.0
 
 [node name="AudioStreamPlayer_Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Version" type="Label" parent="."]
 margin_left = 783.415
 margin_top = 16.9897
 margin_right = 907.415
@@ -21,3 +28,6 @@ text = "VERSION:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )

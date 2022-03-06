@@ -27,7 +27,7 @@ func _ready():
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
-	crew_selected(crew[0].id)
+	#crew_selected(crew[0].id)
 
 	refresh_ui = true
 	pass
@@ -41,13 +41,13 @@ func _process(delta):
 	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
 	if self_destruct_activated:
-		self_destruct_time_left -= delta # todo - check when run out
+		self_destruct_time_left -= delta
 		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
 		if self_destruct_time_left <= 0:
 			ship_exploded()
 			return
 			
-	if alien == null and oxygen < Globals.OXYGEN-5:
+	if alien == null and oxygen < Globals.OXYGEN-15:
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
 		append_log("An ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
@@ -106,13 +106,13 @@ func crew_selected(crewman_id):
 	if selected_crewman.items.size() > 0:
 		var s = "They are carrying: "
 		for i in selected_crewman.items:
-			s += i.item_name + ","
+			s += i.item_name + ", "
 		append_log(s)
 
 	if location.items.size() > 0:
 		var s = "Also here: "
 		for i in location.items:
-			s += i.item_name + ","
+			s += i.item_name + ", "
 		append_log(s)
 
 	$DeckNode/LowerDeck.visible = false
@@ -579,16 +579,20 @@ func start_autodestruct():
 	self_destruct_time_left = 600
 	$Audio/AudioStreamPlayer_SelfDestruct.play()
 	$Audio/AudioStreamPlayer_Alarm.play()
-	set_menu_mode(Globals.MenuMode.NONE)
 	self_destruct_activated = true
 	$LabelSelfDestructTimeLeft.visible = true
+	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 
 
 func stop_autodestruct():
-	# todo - check within time limit
+	if self_destruct_time_left < 300:
+		# Todo speech say unable
+		return
+
 	# todo - check right room
 	$Audio/AudioStreamPlayer_Alarm.stop()
+	$Audio/SelfDestructCancelled.play()
 	self_destruct_activated = false
 	$LabelSelfDestructTimeLeft.visible = false
 	set_menu_mode(Globals.MenuMode.NONE)

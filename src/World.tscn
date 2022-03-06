@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://MiddleDeck.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CharacterSelector.tscn" type="PackedScene" id=2]
@@ -37,6 +37,7 @@
 [ext_resource path="res://Assets/sfx/laser4.wav" type="AudioStream" id=35]
 [ext_resource path="res://Assets/sfx/explosion1.wav" type="AudioStream" id=36]
 [ext_resource path="res://Assets/sfx/big_explosion.ogg" type="AudioStream" id=37]
+[ext_resource path="res://Assets/sfx/speech/selfdestructcancelled.wav" type="AudioStream" id=38]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -217,6 +218,9 @@ stream = ExtResource( 36 )
 
 [node name="BigExplosion" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 37 )
+
+[node name="SelfDestructCancelled" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 38 )
 
 [node name="OneSecondTimer" type="Timer" parent="."]
 autostart = true
