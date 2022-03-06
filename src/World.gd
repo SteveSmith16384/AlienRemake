@@ -14,7 +14,7 @@ var alien_crew_id : int
 
 var self_destruct_activated = false
 var self_destruct_time_left : float
-
+var shuttle_launched = false
 var airlock1_open = false
 var airlock2_open = false
 
@@ -26,8 +26,6 @@ func _ready():
 	$LabelSelfDestructTimeLeft.visible = false
 	
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
-
-	#crew_selected(crew[0].id)
 
 	refresh_ui = true
 	pass
@@ -531,6 +529,8 @@ func combat(location : Location):
 		if alien.health <= 0:
 			alien_killed()
 			return
+		elif Globals.RELEASE_MODE == false:
+			append_log("Alien health=" + str(alien.health))
 		pass
 	pass
 	
@@ -672,6 +672,7 @@ func _on_OneSecondTimer_timeout():
 
 
 func enter_hypersleep():
+	# todo - check alien not here
 	$Audio/AudioStreamPlayer_Hypersleep.play()
 	$Audio/HypersleepActivated.play()
 	selected_crewman.in_cryo = true
@@ -713,6 +714,39 @@ func activate_location(location):
 	location.activated = true
 	if location.id == Globals.Location.INFIRMARY:
 		$Audio/InfirmeryActivated.play()
+	pass
+	
+	
+func launch_narcissus():
+	# todo - check they have jones
+	
+	var num_alive = 0
+	var num_hypersleep = 0
+	var not_in_location = 0
+	for c in crew.values():
+		if c.in_cryo:
+			num_hypersleep += 1
+		elif c.health > 0:
+			num_alive += 1
+			if c.location.id != Globals.Location.SHUTTLE_BAY:
+				not_in_location += 1
+			
+	if num_hypersleep > 0:
+		append_log("You cannot launch the shuttle because at least one member of the crew is in hypersleep")
+		return
+	elif num_alive > 3:
+		append_log("Only 3 crewmembers can fit inside the shuttle")
+		return
+	elif not_in_location > 3:
+		append_log("Not all the remaining crew are here")
+		return
+	elif alien != null and alien.location.id == Globals.Location.SHUTTLE_BAY:
+		append_log("The alien is here!")
+		return
+		
+	# Todo - sfx
+	shuttle_launched = true
+	game_over()
 	pass
 	
 	

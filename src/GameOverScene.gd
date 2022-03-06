@@ -1,9 +1,13 @@
 extends Node2D
 
+# todo - check if self destruct was set
+var allow_click = false
+
 func _ready():
 	$AudioStreamPlayer_Music.play()
 	
 	$Log.add("Game Over")
+	$Log.add("")
 	$Log.add("Crew Status:")
 	
 	var crew = Globals.data["crew"]
@@ -15,6 +19,7 @@ func _ready():
 		else:
 			$Log.add(c.crew_name + ": Survived")
 
+	$Log.add("")
 	$Log.add("Alien Status:")
 	var alien = Globals.data["alien"]
 	if alien == null:
@@ -28,7 +33,7 @@ func _ready():
 		$Log.add("Alive", Color.red)
 		$Log.add("The alien made it to earth and destroyed the human civilisation.")
 		$Log.add("")
-		$Log.add("You failed this time", Color.red)
+		$Log.add("You have failed this time", Color.red)
 	pass
 
 
@@ -38,6 +43,12 @@ func _process(delta):
 		OS.window_fullscreen = !OS.window_fullscreen
 
 	if Input.is_mouse_button_pressed(1):
-		var _unused = get_tree().change_scene("res://World.tscn")
+		if allow_click:
+			var _unused = get_tree().change_scene("res://IntroScene.tscn")
 	pass
 	
+
+
+func _on_Timer_AllowClick_timeout():
+	allow_click = true
+	pass
