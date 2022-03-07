@@ -658,10 +658,12 @@ func _on_OneSecondTimer_timeout():
 				if alien.location == c.location or is_location_adjacent(alien.location, c.location):
 					$Audio/AudioStreamPlayer_Tracker.play()
 					break
-				if jones.location == c.location or is_location_adjacent(jones.location, c.location):
-					#todo $Audio/AudioStreamPlayer_Tracker.play()
-					jones.can_sense_alien = true
-					break
+			if jones.caught_in != null:
+				if c.items.contains(jones.caught_in):
+					if alien.location == c.location or is_location_adjacent(alien.location, c.location):
+						#todo $Audio/AudioStreamPlayer_Tracker.play()
+						jones.can_sense_alien = true
+						break
 		pass
 
 #	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas to be populated
