@@ -5,10 +5,10 @@ enum Mode {NONE, MOVE, ATTACK, DAMAGE}
 
 var main
 var location : Location
-#var destination : Location
 var action_time : float
 var health : int = 100
 var current_mode = Mode.NONE
+var moves_since_last_deck_change:int = 0
 
 func _init(_main, loc : Location):
 	main = _main
@@ -30,8 +30,8 @@ func _process(delta):
 		else:
 			current_mode = Mode.DAMAGE
 			action_time = 9
+		action_time = action_time * 100 / health
 		return
-
 		
 	action_time -= delta
 	if action_time <= 0:
@@ -50,12 +50,29 @@ func _process(delta):
 	
 	
 func move():
-	var adj = location.adjacent
-	for idx in range(4): # try 4 times
-		location = adj[Globals.rnd.randi_range(0, adj.size()-1)]
-		if location.crew.size() <= 1:
-			main.alien_moved()
+	# Change decks?
+	if moves_since_last_deck_change >= 2: # 2 so it doesn't keep moving back to ladder room and going back up/down
+		if location.id == Globals.Location.CARGO_POD_2:
+			location = main.locations[Globals.Location.CORRIDOR_2]
+		elif location.id == Globals.Location.CORRIDOR_2:
+			location = main.locations[Globals.Location.CARGO_POD_2]
+		elif location.id == Globals.Location.CORRIDOR_1:
+			location = main.locations[Globals.Location.LIVING_QUARTERS]
+		elif location.id == Globals.Location.LIVING_QUARTERS:
+			location = main.locations[Globals.Location.CORRIDOR_1]
+		moves_since_last_deck_change = 0
+		main.alien_moved()
 		return
+		
+	var adj = location.adjacent
+	for _idx in range(4): # try 4 times
+		var loc = adj[Globals.rnd.randi_range(0, adj.size()-1)]
+		if loc.crew.size() <= 1:
+			location = loc
+			main.alien_moved()
+			moves_since_last_deck_change += 1
+			return
+	current_mode = Mode.DAMAGE # Since we can't move
 	pass
 
 

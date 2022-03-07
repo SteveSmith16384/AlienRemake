@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/overloading.ogg-47afb25c192513e027b85f67819322ed.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/overloading.ogg"
+dest_files=[ "res://.import/overloading.ogg-47afb25c192513e027b85f67819322ed.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

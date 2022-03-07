@@ -12,9 +12,7 @@ var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
 var alien_crew_id : int
 
-var self_destruct_activated = false
 var self_destruct_time_left : float
-var shuttle_launched = false
 var airlock1_open = false
 var airlock2_open = false
 
@@ -38,7 +36,7 @@ func _process(delta):
 
 	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
-	if self_destruct_activated:
+	if Globals.self_destruct_activated:
 		self_destruct_time_left -= delta
 		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
 		if self_destruct_time_left <= 0:
@@ -81,7 +79,7 @@ func update_ui():
 			$AlertLog.add("Fire in " + l.loc_name, Color.red)
 	
 	if oxygen <= 0:
-		$AlertLog.add("There is no oxygen left", Color.red)
+		$AlertLog.add("Oxygen expired", Color.red)
 
 #	if alien.location.crew.size() > 0:
 #		$AlertLog.add("The alien has been found")
@@ -356,27 +354,6 @@ func load_data():
 	_unused = Item.new(self, Globals.ItemType.INCINERATOR, Globals.Location.ENG_STORES)
 	_unused = Item.new(self, Globals.ItemType.TRACKER, Globals.Location.ENG_STORES)
 
-
-#
-#	for _i in range(3):
-#		var _unused = Item.new(self, Globals.ItemType.INCINERATOR, "Incinerator", get_random_location_id())
-#	for _i in range(3):
-#		var _unused = Item.new(self, Globals.ItemType.LASER, "LASER", get_random_location_id())
-#	for _i in range(3):
-#		var _unused = Item.new(self, Globals.ItemType.ELECTRIC_PROD, "Electric Prod", get_random_location_id())
-#	for _i in range(1):
-#		var _unused = Item.new(self, Globals.ItemType.NET, "Net", get_random_location_id())
-#	for _i in range(2):
-#		var _unused = Item.new(self, Globals.ItemType.SPANNER, "Spanner", get_random_location_id())
-#	for _i in range(1):
-#		var _unused = Item.new(self, Globals.ItemType.HARPOON, "Harpoon", get_random_location_id())
-#	for _i in range(4):
-#		var _unused = Item.new(self, Globals.ItemType.FIRE_EXT, "Fire Extinguisher", get_random_location_id())
-#	for _i in range(2):
-#		var _unused = Item.new(self, Globals.ItemType.TRACKER, "Tracker", get_random_location_id())
-#	for _i in range(1):
-#		var _unused = Item.new(self, Globals.ItemType.CAT_BOX, "Cat Box", get_random_location_id())
-	
 	jones = Jones.new(self, locations[get_random_location_id()])
 	jones_moved()
 	pass
@@ -448,25 +425,6 @@ func find_item_by_type(items, type):
 	
 
 func _on_SfxTimer_timeout():
-	# Check for tracker
-	if alien == null:
-		return
-		
-	for c in crew.values():
-		if c.is_in_game():
-			if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
-				if alien.location == c.location or is_location_adjacent(alien.location, c.location):
-					$Audio/AudioStreamPlayer_Tracker.play()
-					return
-				if jones.location == c.location or is_location_adjacent(jones.location, c.location):
-					$Audio/AudioStreamPlayer_Tracker.play()
-					return
-		pass
-
-	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas to be populated
-
-#	if self_destruct_activated:
-#		$Audio/AudioStreamPlayer_Alarm.play()  Annoying?
 	pass
 
 
@@ -500,8 +458,12 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 			go = false
 			break;
 	if go:
-		game_over()
-
+		if Globals.self_destruct_activated:
+			ship_exploded()
+		else:
+			game_over()
+		return
+		
 	yield(get_tree().create_timer(2), "timeout")
 	$Audio/AudioStreamPlayer_Static.play()
 	pass
@@ -518,7 +480,9 @@ func combat(location : Location):
 	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
 
 	for c in location.crew:
-		yield(get_tree().create_timer(.2), "timeout") # Wait to allow the areas ot be populated
+		if c.health < 50:
+			continue
+		yield(get_tree().create_timer(.1), "timeout") # Wait to allow the areas ot be populated
 		play_weapon_sfx(c.get_main_weapon_type())
 		var alien_damage = c.get_main_weapon_alien_damage()
 		alien.health -= Globals.rnd.randi_range(5, alien_damage)
@@ -582,7 +546,7 @@ func start_autodestruct():
 	self_destruct_time_left = 600
 	$Audio/AudioStreamPlayer_SelfDestruct.play()
 	$Audio/AudioStreamPlayer_Alarm.play()
-	self_destruct_activated = true
+	Globals.self_destruct_activated = true
 	$LabelSelfDestructTimeLeft.visible = true
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
@@ -595,13 +559,17 @@ func stop_autodestruct():
 
 	$Audio/AudioStreamPlayer_Alarm.stop()
 	$Audio/SelfDestructCancelled.play()
-	self_destruct_activated = false
+	Globals.self_destruct_activated = false
 	$LabelSelfDestructTimeLeft.visible = false
 	set_menu_mode(Globals.MenuMode.NONE)
 	pass
 
 
 func open_airlock1():
+	if locations[Globals.Location.AIRLOCK_1].is_functioning() == false:
+		append_log("The airlock is too damaged to open")
+		return
+		
 	append_log("Airlock 1 open")
 	$Audio/AirlockOpenClose.play()
 	$Audio/AudioStreamPlayer_Airlock.play()
@@ -621,6 +589,10 @@ func open_airlock1():
 	
 	
 func open_airlock2():
+	if locations[Globals.Location.AIRLOCK_2].is_functioning() == false:
+		append_log("The airlock is too damaged to open")
+		return
+		
 	append_log("Airlock 2 open")
 	$Audio/AirlockOpenClose.play()
 	$Audio/AudioStreamPlayer_Airlock.play()
@@ -640,6 +612,10 @@ func open_airlock2():
 	
 	
 func close_airlock1():
+	if locations[Globals.Location.AIRLOCK_1].is_functioning() == false:
+		append_log("The airlock is too damaged to close")
+		return
+		
 	$Audio/AirlockOpenClose.play()
 	airlock1_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -648,6 +624,10 @@ func close_airlock1():
 	
 	
 func close_airlock2():
+	if locations[Globals.Location.AIRLOCK_2].is_functioning() == false:
+		append_log("The airlock is too damaged to close")
+		return
+		
 	$Audio/AirlockOpenClose.play()
 	airlock2_open = false
 	set_menu_mode(Globals.MenuMode.NONE)
@@ -660,7 +640,7 @@ func _on_OneSecondTimer_timeout():
 		for c in crew.values():
 			if c.is_in_game():
 				oxygen -= 1
-	#todo - check when run out
+
 	if oxygen <= 0:
 		oxygen = 0
 		for c in crew.values():
@@ -668,11 +648,37 @@ func _on_OneSecondTimer_timeout():
 				c.health -= 1
 				if c.health <= 0:
 					crewman_died(c, false)
+					
+	# Check for tracker
+	if alien == null:
+		return
+		
+	for c in crew.values():
+		if c.is_in_game():
+			if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
+				if alien.location == c.location or is_location_adjacent(alien.location, c.location):
+					$Audio/AudioStreamPlayer_Tracker.play()
+					return
+				if jones.location == c.location or is_location_adjacent(jones.location, c.location):
+					$Audio/AudioStreamPlayer_Tracker.play()
+					return
+		pass
+
+#	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas to be populated
+#	if self_destruct_activated:
+#		$Audio/AudioStreamPlayer_Alarm.play()  Annoying?
+
 	pass
 
 
 func enter_hypersleep():
-	# todo - check alien not here
+	if locations[Globals.Location.CRYO_VAULT].is_functioning() == false:
+		append_log("The cryo chambers are too damaged to launch")
+		return
+	if alien != null and alien.location.id == Globals.Location.CRYO_VAULT:
+		append_log("Cannot enter hypersleep while alien present")
+		return
+		
 	$Audio/AudioStreamPlayer_Hypersleep.play()
 	$Audio/HypersleepActivated.play()
 	selected_crewman.in_cryo = true
@@ -689,14 +695,19 @@ func damage_location(loc):
 	
 
 func game_over():
+	yield(get_tree().create_timer(3), "timeout")
+
 	Globals.data["crew"] = crew
 	Globals.data["alien"] = alien
 	var _unused = get_tree().change_scene("res://GameOverScene.tscn")
 	pass
 	
 
-func ship_exploded():
+func ship_exploded(): # Exploded and shuttle NOT launched
 	$Audio/BigExplosion.play()
+	alien = null
+	for c in crew.values():
+		c.health = 0
 	game_over()
 	pass
 	
@@ -718,6 +729,10 @@ func activate_location(location):
 	
 	
 func launch_narcissus():
+	if locations[Globals.Location.SHUTTLE_BAY].is_functioning() == false:
+		append_log("The shuttle is too damaged to launch")
+		return
+		
 	# todo - check they have jones
 	
 	var num_alive = 0
@@ -737,15 +752,25 @@ func launch_narcissus():
 	elif num_alive > 3:
 		append_log("Only 3 crewmembers can fit inside the shuttle")
 		return
-	elif not_in_location > 3:
+	elif not_in_location > 0:
 		append_log("Not all the remaining crew are here")
+		return
+	elif Globals.self_destruct_activated == false:
+		append_log("Launch only possible after self-destruct has been activated")
 		return
 	elif alien != null and alien.location.id == Globals.Location.SHUTTLE_BAY:
 		append_log("The alien is here!")
 		return
 		
-	# Todo - sfx
-	shuttle_launched = true
+	$Audio/LaunchShuttle.play()
+	Globals.shuttle_launched = true
+	
+	if Globals.self_destruct_activated:
+		alien = null
+		for c in crew.values():
+			if c.location.id != Globals.Location.SHUTTLE_BAY:
+				c.health = 0
+		
 	game_over()
 	pass
 	

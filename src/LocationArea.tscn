@@ -20,7 +20,7 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Crewman_Sprite" type="Sprite" parent="."]
-visible = false
+position = Vector2( -14.2339, -14.9831 )
 texture = ExtResource( 3 )
 
 [node name="PulseSprite" parent="Crewman_Sprite" instance=ExtResource( 5 )]
@@ -36,20 +36,21 @@ __meta__ = {
 }
 
 [node name="Alien_Sprite" type="Sprite" parent="."]
-position = Vector2( 26.163, 10.6066 )
+position = Vector2( 17.1732, 8.35915 )
 texture = ExtResource( 4 )
 
 [node name="PulseSprite" parent="Alien_Sprite" instance=ExtResource( 5 )]
 speed = 2.0
 
 [node name="Fire_Sprite" type="Sprite" parent="."]
-position = Vector2( 29.663, -12.3934 )
+position = Vector2( 14.6799, -16.8883 )
 texture = ExtResource( 9 )
 
 [node name="PulseSprite" parent="Fire_Sprite" instance=ExtResource( 5 )]
 speed = 1.5
 
 [node name="Crewman_Sprite_Faded" type="Sprite" parent="."]
+position = Vector2( -11.9865, 0.749146 )
 texture = ExtResource( 6 )
 
 [node name="PulseSprite2" parent="Crewman_Sprite_Faded" instance=ExtResource( 5 )]
