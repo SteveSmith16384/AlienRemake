@@ -26,7 +26,7 @@ func update_sprites(show_alien):
 	
 	if location.crew.has(main.selected_crewman):
 		$Crewman_Sprite.visible = true
-	elif location.crew.size() > 0:
+	if location.crew.size() > 0:
 		$Crewman_Sprite_Faded.visible = true
 
 	$Fire_Sprite.visible = location.fire

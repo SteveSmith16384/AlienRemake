@@ -169,7 +169,7 @@ func set_menu_mode(mode):
 	
 func location_selected(loc_id, move_to: bool = false):
 	var selected_location : Location = locations[loc_id]
-	if menu_mode == Globals.MenuMode.GO_TO or move_to:
+	if selected_crewman != null and (menu_mode == Globals.MenuMode.GO_TO or move_to):
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
 			append_log("That location is not adjacent")
 			return
