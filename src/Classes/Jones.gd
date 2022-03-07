@@ -3,9 +3,8 @@ extends Node
 
 var main
 var location : Location
-var destination : Location
 var dest_time : float
-var is_in_net: bool = false
+var caught_in # Item
 
 func _init(_main, loc : Location):
 	main = _main
@@ -14,20 +13,14 @@ func _init(_main, loc : Location):
 	
 
 func _process(delta):
-	if is_in_net:
+	if caught_in != null:
 		return
-		
-	if destination == null:
-		# Get new dest
-		var adj = location.adjacent
-		destination = adj[Globals.rnd.randi_range(0, adj.size()-1)]
-		dest_time = 7
-		#print("New cat dest is " + destination.loc_name)
 		
 	dest_time -= delta
 	if dest_time <= 0:
-		location = destination
+		var adj = location.adjacent
+		location = adj[Globals.rnd.randi_range(0, adj.size()-1)]
 		main.jones_moved()
-		destination = null
+		dest_time = 7
 		pass
 	pass

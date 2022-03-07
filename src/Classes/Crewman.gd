@@ -52,7 +52,9 @@ func _process(delta):
 			if health >= 100:
 				health = 100
 				location.activated = false
-			
+			if destination == null:
+				return # DO nothing more
+
 	calc_morale()
 	
 	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:

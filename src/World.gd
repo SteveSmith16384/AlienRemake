@@ -76,7 +76,7 @@ func update_ui():
 	$AlertLog.clear_log()
 	for l in locations.values():
 		if l.fire:
-			$AlertLog.add("Fire in " + l.loc_name, Color.red)
+			$AlertLog.add("Fire in " + l.loc_name + ".  Damage:" + l.damage, Color.red)
 	
 	if oxygen <= 0:
 		$AlertLog.add("Oxygen expired", Color.red)
@@ -225,6 +225,9 @@ func jones_moved():
 		var crewman = jones.location.crew[0]
 		append_log(crewman.crew_name + " has seen Jones in the " + jones.location.loc_name)
 		$Audio/AudioStreamPlayer_JonesSeen.play()
+		
+		for c in jones.location.crew:
+			try_and_catch_jones(c)
 		refresh_ui = true
 	pass
 	
@@ -402,15 +405,15 @@ func item_selected(type):
 			append_log(item.item_name + " dropped")
 			set_menu_mode(Globals.MenuMode.NONE)
 			$Audio/AudioStreamPlayer_CommandGiven.play()
-	elif menu_mode == Globals.MenuMode.USE:
-		var item = find_item_by_type(selected_crewman.items, type)
-		if item != null:
-			if item.type == Globals.ItemType.NET and selected_crewman.location.has(jones):
-				jones.is_in_net = true
-				append_log(selected_crewman.name + " has caught Jones in the net")
-				item.name = "Net with Jones"
-				$Audio/AudioStreamPlayer_JonesCaught.play()
-				refresh_ui = true
+#	elif menu_mode == Globals.MenuMode.USE:
+#		var item = find_item_by_type(selected_crewman.items, type)
+#		if item != null:
+#			if item.type == Globals.ItemType.NET and selected_crewman.location.has(jones):
+#				jones.is_in_net = true
+#				append_log(selected_crewman.name + " has caught Jones in the net")
+#				item.name = "Net with Jones"
+#				$Audio/AudioStreamPlayer_JonesCaught.play()
+#				refresh_ui = true
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
 	pass
@@ -733,7 +736,9 @@ func launch_narcissus():
 		append_log("The shuttle is too damaged to launch")
 		return
 		
-	# todo - check they have jones
+	if jones.caught_in == null:
+		append_log("You have not caught Jones yet")
+		return
 	
 	var num_alive = 0
 	var num_hypersleep = 0
@@ -775,3 +780,19 @@ func launch_narcissus():
 	pass
 	
 	
+func try_and_catch_jones(crewman):
+	var item : Item = find_item_by_type(crewman.items, Globals.ItemType.NET)
+	if item == null:
+		item = find_item_by_type(crewman.items, Globals.ItemType.CAT_BOX)
+	if item != null:
+		var success = Globals.rnd(1, 2) == 1
+		if success:
+			jones.caught_in = item
+			jones.location = null
+			append_log(crewman.name + " has caught Jones in the " + item.item_name, Color.green)
+			item.name = item.name + " with Jones"
+			$Audio/AudioStreamPlayer_JonesCaught.play()
+			refresh_ui = true
+		else:
+			append_log(crewman.name + " failed to catch Jones", Color.green)
+	pass

@@ -6,6 +6,7 @@ var type : int
 var item_name : String
 var alien_damage: int = 2 # Default
 var location_damage: int = 0 # Default
+var has_jones = false
 
 func _init(_main, _type : int, loc : int):
 	main = _main

@@ -45,6 +45,8 @@ func damage_effect():
 		main.append_log("Cryogenics malfunction") # todo - speech
 	elif id == Globals.Location.LIFE_SUPPORT:
 		main.append_log("Life support malfunction.  Oxygen being depleted") # todo - speech
+	elif id == Globals.Location.COMMAND_CENTER:
+		main.append_log("Computer malfunction") # todo - speech
 	pass
 	
 	
