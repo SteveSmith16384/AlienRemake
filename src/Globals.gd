@@ -8,7 +8,8 @@ var self_destruct_activated = false
 var shuttle_launched = false
 
 const OXYGEN: int = 7500
-
+var SELF_DESTRUCT_TIME = 600
+ 
 enum Crew {DALLAS, KANE, RIPLEY, ASH, LAMBERT, PARKER, BRETT}
 
 enum ItemType {CAT_BOX, INCINERATOR, LASER, ELECTRIC_PROD, NET, SPANNER, HARPOON,
@@ -29,5 +30,9 @@ var rnd : RandomNumberGenerator
 func _ready():
 	rnd = RandomNumberGenerator.new()
 	rnd.randomize()
+	
+#	if RELEASE_MODE == false:
+#		SELF_DESTRUCT_TIME = 10
+#		shuttle_launched = true
 	pass
 

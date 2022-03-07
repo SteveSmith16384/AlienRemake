@@ -1,6 +1,5 @@
 extends Node2D
 
-# todo - check if self destruct was set
 var allow_click = false
 
 func _ready():
@@ -30,17 +29,17 @@ func _ready():
 	else:
 		$Log.add("Alive", Color.red)
 		$Log.add("")
-		$Log.add("The alien made it to earth and destroyed the human civilisation.")
-		$Log.add("You have failed this time", Color.red)
+		$Log.add("The alien made it to earth and destroyed the human civilisation.", Color.red)
+		#$Log.add("You have failed this time", Color.red)
 
 	$Log.add("")
-	$Log.add("Mission Summary")
+	$Log.add("Mission Summary:")
 	if Globals.self_destruct_activated == false:
 		if alien != null:
 			$Log.add("Complete Failure.  0%")
 		else: # Alien dead
 			var score = num_alive * 14
-			$Log.add("Success: " + str(score) + "%")
+			$Log.add("Success: " + str(score) + "%", Color.green)
 			$Log.add("Well Done!")
 			$Log.add("")
 			$Log.add("You have been asked to command a unit of marines")
@@ -48,10 +47,13 @@ func _ready():
 			$Log.add("on LV-426")
 	else: # Self destruct activated, so alien must be dead
 		if num_alive == 0:
-			$Log.add("Failure.  5%")
+			$Log.add("Failure.  5%", Color.red)
 		else:
 			var score = num_alive * 7
-			$Log.add("Score: " + str(score) + "%")
+			$Log.add("Score: " + str(score) + "%", Color.green)
+
+	$Log.add("")
+	$Log.add("Click anywhere on your console to continue.")
 	pass
 
 

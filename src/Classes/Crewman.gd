@@ -14,6 +14,7 @@ var base_morale : int = 100 # Affected by events
 var adjusted_morale : int = 100 # Base morale then adjusted by current circumstance
 var male: bool = true
 var in_cryo: bool = false
+var fighting_fire : bool = false
 
 func _init(_main, _id : int, _name : String, loc : int, _male: bool):
 	main = _main
@@ -59,7 +60,10 @@ func _process(delta):
 	
 	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:
 		location.damage -= delta * 5
+		fighting_fire = true
 		# todo - sfx
+	else:
+		fighting_fire = false
 		pass
 		
 	if destination != null:

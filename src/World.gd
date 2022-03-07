@@ -26,6 +26,8 @@ func _ready():
 	yield(get_tree().create_timer(2), "timeout") # Wait to allow the areas ot be populated
 
 	refresh_ui = true
+	
+	$Audio/ConsoleBeep.play()
 	pass
 
 
@@ -37,11 +39,12 @@ func _process(delta):
 	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
 	if Globals.self_destruct_activated:
-		self_destruct_time_left -= delta
-		$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
-		if self_destruct_time_left <= 0:
-			ship_exploded()
-			return
+		if self_destruct_time_left > 0:
+			self_destruct_time_left -= delta
+			$LabelSelfDestructTimeLeft.text = "SELF DESTRUCT: " + str(int(self_destruct_time_left))
+			if self_destruct_time_left <= 0:
+				ship_exploded()
+				return
 			
 	if alien == null and oxygen < Globals.OXYGEN-15:
 		crewman_died(crew[alien_crew_id])
@@ -77,19 +80,16 @@ func update_ui():
 	for l in locations.values():
 		if l.fire:
 			$AlertLog.add("Fire in " + l.loc_name + ".  Damage:" + l.damage, Color.red)
+	for c in crew.values():
+		if c.fighting_fire:
+			$AlertLog.add(c.crew_name + " is fighting a fire", Color.red)
 	
 	if oxygen <= 0:
 		$AlertLog.add("Oxygen expired", Color.red)
-
-#	if alien.location.crew.size() > 0:
-#		$AlertLog.add("The alien has been found")
 	pass
 	
 	
 func crew_selected(crewman_id):
-#	if selected_crewman != null and selected_crewman.id == crewman_id:
-#		return
-		
 	selected_crewman = crew[crewman_id]
 	
 	append_log("----")
@@ -485,6 +485,8 @@ func combat(location : Location):
 	for c in location.crew:
 		if c.health < 50:
 			continue
+		if c.is_android:
+			continue
 		yield(get_tree().create_timer(.1), "timeout") # Wait to allow the areas ot be populated
 		play_weapon_sfx(c.get_main_weapon_type())
 		var alien_damage = c.get_main_weapon_alien_damage()
@@ -546,7 +548,7 @@ func _on_SelectLowerDeck_pressed():
 
 
 func start_autodestruct():
-	self_destruct_time_left = 600
+	self_destruct_time_left = Globals.SELF_DESTRUCT_TIME
 	$Audio/AudioStreamPlayer_SelfDestruct.play()
 	$Audio/AudioStreamPlayer_Alarm.play()
 	Globals.self_destruct_activated = true
@@ -556,7 +558,7 @@ func start_autodestruct():
 
 
 func stop_autodestruct():
-	if self_destruct_time_left < 300:
+	if self_destruct_time_left < Globals.SELF_DESTRUCT_TIME / 2:
 		$Audio/CannotCancelSelfDestruct.play()
 		return
 
