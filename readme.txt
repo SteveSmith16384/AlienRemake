@@ -1,11 +1,12 @@
-# ALIEN
-A remake of the Spectrum game originally by John Heap and Paul Clancey and published by Mind Games.
+# XENOMORPH
+A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and published by Mind Games.
 
 
 ## Controls
-* To Move a member of the crew, you can either right-click on an adjacent room, or select an option from the Move To menu.
+* To move a member of the crew, you can either right-click on an adjacent room, or select an option from the Move To menu.
 * The crew will automatically attack the alien with their best weapon.
 * Crew who are not too wounded can heal themselves in the infirmery.  (This is automatic)
+* Any crew with a fire extinguisher will automatically try and put out any fires they can see
 
 
 ## Current Differences 
@@ -17,7 +18,7 @@ The main differences between this and the original are as follows:-
 
 
 ## CREDITS
-* Original game by John Heap and Paul Clancey
+* Original game Alien by John Heap and Paul Clancey
 * Music: https://opengameart.org/content/deep-space-array
 * Music: https://opengameart.org/content/bleeding-out
 * https://opengameart.org/content/iron-door

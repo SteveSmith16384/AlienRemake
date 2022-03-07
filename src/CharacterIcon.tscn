@@ -2,7 +2,7 @@
 
 [ext_resource path="res://CharacterIcon.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Images/crew_photos/ripley.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Themes/SmallFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Assets/Themes/GUI_Theme_Small.tres" type="Theme" id=3]
 [ext_resource path="res://Assets/Images/white_rect.png" type="Texture" id=4]
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=5]
 
@@ -19,10 +19,10 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 19.0
-margin_top = 9.0
-margin_right = 80.0
-margin_bottom = 131.0
+margin_left = 14.0
+margin_top = 8.0
+margin_right = 85.0
+margin_bottom = 133.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -33,7 +33,7 @@ scale = Vector2( 1.29764, 1.38031 )
 texture = ExtResource( 4 )
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 61.0
+margin_right = 71.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 mouse_filter = 2
@@ -46,12 +46,12 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 64.0
-margin_right = 61.0
+margin_right = 71.0
 margin_bottom = 64.0
 
 [node name="Label_Name" type="Label" parent="VBoxContainer"]
 margin_top = 68.0
-margin_right = 61.0
+margin_right = 71.0
 margin_bottom = 82.0
 text = "Dallas"
 align = 1
@@ -61,7 +61,7 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
 margin_top = 86.0
-margin_right = 61.0
+margin_right = 71.0
 margin_bottom = 106.0
 rect_min_size = Vector2( 0, 20 )
 __meta__ = {
@@ -70,9 +70,9 @@ __meta__ = {
 
 [node name="Label_Status" type="Label" parent="VBoxContainer"]
 margin_top = 110.0
-margin_right = 61.0
-margin_bottom = 122.0
-custom_fonts/font = ExtResource( 3 )
+margin_right = 71.0
+margin_bottom = 125.0
+theme = ExtResource( 3 )
 text = "walking"
 
 [node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/music/Spacearray.ogg" type="AudioStream" id=1]
 [ext_resource path="res://IntroScene.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=3]
+[ext_resource path="res://Assets/Themes/GUI_Theme_Small.tres" type="Theme" id=3]
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=4]
 [ext_resource path="res://Log.tscn" type="PackedScene" id=5]
 
@@ -19,10 +19,10 @@ stream = ExtResource( 1 )
 autoplay = true
 
 [node name="Version" type="Label" parent="."]
-margin_left = 783.415
-margin_top = 16.9897
-margin_right = 907.415
-margin_bottom = 42.9897
+margin_left = 826.833
+margin_top = 560.661
+margin_right = 950.833
+margin_bottom = 586.661
 theme = ExtResource( 3 )
 text = "VERSION:"
 __meta__ = {

@@ -86,6 +86,8 @@ func update_ui():
 	
 	if oxygen <= 0:
 		$AlertLog.add("Oxygen expired", Color.red)
+	if jones.can_sense_alien:
+		$AlertLog.add("Jones looks uneasy", Color.red)
 	pass
 	
 	
@@ -405,15 +407,6 @@ func item_selected(type):
 			append_log(item.item_name + " dropped")
 			set_menu_mode(Globals.MenuMode.NONE)
 			$Audio/AudioStreamPlayer_CommandGiven.play()
-#	elif menu_mode == Globals.MenuMode.USE:
-#		var item = find_item_by_type(selected_crewman.items, type)
-#		if item != null:
-#			if item.type == Globals.ItemType.NET and selected_crewman.location.has(jones):
-#				jones.is_in_net = true
-#				append_log(selected_crewman.name + " has caught Jones in the net")
-#				item.name = "Net with Jones"
-#				$Audio/AudioStreamPlayer_JonesCaught.play()
-#				refresh_ui = true
 	else:
 		push_error("Unknown menu mode: " + str(menu_mode))
 	pass
@@ -658,15 +651,17 @@ func _on_OneSecondTimer_timeout():
 	if alien == null:
 		return
 		
+	jones.can_sense_alien = false
 	for c in crew.values():
 		if c.is_in_game():
 			if find_item_by_type(c.items, Globals.ItemType.TRACKER) != null:
 				if alien.location == c.location or is_location_adjacent(alien.location, c.location):
 					$Audio/AudioStreamPlayer_Tracker.play()
-					return
+					break
 				if jones.location == c.location or is_location_adjacent(jones.location, c.location):
-					$Audio/AudioStreamPlayer_Tracker.play()
-					return
+					#todo $Audio/AudioStreamPlayer_Tracker.play()
+					jones.can_sense_alien = true
+					break
 		pass
 
 #	yield(get_tree().create_timer(.4), "timeout") # Wait to allow the areas to be populated

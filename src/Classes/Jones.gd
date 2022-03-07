@@ -5,6 +5,7 @@ var main
 var location : Location
 var dest_time : float
 var caught_in # Item
+var can_sense_alien = false
 
 func _init(_main, loc : Location):
 	main = _main
