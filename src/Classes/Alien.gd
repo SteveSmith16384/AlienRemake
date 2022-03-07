@@ -40,7 +40,7 @@ func _process(delta):
 			current_mode = Mode.ATTACK
 
 		if current_mode == Mode.ATTACK:
-			main.combat(location)
+			main.alien_combat(location)
 		elif current_mode == Mode.DAMAGE:
 			main.damage_location(location)
 		elif current_mode == Mode.MOVE:

@@ -22,6 +22,8 @@ func _ready():
 			$Log.add(c.crew_name + ": Survived, " + c.get_health_string())
 
 	$Log.add("")
+	$Log.add(Globals.android.name + " was an Android")
+	$Log.add("")
 	$Log.add("Alien Status:")
 	var alien = Globals.data["alien"]
 	if alien == null:

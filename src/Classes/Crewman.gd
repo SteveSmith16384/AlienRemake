@@ -6,7 +6,7 @@ var id : int
 var crew_name : String
 var location : Location
 var destination : Location
-var dest_time : float
+var action_time : float
 var items = []
 var is_android = false
 var health : int = 100
@@ -31,7 +31,7 @@ func _init(_main, _id : int, _name : String, loc : int, _male: bool):
 func set_dest(loc) -> bool:
 	if destination == null:
 		destination = loc
-		dest_time = 10 * 100 / health
+		action_time = 10 * 100 / health
 		return true
 	else:
 		return false
@@ -42,9 +42,6 @@ func _process(delta):
 	if is_in_game() == false:
 		return
 		
-	if adjusted_morale < 10:
-		return
-	
 	if location.id == Globals.Location.INFIRMARY:
 		if health > 50 and health < 100:
 			if location.activated == false:
@@ -54,10 +51,23 @@ func _process(delta):
 				health = 100
 				location.activated = false
 			if destination == null:
-				return # DO nothing more
-
-	calc_morale()
+				return # Do nothing more
 	
+	action_time -= delta
+
+	if is_android == false:
+		calc_morale()
+		if adjusted_morale < 10:
+			return
+	else:
+		if main.android_activated == false:
+			if main.alien != null and (main.alien.health < 80 or Globals.RELEASE_MODE == false) and location.crew.size() == 2:
+				main.activate_android()
+				main.android_combat()
+				action_time = 3
+		else:
+			process_android()
+		
 	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:
 		location.damage -= delta * 5
 		fighting_fire = true
@@ -67,8 +77,7 @@ func _process(delta):
 		pass
 		
 	if destination != null:
-		dest_time -= delta
-		if dest_time <= 0:
+		if action_time <= 0:
 			location.crew.erase(self)
 			location = destination
 			location.crew.push_back(self)
@@ -78,6 +87,22 @@ func _process(delta):
 	pass
 	
 
+func process_android():
+	if action_time <= 0:
+		if location.crew.size() == 2:
+			main.android_combat()
+			action_time = 3
+		elif destination == null:
+			var adj = location.adjacent
+			for _idx in range(4): # try 4 times
+				var loc = adj[Globals.rnd.randi_range(0, adj.size()-1)]
+				if loc.crew.size() <= 1:
+					destination = loc
+					action_time = 10
+					break
+	pass
+	
+	
 func has_item(type):
 	for i in items:
 		if i.type == type:
@@ -140,7 +165,7 @@ func get_main_weapon_type():
 	pass
 
 
-func is_in_game():
+func is_in_game(): # Is alive and not in cryo
 	return in_cryo == false and health > 0
 
 

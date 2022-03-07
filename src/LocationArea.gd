@@ -26,12 +26,12 @@ func update_sprites(show_alien):
 	
 	if location.crew.has(main.selected_crewman):
 		$Crewman_Sprite.visible = true
-	if location.crew.size() > 0:
+	elif location.crew.size() > 0:
 		$Crewman_Sprite_Faded.visible = true
 
 	$Fire_Sprite.visible = location.fire
 
-	$Alien_Sprite.visible = show_alien
+	$Alien_Sprite.visible = true#show_alien
 	if show_alien:
 		$AudioStreamPlayer_Alien.play()
 	pass

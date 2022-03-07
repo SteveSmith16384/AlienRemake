@@ -33,6 +33,7 @@ theme = ExtResource( 2 )
 text = "Drop"
 
 [node name="UseButton" type="Button" parent="."]
+visible = false
 margin_top = 108.0
 margin_right = 150.0
 margin_bottom = 140.0
@@ -40,9 +41,9 @@ theme = ExtResource( 2 )
 text = "Use"
 
 [node name="SpecialButton" type="Button" parent="."]
-margin_top = 144.0
+margin_top = 108.0
 margin_right = 150.0
-margin_bottom = 176.0
+margin_bottom = 140.0
 theme = ExtResource( 2 )
 text = "Special"
 

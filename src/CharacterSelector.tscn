@@ -16,61 +16,61 @@ __meta__ = {
 [node name="Ripley" parent="HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 94.0
-margin_bottom = 130.0
+margin_right = 74.0
+margin_bottom = 126.0
 Crewman = 2
 crew_name = "Ripley"
 image_path = "res://Assets/Images/crew_photos/ripley.png"
 
 [node name="Dallas" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 98.0
+margin_left = 78.0
 margin_top = 0.0
-margin_right = 192.0
-margin_bottom = 130.0
+margin_right = 152.0
+margin_bottom = 126.0
 crew_name = "Dallas"
 image_path = "res://Assets/Images/crew_photos/dallas.png"
 
 [node name="Kane" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 196.0
+margin_left = 156.0
 margin_top = 0.0
-margin_right = 290.0
-margin_bottom = 130.0
+margin_right = 230.0
+margin_bottom = 126.0
 Crewman = 1
 crew_name = "Kane"
 image_path = "res://Assets/Images/crew_photos/kane.png"
 
 [node name="Ash" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 294.0
+margin_left = 234.0
 margin_top = 0.0
-margin_right = 388.0
-margin_bottom = 130.0
+margin_right = 308.0
+margin_bottom = 126.0
 Crewman = 3
 crew_name = "Ash"
 image_path = "res://Assets/Images/crew_photos/ash.png"
 
 [node name="Lambert" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 392.0
+margin_left = 312.0
 margin_top = 0.0
-margin_right = 486.0
-margin_bottom = 130.0
+margin_right = 386.0
+margin_bottom = 126.0
 Crewman = 4
 crew_name = "Lambert"
 image_path = "res://Assets/Images/crew_photos/lambert.png"
 
 [node name="Parker" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 490.0
+margin_left = 390.0
 margin_top = 0.0
-margin_right = 584.0
-margin_bottom = 130.0
+margin_right = 464.0
+margin_bottom = 126.0
 Crewman = 5
 crew_name = "Parker"
 image_path = "res://Assets/Images/crew_photos/parker.png"
 
 [node name="Brett" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 588.0
+margin_left = 468.0
 margin_top = 0.0
-margin_right = 682.0
-margin_bottom = 130.0
+margin_right = 542.0
+margin_bottom = 126.0
 Crewman = 6
 crew_name = "Brett"
 image_path = "res://Assets/Images/crew_photos/brett.png"

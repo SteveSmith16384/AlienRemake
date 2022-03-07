@@ -6,6 +6,7 @@ const SHOW_ALIEN = false and RELEASE_MODE == false
 
 var self_destruct_activated = false
 var shuttle_launched = false
+var android : Crewman
 
 const OXYGEN: int = 7500
 var SELF_DESTRUCT_TIME = 600

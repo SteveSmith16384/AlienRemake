@@ -27,7 +27,7 @@ texture = ExtResource( 9 )
 speed = 1.5
 
 [node name="Crewman_Sprite_Faded" type="Sprite" parent="."]
-position = Vector2( -11.2374, 16.4814 )
+position = Vector2( -14.234, -10.4881 )
 texture = ExtResource( 6 )
 
 [node name="PulseSprite2" parent="Crewman_Sprite_Faded" instance=ExtResource( 5 )]

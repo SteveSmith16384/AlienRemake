@@ -11,10 +11,13 @@ var selected_crewman : Crewman
 var menu_mode : int = Globals.MenuMode.NONE
 var refresh_ui: bool = true
 var alien_crew_id : int
-
+var alien_created = false
 var self_destruct_time_left : float
 var airlock1_open = false
 var airlock2_open = false
+
+var android_activated = false
+#var android_revealed = false
 
 func _ready():
 	load_data()
@@ -46,7 +49,8 @@ func _process(delta):
 				ship_exploded()
 				return
 			
-	if alien == null and oxygen < Globals.OXYGEN-15:
+	if alien_created == false and oxygen < Globals.OXYGEN-15:
+		alien_created = true
 		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
 		append_log("An ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
@@ -77,6 +81,8 @@ func update_ui():
 		l.update_sprites()
 			
 	$AlertLog.clear_log()
+	if android_activated and Globals.android.health > 0:
+		$AlertLog.add(Globals.android.crew_name + " is an Android", Color.red)
 	for l in locations.values():
 		if l.fire:
 			$AlertLog.add("Fire in " + l.loc_name + ".  Damage:" + l.damage, Color.red)
@@ -336,8 +342,8 @@ func load_data():
 
 	# Choose Android
 	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
-	crew[android_crew_id].is_android = true
-	#print(crew[android_crew_id].crew_name + " is an Android!")
+	Globals.android = crew[android_crew_id]
+	Globals.android.is_android = true
 	
 	# Items
 	var _unused = Item.new(self, Globals.ItemType.SPANNER, Globals.Location.STORES_2)
@@ -445,12 +451,14 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 	crewman.died()
 	if crewman == selected_crewman:
 		selected_crewman = null
+	if crewman == Globals.android:
+		append_log("The Android has been killed", Color.red)
 	refresh_ui = true
 	
 	# Check if game over
 	var go = true
 	for c in crew.values():
-		if c.is_in_game():
+		if c.is_in_game() and c != Globals.android:
 			go = false
 			break;
 	if go:
@@ -465,7 +473,7 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 	pass
 
 
-func combat(location : Location):
+func alien_combat(location : Location):
 	var all_crew = location.crew
 	if all_crew.size() <= 0:
 		return
@@ -494,6 +502,44 @@ func combat(location : Location):
 		elif Globals.RELEASE_MODE == false:
 			append_log("Alien health=" + str(alien.health))
 		pass
+		if android_activated == false and alien.health < 80:
+#			append_log(android.crew_name + " is an ANDROID", Color.red)
+			android_activated = true
+			# Drop all equipment
+			Globals.android.location.items.append_array(Globals.android.items)
+			Globals.android.items.clear()
+	pass
+	
+
+func activate_android():
+	android_activated = true
+	append_log(Globals.android.crew_name + " is an Android!", Color.red)
+	pass
+	
+	
+func android_combat():
+	var location = Globals.android.location
+	if location.crew.size() <= 1:
+		return
+		
+	var android_attacks_crew = Globals.android
+	while android_attacks_crew == Globals.android:
+		android_attacks_crew = location.crew[Globals.rnd.randi_range(0, location.crew.size()-1)]
+	#todo - sfx $Audio/AudioStreamPlayer_AlienAttack.play()
+	crewman_wounded(android_attacks_crew, Globals.rnd.randi_range(10, 20))
+		
+	for c in location.crew:
+		if c.health < 50:
+			continue
+		if c.is_android:
+			continue
+		yield(get_tree().create_timer(.1), "timeout") # Wait to allow the areas ot be populated
+		play_weapon_sfx(c.get_main_weapon_type())
+		var android_damage = c.get_main_weapon_alien_damage()
+		Globals.android.health -= Globals.rnd.randi_range(5, android_damage)
+		if Globals.android.health <= 0:
+			crewman_died(Globals.android, false)
+			return
 	pass
 	
 
@@ -719,6 +765,7 @@ func cryo_destroyed():
 	for c in crew.values():
 		if c.in_cryo:
 			append_log(c.crew_name + " has died in cryo", Color.red)
+			c.in_cryo = false
 			c.health  = 0
 	pass
 	
@@ -745,7 +792,7 @@ func launch_narcissus():
 	for c in crew.values():
 		if c.in_cryo:
 			num_hypersleep += 1
-		elif c.health > 0:
+		elif c.health > 0 and c.is_android == false:
 			num_alive += 1
 			if c.location.id != Globals.Location.SHUTTLE_BAY:
 				not_in_location += 1
@@ -784,7 +831,7 @@ func try_and_catch_jones(crewman):
 	if item == null:
 		item = find_item_by_type(crewman.items, Globals.ItemType.CAT_BOX)
 	if item != null:
-		var success = Globals.rnd(1, 2) == 1
+		var success = Globals.rnd.randi_range(1, 2) == 1
 		if success:
 			jones.caught_in = item
 			jones.location = null

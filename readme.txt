@@ -11,8 +11,6 @@ A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and
 
 ## Current Differences 
 The main differences between this and the original are as follows:-
-
-* No Android yet
 * No morale aspect yet
 * No tunnels yet
 

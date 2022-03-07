@@ -21,6 +21,7 @@ func add(s, colour: Color = Color.white):
 	
 	
 func clear_log():
+	lines.clear()
 	while $VBoxContainer.get_child_count() > 0:
 		var child: Label = $VBoxContainer.get_child(0)
 		$VBoxContainer.remove_child(child)

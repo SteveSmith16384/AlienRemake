@@ -27,10 +27,15 @@ func update_status():
 	if crew.health <= 0 or crew.in_cryo:
 		self.visible = false
 		return
+	if crew.is_android and main.android_activated:
+		self.visible = false
+		return
 		
 	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
 	if main.alien != null and crew.location == main.alien.location:
 		$VBoxContainer/Label_Status.text = "ALIEN"
+	elif main.android_activated and crew.location == Globals.android.location:
+		$VBoxContainer/Label_Status.text = "ANDROID"
 	elif main.jones != null and crew.location == main.jones.location:
 		$VBoxContainer/Label_Status.text = "JONES"
 	elif crew.destination != null:
