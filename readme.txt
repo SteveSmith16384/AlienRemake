@@ -1,24 +1,38 @@
 # XENOMORPH
+
 A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and published by Mind Games.
+
+Programmed by Stephen Smith (stephen.carlylesmith@googlemail.com)
+
+It is recommended to read the instructions of the original to know what you have to do.  Hwoever, the main idea is that you're in command of the crew of the Nostromo, and must help them survive their encounter.  Also, watch the film if you haven't.
 
 
 ## Controls
-* To move a member of the crew, you can either right-click on an adjacent room, or select an option from the Move To menu.
-* The crew will automatically attack the alien with their best weapon.
-* Crew who are not too wounded can heal themselves in the infirmery.  (This is automatic)
-* Any crew with a fire extinguisher will automatically try and put out any fires they can see
+* To move a member of the crew from one location to another, you can either right-click on an adjacent room, or select an option from the Move To menu.
+* The crew will automatically attack the alien with their best weapon if they encounter it.
+* Crew who are not too wounded can heal themselves in the infirmary.  (This is automatic)
+* Any crew with a fire extinguisher will automatically try and put out any fires in their location
+* Any crew with either the net or cat box will try and capture Jones automatically.
+* F11 will toggle full-screen
+
+
+## Way to Win (or rather, not lose to much)
+* The most succesful method is to kill the alien, and have as many crewmembers left alive as possible.  There are two ways to do this: coax it into the airlock and then open the airlock, or just kill it with weapons (which is rarely that successful).
+* Alternatively, you can start the autodestruct and then escape on the Narcissus.  However, only 3 crewmembers can fit inside the escape shuttle, and you can't leave any crew behind.  You are also required to have caught Jones.
 
 
 ## Current Differences 
 The main differences between this and the original are as follows:-
-* No morale aspect yet
-* No tunnels yet
+* No morale aspect (yet)
+* No tunnels (yet?)
 
 
-## CREDITS
+## Credits
 * Original game Alien by John Heap and Paul Clancey
 * Music: https://opengameart.org/content/deep-space-array
 * Music: https://opengameart.org/content/bleeding-out
+
+### Sound effects taken from:-
 * https://opengameart.org/content/iron-door
 * https://opengameart.org/content/male-gruntyelling-sounds
 * https://opengameart.org/content/alarm-2

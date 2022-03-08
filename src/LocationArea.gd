@@ -31,14 +31,10 @@ func update_sprites(show_alien):
 
 	$Fire_Sprite.visible = location.fire
 
-	$Alien_Sprite.visible = true#show_alien
+	$Alien_Sprite.visible = show_alien
 	if show_alien:
 		$AudioStreamPlayer_Alien.play()
 	pass
-	
-	
-#func update_alien_sprite(b):
-#	pass
 	
 	
 func _on_LocationArea_mouse_entered():

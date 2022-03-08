@@ -34,7 +34,7 @@ func update_status():
 	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
 	if main.alien != null and crew.location == main.alien.location:
 		$VBoxContainer/Label_Status.text = "ALIEN"
-	elif main.android_activated and crew.location == Globals.android.location:
+	elif main.android_activated and crew.location == Globals.android.location and Globals.android.health > 0:
 		$VBoxContainer/Label_Status.text = "ANDROID"
 	elif main.jones != null and crew.location == main.jones.location:
 		$VBoxContainer/Label_Status.text = "JONES"

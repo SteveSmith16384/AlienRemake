@@ -13,7 +13,7 @@ func update_list(items):
 	for item in items:
 		var button = button_class.instance()
 		button.item_type = item.type
-		button.text = Globals.ItemType.keys()[item.type]
+		button.text = item.item_name #Globals.ItemType.keys()[item.type]
 		button.connect("pressed", self, "button_pressed")
 		$VBoxContainer.add_child(button)
 	pass

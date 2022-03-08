@@ -177,17 +177,16 @@ func location_selected(loc_id, move_to: bool = false):
 	var selected_location : Location = locations[loc_id]
 	if selected_crewman != null and (menu_mode == Globals.MenuMode.GO_TO or move_to):
 		if is_location_adjacent(selected_location, selected_crewman.location) == false:
-			append_log("That location is not adjacent")
+			append_log("That location is not adjacent", Color.yellow)
 			return
 		elif loc_id == Globals.Location.AIRLOCK_1 and airlock1_open:
-			append_log("Airlock 1 is open")
+			append_log("Airlock 1 is open", Color.yellow)
 			return
 		elif loc_id == Globals.Location.AIRLOCK_2 and airlock2_open:
-			append_log("Airlock 2 is open")
+			append_log("Airlock 2 is open", Color.yellow)
 			return
 		if selected_crewman.set_dest(selected_location):
 			$Audio/AudioStreamPlayer_CommandGiven.play()
-			#$CharacterSelector.update_statuses()
 			append_log(selected_crewman.crew_name + " is now going to " + selected_location.loc_name)
 		else:
 			append_log("They are already going to " + selected_crewman.destination.loc_name)
@@ -215,9 +214,10 @@ func cancel_selection():
 	pass
 	
 	
-func crewman_moved(crewman):
+func crewman_moved(crewman: Crewman):
 	$Audio/AudioStreamPlayer_CrewmanArrived.play()
-	append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
+	if android_activated == false or crewman.is_android == false:
+		append_log(crewman.crew_name + " has arrived in the " + crewman.location.loc_name)
 	refresh_ui = true
 	pass
 	
@@ -254,6 +254,7 @@ func load_data():
 
 	# Upper deck adjacent
 	set_adjacent(Globals.Location.LIVING_QUARTERS, Globals.Location.MESS)
+	set_adjacent(Globals.Location.LIVING_QUARTERS, Globals.Location.RECREATION_AREA)
 	set_adjacent(Globals.Location.AIRLOCK_1, Globals.Location.CORRIDOR_6)
 	set_adjacent(Globals.Location.STORES_2, Globals.Location.COMPUTER)
 	set_adjacent(Globals.Location.MESS, Globals.Location.CORRIDOR_6)
@@ -447,7 +448,7 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 	if scream:
 		$Audio/AudioStreamPlayer_MaleCrewDeath.play() # todo - female when I have one
 	var item = Item.new(self, Globals.ItemType.CORPSE, crewman.location.id)
-	item.name = "Body of " + crewman.crew_name
+	item.item_name = "Body of " + crewman.crew_name
 	crewman.died()
 	if crewman == selected_crewman:
 		selected_crewman = null
@@ -474,11 +475,10 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 
 
 func alien_combat(location : Location):
-	var all_crew = location.crew
-	if all_crew.size() <= 0:
+	if location.crew.size() <= 0:
 		return
 		
-	var alien_attacks_crew = all_crew[Globals.rnd.randi_range(0, all_crew.size()-1)]
+	var alien_attacks_crew = location.crew[Globals.rnd.randi_range(0, location.crew.size()-1)]
 	$Audio/AudioStreamPlayer_AlienAttack.play()
 	#append_log("The Alien attacks " + alien_attacks_crew.crew_name)
 	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
@@ -705,7 +705,7 @@ func _on_OneSecondTimer_timeout():
 					$Audio/AudioStreamPlayer_Tracker.play()
 					break
 			if jones.caught_in != null:
-				if c.items.contains(jones.caught_in):
+				if c.items.has(jones.caught_in):
 					if alien.location == c.location or is_location_adjacent(alien.location, c.location):
 						#todo $Audio/AudioStreamPlayer_Tracker.play()
 						jones.can_sense_alien = true
@@ -835,10 +835,10 @@ func try_and_catch_jones(crewman):
 		if success:
 			jones.caught_in = item
 			jones.location = null
-			append_log(crewman.name + " has caught Jones in the " + item.item_name, Color.green)
-			item.name = item.name + " with Jones"
-			$Audio/AudioStreamPlayer_JonesCaught.play()
+			append_log(crewman.crew_name + " has caught Jones in the " + item.item_name, Color.green)
+			item.item_name = item.item_name + " with Jones"
+			$Audio/AudioStreamPlayer_JonesCaught.play() # todo - change
 			refresh_ui = true
 		else:
-			append_log(crewman.name + " failed to catch Jones", Color.green)
+			append_log(crewman.crew_name + " failed to catch Jones", Color.green)
 	pass

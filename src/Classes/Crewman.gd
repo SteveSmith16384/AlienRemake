@@ -42,6 +42,7 @@ func _process(delta):
 	if is_in_game() == false:
 		return
 		
+	# Heal if in infirmary
 	if location.id == Globals.Location.INFIRMARY:
 		if health > 50 and health < 100:
 			if location.activated == false:
@@ -61,7 +62,7 @@ func _process(delta):
 			return
 	else:
 		if main.android_activated == false:
-			if main.alien != null and (main.alien.health < 80 or Globals.RELEASE_MODE == false) and location.crew.size() == 2:
+			if main.alien != null and (main.alien.health < 80) and location.crew.size() == 2:
 				main.activate_android()
 				main.android_combat()
 				action_time = 3
@@ -89,7 +90,7 @@ func _process(delta):
 
 func process_android():
 	if action_time <= 0:
-		if location.crew.size() == 2:
+		if location.crew.size() > 1:
 			main.android_combat()
 			action_time = 3
 		elif destination == null:
@@ -100,6 +101,7 @@ func process_android():
 					destination = loc
 					action_time = 10
 					break
+			pass
 	pass
 	
 	

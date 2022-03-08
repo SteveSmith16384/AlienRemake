@@ -28,7 +28,7 @@ func _init(_main, _type : int, loc : int):
 			alien_damage = 40
 			location_damage = 10
 		Globals.ItemType.INCINERATOR:
-			item_name = "Flamethrower"
+			item_name = "Incinerator"
 			alien_damage = 20
 			location_damage = 20
 		Globals.ItemType.LASER:
