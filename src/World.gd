@@ -525,7 +525,7 @@ func android_combat():
 	var android_attacks_crew = Globals.android
 	while android_attacks_crew == Globals.android:
 		android_attacks_crew = location.crew[Globals.rnd.randi_range(0, location.crew.size()-1)]
-	#todo - sfx $Audio/AudioStreamPlayer_AlienAttack.play()
+	#todo - sfx $Audio/AudioStreamPlayer_AndroidAttack.play()
 	crewman_wounded(android_attacks_crew, Globals.rnd.randi_range(10, 20))
 		
 	for c in location.crew:
@@ -798,19 +798,19 @@ func launch_narcissus():
 				not_in_location += 1
 			
 	if num_hypersleep > 0:
-		append_log("You cannot launch the shuttle because at least one member of the crew is in hypersleep")
-		return
-	elif num_alive > 3:
-		append_log("Only 3 crewmembers can fit inside the shuttle")
+		append_log("You cannot launch the shuttle because at least one member of the crew is in hypersleep", Color.yellow)
 		return
 	elif not_in_location > 0:
-		append_log("Not all the remaining crew are here")
+		append_log("Not all the remaining crew are here", Color.yellow)
+		return
+	elif num_alive > 3:
+		append_log("Only 3 crewmembers can fit inside the shuttle", Color.yellow)
 		return
 	elif Globals.self_destruct_activated == false:
-		append_log("Launch only possible after self-destruct has been activated")
+		append_log("Launch only possible after self-destruct has been activated", Color.yellow)
 		return
 	elif alien != null and alien.location.id == Globals.Location.SHUTTLE_BAY:
-		append_log("The alien is here!")
+		append_log("The alien is here!", Color.yellow)
 		return
 		
 	$Audio/LaunchShuttle.play()
