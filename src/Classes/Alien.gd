@@ -1,7 +1,7 @@
 class_name Alien
 extends Node
 
-enum Mode {NONE, MOVE, ATTACK, DAMAGE}
+enum Mode {NONE, MOVE, REMAIN, DAMAGE}
 
 var main
 var location : Location
@@ -37,10 +37,11 @@ func _process(delta):
 	if action_time <= 0:
 		# Check if a crewmember has arrived in the meantime
 		if location.crew.size() == 1:
-			current_mode = Mode.ATTACK
+			current_mode = Mode.REMAIN
 
-		if current_mode == Mode.ATTACK:
-			main.alien_combat(location)
+		if current_mode == Mode.REMAIN:
+			#main.alien_combat(location) Now happens in seperate timer
+			pass
 		elif current_mode == Mode.DAMAGE:
 			main.damage_location(location)
 		elif current_mode == Mode.MOVE:
@@ -65,13 +66,14 @@ func move():
 		return
 		
 	var adj = location.adjacent
-	for _idx in range(4): # try 4 times
+	for _idx in range(3): # try 4 times
 		var loc = adj[Globals.rnd.randi_range(0, adj.size()-1)]
 		if loc.crew.size() <= 1:
 			location = loc
 			main.alien_moved()
 			moves_since_last_deck_change += 1
 			return
+			
 	current_mode = Mode.DAMAGE # Since we can't move
 	pass
 

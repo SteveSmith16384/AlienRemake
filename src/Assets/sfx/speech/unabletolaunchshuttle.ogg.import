@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/unabletolaunchshuttle.ogg-fb48d2ff9cad8c2c85ba6ac67c115b5a.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/speech/unabletolaunchshuttle.ogg"
+dest_files=[ "res://.import/unabletolaunchshuttle.ogg-fb48d2ff9cad8c2c85ba6ac67c115b5a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

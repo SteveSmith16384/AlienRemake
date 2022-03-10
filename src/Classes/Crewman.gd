@@ -64,7 +64,7 @@ func _process(delta):
 		if main.android_activated == false:
 			if main.alien != null and (main.alien.health < 80) and location.crew.size() == 2:
 				main.activate_android()
-				main.android_combat()
+				#main.android_combat()
 				action_time = 3
 		else:
 			process_android()
@@ -72,7 +72,7 @@ func _process(delta):
 	if has_item(Globals.ItemType.FIRE_EXT) and location.fire:
 		location.damage -= delta * 5
 		fighting_fire = true
-		# todo - sfx
+		# todo - fire ext sfx
 	else:
 		fighting_fire = false
 		pass
@@ -91,7 +91,7 @@ func _process(delta):
 func process_android():
 	if action_time <= 0:
 		if location.crew.size() > 1:
-			main.android_combat()
+			#main.android_combat()
 			action_time = 3
 		elif destination == null:
 			var adj = location.adjacent

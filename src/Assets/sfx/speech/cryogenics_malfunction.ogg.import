@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cryogenics_malfunction.ogg-6923d6e48ecbe49dc0c26aa3b2170d30.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/speech/cryogenics_malfunction.ogg"
+dest_files=[ "res://.import/cryogenics_malfunction.ogg-6923d6e48ecbe49dc0c26aa3b2170d30.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

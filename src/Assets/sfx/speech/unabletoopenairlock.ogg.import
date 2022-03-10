@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/unabletoopenairlock.ogg-b58b46d56923f7b2d08878d01d805cbb.oggstr"
+
+[deps]
+
+source_file="res://Assets/sfx/speech/unabletoopenairlock.ogg"
+dest_files=[ "res://.import/unabletoopenairlock.ogg-b58b46d56923f7b2d08878d01d805cbb.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

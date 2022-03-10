@@ -474,7 +474,11 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 	pass
 
 
-func alien_combat(location : Location):
+func alien_combat():
+	if alien == null:
+		return
+	
+	var location = alien.location
 	if location.crew.size() <= 0:
 		return
 		
@@ -612,6 +616,7 @@ func stop_autodestruct():
 func open_airlock1():
 	if locations[Globals.Location.AIRLOCK_1].is_functioning() == false:
 		append_log("The airlock is too damaged to open")
+		$Audio/UnableToOpenAirlock.play()
 		return
 		
 	append_log("Airlock 1 open")
@@ -635,6 +640,7 @@ func open_airlock1():
 func open_airlock2():
 	if locations[Globals.Location.AIRLOCK_2].is_functioning() == false:
 		append_log("The airlock is too damaged to open")
+		$Audio/UnableToOpenAirlock.play()
 		return
 		
 	append_log("Airlock 2 open")
@@ -658,6 +664,7 @@ func open_airlock2():
 func close_airlock1():
 	if locations[Globals.Location.AIRLOCK_1].is_functioning() == false:
 		append_log("The airlock is too damaged to close")
+		$Audio/UnableToCloseAirlock.play()
 		return
 		
 	$Audio/AirlockOpenClose.play()
@@ -670,6 +677,7 @@ func close_airlock1():
 func close_airlock2():
 	if locations[Globals.Location.AIRLOCK_2].is_functioning() == false:
 		append_log("The airlock is too damaged to close")
+		$Audio/UnableToCloseAirlock.play()
 		return
 		
 	$Audio/AirlockOpenClose.play()
@@ -780,6 +788,7 @@ func activate_location(location):
 func launch_narcissus():
 	if locations[Globals.Location.SHUTTLE_BAY].is_functioning() == false:
 		append_log("The shuttle is too damaged to launch")
+		$Audio/UnableToLaunchShuttle.play()
 		return
 		
 	if jones.caught_in == null:
@@ -842,3 +851,22 @@ func try_and_catch_jones(crewman):
 		else:
 			append_log(crewman.crew_name + " failed to catch Jones", Color.green)
 	pass
+
+
+func _on_CombatTimer_timeout():
+	if alien == null:
+		return
+	if alien.location.crew.size() > 0:
+		alien_combat()
+	
+	if android_activated:
+		android_combat()
+	pass
+
+
+func cryo_malfunction():
+	append_log("Cryogenics malfunction", Color.red) # todo - speech
+	$Audio/CryoMalfunction.play()
+	pass
+	
+	

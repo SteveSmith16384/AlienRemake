@@ -42,7 +42,7 @@ func damage_effect():
 		main.refresh_ui = true
 		main.append_log("A fire has started at " + loc_name, Color.red)
 	elif id == Globals.Location.CRYO_VAULT:
-		main.append_log("Cryogenics malfunction") # todo - speech
+		main.cryo_malfunction()
 	elif id == Globals.Location.LIFE_SUPPORT:
 		main.append_log("Life support malfunction.  Oxygen being depleted") # todo - speech
 	elif id == Globals.Location.COMMAND_CENTER:
