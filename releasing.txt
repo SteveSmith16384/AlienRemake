@@ -5,3 +5,6 @@ Inc version num
 Copy in new readme
 Update Itch features
 
+HTML
+Create index.html
+

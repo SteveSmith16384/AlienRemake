@@ -16,7 +16,6 @@ func _ready():
 	$Log.add("with whatever awaits them.", colour)
 	$Log.add("")
 	$Log.add("Good luck.", colour)
-	$Log.add("Click anywhere on your console to continue.", colour)
 	pass
 
 
@@ -24,15 +23,16 @@ func _process(_delta):
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		$AudioStreamPlayer_Click.play()
 		OS.window_fullscreen = !OS.window_fullscreen
-
-	if Input.is_mouse_button_pressed(1):
-		if allow_click:
-			var _unused = get_tree().change_scene("res://World.tscn")
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
 	pass
 	
 	
+func _on_StartButton_pressed():
+	var _unused = get_tree().change_scene("res://World.tscn")
+	pass
 
 
-func _on_Timer_timeout():
-	allow_click = true
+func _on_ToggleFullScreen_pressed():
+	OS.window_fullscreen = !OS.window_fullscreen
 	pass

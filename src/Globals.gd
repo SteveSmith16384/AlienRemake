@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = "0.1"
+const VERSION = "0.11"
 const RELEASE_MODE = true
 const SHOW_ALIEN = false and RELEASE_MODE == false
 

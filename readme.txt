@@ -8,6 +8,7 @@ It is recommended to read the instructions of the original to know what you have
 
 
 ## Controls
+* Select a member of the crew by clicking on their profile picture.  Their "blip" will become brighter to indicate their position.
 * To move a member of the crew from one location to another, you can either right-click on an adjacent room, or select an option from the Move To menu.
 * The crew will automatically attack the alien with their best weapon if they encounter it.
 * Crew who are not too wounded can heal themselves in the infirmary.  (This is automatic)
@@ -16,8 +17,8 @@ It is recommended to read the instructions of the original to know what you have
 * F11 will toggle full-screen
 
 
-## Way to Win (or rather, not lose too much)
-* The most succesful method is to kill the alien, and have as many crewmembers left alive as possible.  There are two ways to do this: coax it into the airlock and then open the airlock, or just kill it with weapons (which is rarely that successful).
+## Ways to Win (or rather, not lose too much)
+* The most successful method is to kill the alien, and have as many crewmembers left alive as possible.  There are two ways to do this: coax it into the airlock and then open the airlock, or just kill it with weapons (which is rarely that successful).
 * Alternatively, you can start the autodestruct and then escape on the Narcissus.  However, only 3 crewmembers can fit inside the escape shuttle, and you can't leave any crew behind.  You are also required to have caught Jones.
 
 

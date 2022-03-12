@@ -53,9 +53,6 @@ func _ready():
 		else:
 			var score = num_alive * 7
 			$Log.add("Score: " + str(score) + "%", Color.green)
-
-	$Log.add("")
-	$Log.add("Click anywhere on your console to continue.")
 	pass
 
 
@@ -63,14 +60,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		$AudioStreamPlayer_Click.play()
 		OS.window_fullscreen = !OS.window_fullscreen
-
-	if Input.is_mouse_button_pressed(1):
-		if allow_click:
-			var _unused = get_tree().change_scene("res://IntroScene.tscn")
 	pass
 	
 
 
-func _on_Timer_AllowClick_timeout():
-	allow_click = true
+func _on_RestartButton_pressed():
+	var _unused = get_tree().change_scene("res://IntroScene.tscn")
 	pass

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Log.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameOverScene.gd" type="Script" id=2]
 [ext_resource path="res://Assets/music/bleeding_out2.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=4]
 [ext_resource path="res://CanvasLayerTVShader.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=6]
 
 [node name="GameOverScene" type="Node2D"]
 script = ExtResource( 2 )
@@ -22,9 +23,15 @@ stream = ExtResource( 3 )
 [node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 
-[node name="Timer_AllowClick" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-autostart = true
+[node name="RestartButton" type="Button" parent="."]
+margin_left = 801.439
+margin_top = 536.537
+margin_right = 939.439
+margin_bottom = 568.537
+theme = ExtResource( 6 )
+text = "restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[connection signal="timeout" from="Timer_AllowClick" to="." method="_on_Timer_AllowClick_timeout"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]

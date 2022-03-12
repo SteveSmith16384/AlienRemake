@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/music/Spacearray.ogg" type="AudioStream" id=1]
 [ext_resource path="res://IntroScene.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/sfx/type.wav" type="AudioStream" id=4]
 [ext_resource path="res://Log.tscn" type="PackedScene" id=5]
 [ext_resource path="res://CanvasLayerTVShader.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Themes/GUI_Theme.tres" type="Theme" id=7]
 
 [node name="IntroScene" type="Node2D"]
 script = ExtResource( 2 )
@@ -17,15 +18,37 @@ position = Vector2( 50.9692, 75.5099 )
 MaxLines = 100
 interval = 2.0
 
+[node name="StartButton" type="Button" parent="."]
+margin_left = 823.058
+margin_top = 538.008
+margin_right = 923.058
+margin_bottom = 570.008
+theme = ExtResource( 7 )
+text = "start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToggleFullScreen" type="Button" parent="."]
+margin_left = 16.9897
+margin_top = 536.12
+margin_right = 218.99
+margin_bottom = 568.12
+theme = ExtResource( 7 )
+text = "full-screen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AudioStreamPlayer_Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
 
 [node name="Version" type="Label" parent="."]
-margin_left = 826.833
-margin_top = 560.661
-margin_right = 950.833
-margin_bottom = 586.661
+margin_left = 874.027
+margin_top = 20.7654
+margin_right = 998.027
+margin_bottom = 46.7654
 theme = ExtResource( 3 )
 text = "VERSION:"
 __meta__ = {
@@ -35,8 +58,5 @@ __meta__ = {
 [node name="AudioStreamPlayer_Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-autostart = true
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="ToggleFullScreen" to="." method="_on_ToggleFullScreen_pressed"]
