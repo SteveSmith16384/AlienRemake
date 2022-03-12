@@ -1,8 +1,9 @@
 extends Node
 
-const VERSION = "0.11"
-const RELEASE_MODE = true
-const SHOW_ALIEN = false and RELEASE_MODE == false
+const VERSION = "0.2"
+const RELEASE_MODE = false
+
+const SHOW_ALIEN = true and RELEASE_MODE == false
 
 var self_destruct_activated = false
 var shuttle_launched = false

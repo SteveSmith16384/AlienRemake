@@ -51,10 +51,10 @@ func _process(delta):
 			
 	if alien_created == false and oxygen < Globals.OXYGEN-15:
 		alien_created = true
-		crewman_died(crew[alien_crew_id])
 		$Audio/AudioStreamPlayer_AlienBorn.play()
 		append_log("An ALIEN has burst from the chest of " + crew[alien_crew_id].crew_name, Color.red)
 		alien = Alien.new(self, crew[alien_crew_id].location)
+		crewman_died(crew[alien_crew_id])
 		alien_moved()
 	
 	for l in locations.values():
@@ -452,25 +452,36 @@ func crewman_died(crewman : Crewman, scream:bool = true):
 	crewman.died()
 	if crewman == selected_crewman:
 		selected_crewman = null
-	if crewman == Globals.android:
+	if crewman == Globals.android and android_activated:
 		append_log("The Android has been killed", Color.red)
+	else:
+		append_log(crewman.crew_name + " has died", Color.red)
 	refresh_ui = true
+
+	check_if_game_over()
+
+	if crewman != Globals.android:
+		yield(get_tree().create_timer(2), "timeout")
+		$Audio/AudioStreamPlayer_Static.play()
+	pass
 	
-	# Check if game over
-	var go = true
+	
+func check_if_game_over():
+	var all_out = true
 	for c in crew.values():
 		if c.is_in_game() and c != Globals.android:
-			go = false
+			all_out = false
 			break;
-	if go:
+	if all_out:
 		if Globals.self_destruct_activated:
 			ship_exploded()
 		else:
 			game_over()
 		return
-		
-	yield(get_tree().create_timer(2), "timeout")
-	$Audio/AudioStreamPlayer_Static.play()
+	elif alien == null and alien_created:
+		if android_activated == false or Globals.android.health <= 0:
+			game_over()
+
 	pass
 
 
@@ -485,7 +496,7 @@ func alien_combat():
 	var alien_attacks_crew = location.crew[Globals.rnd.randi_range(0, location.crew.size()-1)]
 	$Audio/AudioStreamPlayer_AlienAttack.play()
 	#append_log("The Alien attacks " + alien_attacks_crew.crew_name)
-	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(10, 40))
+	crewman_wounded(alien_attacks_crew, Globals.rnd.randi_range(20, 50))
 
 	for c in location.crew:
 		if c.health < 50:
@@ -562,7 +573,8 @@ func alien_killed():
 	append_log("The Alien has been killed")
 	$Audio/AudioStreamPlayer_AlienDeath.play()
 	alien = null
-	game_over()
+	if android_activated == false or Globals.android.health <= 0:
+		game_over()
 	pass
 	
 		
@@ -741,6 +753,8 @@ func enter_hypersleep():
 	append_log(selected_crewman.crew_name + " has entered hypersleep")
 	selected_crewman = null
 	refresh_ui = true
+
+	check_if_game_over()
 	pass
 	
 

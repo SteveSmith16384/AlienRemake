@@ -33,15 +33,19 @@ func update_status():
 		
 	$VBoxContainer/SelectedSprite.visible = main.selected_crewman == crew
 	if main.alien != null and crew.location == main.alien.location:
-		$VBoxContainer/Label_Status.text = "ALIEN"
+		$VBoxContainer/Label_Status.text = "CAN SEE\nALIEN"
+		$VBoxContainer/Label_Status.add_color_override("font_color", Color.red)
 	elif main.android_activated and crew.location == Globals.android.location and Globals.android.health > 0:
-		$VBoxContainer/Label_Status.text = "ANDROID"
+		$VBoxContainer/Label_Status.text = "CAN SEE\nANDROID"
+		$VBoxContainer/Label_Status.add_color_override("font_color", Color.red)
 	elif main.jones != null and crew.location == main.jones.location:
-		$VBoxContainer/Label_Status.text = "JONES"
+		$VBoxContainer/Label_Status.text = "CAN SEEN\nJONES"
+		$VBoxContainer/Label_Status.add_color_override("font_color", Color.yellow)
 	elif crew.destination != null:
-		$VBoxContainer/Label_Status.text = "Walking"
+		$VBoxContainer/Label_Status.text = "Walking\n"
+		$VBoxContainer/Label_Status.add_color_override("font_color", Color.white)
 	else:
-		$VBoxContainer/Label_Status.text = ""
+		$VBoxContainer/Label_Status.text = "\n"
 	pass
 	
 	
