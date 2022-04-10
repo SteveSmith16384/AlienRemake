@@ -23,8 +23,9 @@ func _process(delta):
 	
 	if current_mode == Mode.NONE:
 		if location.crew.size() == 1:
+			# Remain to attack
 			current_mode = Mode.REMAIN
-			action_time = 3
+			action_time = 4
 		elif location.crew.size() > 1 or Globals.rnd.randi_range(1, 5) <= 4:
 			prev_loc = null # So the alien can be herded back
 			current_mode = Mode.MOVE

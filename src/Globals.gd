@@ -1,16 +1,18 @@
 extends Node
 
-const VERSION = "0.2"
-const RELEASE_MODE = false
+const VERSION = "1.1"
+const RELEASE_MODE = true
 
 const SHOW_ALIEN = true and RELEASE_MODE == false
 
+# If you add any here, don't forget to to add to reset()
 var self_destruct_activated = false
 var shuttle_launched = false
 var android : Crewman
+var data = {}
 
 const OXYGEN: int = 7500
-var SELF_DESTRUCT_TIME = 600
+const SELF_DESTRUCT_TIME = 600
  
 enum Crew {DALLAS, KANE, RIPLEY, ASH, LAMBERT, PARKER, BRETT}
 
@@ -25,8 +27,6 @@ enum Location {COMMAND_CENTER, CORRIDOR_1, INFIRMARY, LABORATORY, CORRIDOR_2, CO
 
 enum MenuMode {NONE, GO_TO, PICK_UP, DROP, USE, SPECIAL}
 
-var data = {}
-
 var rnd : RandomNumberGenerator
 
 func _ready():
@@ -38,3 +38,10 @@ func _ready():
 #		shuttle_launched = true
 	pass
 
+
+func reset():
+	self_destruct_activated = false
+	shuttle_launched = false
+	data = {}
+	pass
+	

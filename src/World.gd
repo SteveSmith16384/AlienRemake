@@ -20,6 +20,7 @@ var android_activated = false
 #var android_revealed = false
 
 func _ready():
+	Globals.reset()
 	load_data()
 	$Menus/LocationSelector.visible = false
 	$Menus/ItemSelector.visible = false

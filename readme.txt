@@ -8,13 +8,13 @@ It is recommended to read the instructions of the original to know what you have
 
 
 ## Controls
-* Select a member of the crew by clicking on their profile picture.  Their "blip" will become brighter to indicate their position.
+* Select a member of the crew to control by clicking on their profile picture.  Their "blip" will become brighter to indicate their position.
 * To move a member of the crew from one location to another, you can either right-click on an adjacent room, or select an option from the Move To menu.
 * The crew will automatically attack the alien with their best weapon if they encounter it.
 * Crew who are not too wounded can heal themselves in the infirmary.  (This is automatic)
 * Any crew with a fire extinguisher will automatically try and put out any fires in their location
 * Any crew with either the net or cat box will try and capture Jones automatically.
-* F11 will toggle full-screen
+* F11 will toggle full-screen.
 
 
 ## Ways to Win (or rather, not lose too much)
