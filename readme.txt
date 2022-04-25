@@ -30,6 +30,10 @@ The main differences between this and the original are as follows:-
 * No tunnels (yet?)
 
 
+## Licence
+This source code is licenced under MIT.
+
+
 ## Mac Users
 Since the app is not signed for a Mac (I don't have a Mac), it shows "Application from unidentified developer" or even "Application is damaged and cannot Be opened" on first start. Try to open you game with Ctrl+Right Click and then Open. If it's not helping, open Terminal, enter "sudo xattr -cr /Path/To/MultiplayerSplat.app" and then open your game.  More details here: https://support.apple.com/en-gb/guide/mac-help/mh40616/mac and here: https://appletoolbox.com/app-is-damaged-cannot-be-opened-mac/
 

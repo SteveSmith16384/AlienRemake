@@ -3,9 +3,9 @@ extends Node
 const VERSION = "1.2"
 const RELEASE_MODE = false
 
-const SHOW_ALIEN = true and RELEASE_MODE == false
+const SHOW_ALIEN = false and RELEASE_MODE == false
 
-# If you add any here, don't forget to to add to reset()
+# If you add any here, don't forget to to add them to reset()
 var self_destruct_activated = false
 var shuttle_launched = false
 var android : Crewman
