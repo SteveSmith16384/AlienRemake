@@ -19,27 +19,27 @@ func _init(_main, _type : int, loc : int):
 			pass
 		Globals.ItemType.ELECTRIC_PROD:
 			item_name = "Electric Prod"
-			alien_damage = 10
+			alien_damage = 7
 		Globals.ItemType.FIRE_EXT:
 			item_name = "Fire Ext."
-			alien_damage = 5
+			alien_damage = 3
 		Globals.ItemType.HARPOON:
 			item_name = "Harpoon"
-			alien_damage = 40
+			alien_damage = 30
 			location_damage = 10
 		Globals.ItemType.INCINERATOR:
 			item_name = "Incinerator"
-			alien_damage = 20
+			alien_damage = 15
 			location_damage = 20
 		Globals.ItemType.LASER:
 			item_name = "Las Pistol"
-			alien_damage = 10
+			alien_damage = 7
 			location_damage = 10
 		Globals.ItemType.NET:
 			item_name = "Net"
 		Globals.ItemType.SPANNER:
 			item_name = "Spanner"
-			alien_damage = 5
+			alien_damage = 3
 		Globals.ItemType.TRACKER:
 			item_name = "Tracker"
 		_:

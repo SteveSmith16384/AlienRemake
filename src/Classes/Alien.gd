@@ -27,14 +27,14 @@ func _process(delta):
 			current_mode = Mode.REMAIN
 			action_time = 4
 		elif location.crew.size() > 1 or Globals.rnd.randi_range(1, 5) <= 4:
-			prev_loc = null # So the alien can be herded back
+			if location.crew.size() > 1:
+				prev_loc = null # So the alien can be herded back
 			current_mode = Mode.MOVE
 			action_time = 8
 		else:
 			current_mode = Mode.DAMAGE
 			action_time = 4
 		action_time = action_time * 100 / health
-		#return
 		
 	action_time -= delta
 	if action_time <= 0:

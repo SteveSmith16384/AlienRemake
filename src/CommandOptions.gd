@@ -2,10 +2,6 @@ extends VBoxContainer
 
 onready var main = get_tree().get_root().get_node("World")
 
-func _ready():
-	pass
-
-
 func update_menu(location : Location, crew: Crewman, show_special):
 	$PickupButton.visible = location.items.size() > 0 and crew.items.size() < 2
 	$DropButton.visible = crew.items.size() > 0

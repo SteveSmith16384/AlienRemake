@@ -511,7 +511,13 @@ func alien_combat():
 		var location_damage = c.get_main_weapon_location_damage()
 		location.damage += Globals.rnd.randi_range(5, location_damage)
 		#append_log(c.crew_name + " attacks the Alien")
-		# todo - if harpoon, kill crew
+		# if harpoon, kill crew and only use once
+		if c.get_main_weapon() != null and c._get_main_weapon().type == Globals.ItemType.HARPOON:
+			var item = find_item_by_type(c.items, Globals.ItemType.HARPOON)
+			if item != null:
+				c.items.erase(item)
+			crewman_died(c)
+			pass
 		if alien.health <= 0:
 			alien_killed()
 			return
@@ -519,7 +525,6 @@ func alien_combat():
 			append_log("Alien health=" + str(alien.health))
 		pass
 		if android_activated == false and alien.health < 80:
-#			append_log(android.crew_name + " is an ANDROID", Color.red)
 			android_activated = true
 			# Drop all equipment
 			Globals.android.location.items.append_array(Globals.android.items)

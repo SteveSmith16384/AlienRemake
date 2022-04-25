@@ -127,7 +127,7 @@ func calc_morale():
 	pass
 	
 
-func _get_main_weapon():
+func get_main_weapon():
 	if items.size() == 0:
 		return null
 	elif items.size() == 1:
@@ -141,16 +141,16 @@ func _get_main_weapon():
 	
 	
 func get_main_weapon_alien_damage():
-	var wep = _get_main_weapon()
+	var wep = get_main_weapon()
 	if wep == null:
-		return 1
+		return 0
 	else:
 		return wep.alien_damage
 	pass
 
 
 func get_main_weapon_location_damage():
-	var wep = _get_main_weapon()
+	var wep = get_main_weapon()
 	if wep == null:
 		return 1
 	else:
@@ -159,7 +159,7 @@ func get_main_weapon_location_damage():
 
 
 func get_main_weapon_type():
-	var wep = _get_main_weapon()
+	var wep = get_main_weapon()
 	if wep == null:
 		return -1
 	else:

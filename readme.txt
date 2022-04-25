@@ -1,10 +1,12 @@
 # XENOMORPH
 
-A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and published by Mind Games.
+A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and published by Mind Games https://spectrumcomputing.co.uk/entry/145/ZX-Spectrum/Alien
 
 Programmed by Stephen Smith (stephen.carlylesmith@googlemail.com)
 
 It is recommended to read the instructions of the original to know what you have to do.  Hwoever, the main idea is that you're in command of the crew of the Nostromo, and must help them survive their encounter.  Also, watch the film if you haven't.
+
+Gameplay video: https://www.youtube.com/watch?v=ytuWVdLOU5k
 
 
 ## Controls
@@ -36,6 +38,7 @@ Since the app is not signed for a Mac (I don't have a Mac), it shows "Applicatio
 * Original game Alien by John Heap and Paul Clancey
 * Music: https://opengameart.org/content/deep-space-array
 * Music: https://opengameart.org/content/bleeding-out
+
 
 ### Sound effects taken from:-
 * https://opengameart.org/content/iron-door
