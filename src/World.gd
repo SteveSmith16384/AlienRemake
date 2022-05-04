@@ -769,7 +769,7 @@ func enter_hypersleep():
 
 func damage_location(loc):
 	$Audio/AudioStreamPlayer_Crash.play()
-	loc.damage += Globals.rnd.randi_range(5, 20)
+	loc.damage += Globals.rnd.randi_range(15, 30)
 	pass
 	
 

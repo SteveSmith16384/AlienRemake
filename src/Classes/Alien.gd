@@ -7,7 +7,7 @@ var main
 var location : Location
 var prev_loc : Location
 var action_time : float
-var health : int = 100
+var health : int = 200
 var current_mode = Mode.NONE
 var moves_since_last_deck_change:int = 0
 
@@ -21,7 +21,7 @@ func _process(delta):
 	if health <= 0:
 		return
 	
-	if current_mode == Mode.NONE:
+	if current_mode == Mode.NONE: # Choose next mode
 		if location.crew.size() == 1:
 			# Remain to attack
 			current_mode = Mode.REMAIN
@@ -34,23 +34,24 @@ func _process(delta):
 		else:
 			current_mode = Mode.DAMAGE
 			action_time = 4
-		action_time = action_time * 100 / health
+		#action_time = action_time * 100 / health
 		
 	action_time -= delta
 	if action_time <= 0:
 		# Check if a crewmember has arrived in the meantime
-		if location.crew.size() == 1:
-			current_mode = Mode.REMAIN
+#		if location.crew.size() == 1:
+#			current_mode = Mode.REMAIN
+#		else:
+#			current_mode = Mode.NONE
 
 		if current_mode == Mode.REMAIN:
-			#main.alien_combat(location) Now happens in seperate timer
 			pass
 		elif current_mode == Mode.DAMAGE:
 			main.damage_location(location)
-			current_mode = Mode.NONE
 		elif current_mode == Mode.MOVE:
 			move()
-			current_mode = Mode.NONE
+			
+		current_mode = Mode.NONE
 	pass
 	
 	
