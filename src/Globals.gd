@@ -1,7 +1,7 @@
 extends Node
 
 const VERSION = "1.2"
-const RELEASE_MODE = false
+const RELEASE_MODE = true
 
 const SHOW_ALIEN = false and RELEASE_MODE == false
 
@@ -43,5 +43,6 @@ func reset():
 	self_destruct_activated = false
 	shuttle_launched = false
 	data = {}
+	android = null
 	pass
 	

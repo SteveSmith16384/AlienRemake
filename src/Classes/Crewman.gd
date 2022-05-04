@@ -64,7 +64,6 @@ func _process(delta):
 		if main.android_activated == false:
 			if main.alien != null and (main.alien.health < 80) and location.crew.size() == 2:
 				main.activate_android()
-				#main.android_combat()
 				action_time = 3
 		else:
 			process_android()
@@ -91,7 +90,6 @@ func _process(delta):
 func process_android():
 	if action_time <= 0:
 		if location.crew.size() > 1:
-			#main.android_combat()
 			action_time = 3
 		elif destination == null:
 			var adj = location.adjacent

@@ -15,9 +15,7 @@ var alien_created = false
 var self_destruct_time_left : float
 var airlock1_open = false
 var airlock2_open = false
-
 var android_activated = false
-#var android_revealed = false
 
 func _ready():
 	Globals.reset()
@@ -512,7 +510,7 @@ func alien_combat():
 		location.damage += Globals.rnd.randi_range(5, location_damage)
 		#append_log(c.crew_name + " attacks the Alien")
 		# if harpoon, kill crew and only use once
-		if c.get_main_weapon() != null and c._get_main_weapon().type == Globals.ItemType.HARPOON:
+		if c.get_main_weapon() != null and c.get_main_weapon().type == Globals.ItemType.HARPOON:
 			var item = find_item_by_type(c.items, Globals.ItemType.HARPOON)
 			if item != null:
 				c.items.erase(item)
@@ -542,7 +540,8 @@ func android_combat():
 	var location = Globals.android.location
 	if location.crew.size() <= 1:
 		return
-		
+	
+	# Choose a target
 	var android_attacks_crew = Globals.android
 	while android_attacks_crew == Globals.android:
 		android_attacks_crew = location.crew[Globals.rnd.randi_range(0, location.crew.size()-1)]
@@ -879,7 +878,7 @@ func _on_CombatTimer_timeout():
 	if alien.location.crew.size() > 0:
 		alien_combat()
 	
-	if android_activated:
+	if android_activated and Globals.android.health > 0:
 		android_combat()
 	pass
 

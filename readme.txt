@@ -3,10 +3,10 @@
 A remake of the Spectrum game Alien originally by John Heap and Paul Clancey and published by Mind Games https://spectrumcomputing.co.uk/entry/145/ZX-Spectrum/Alien
 
 Programmed by Stephen Smith (stephen.carlylesmith@googlemail.com)
+Itch release: https://stephensmith.itch.io/xenomorph
+Gameplay video: https://www.youtube.com/watch?v=ytuWVdLOU5k
 
 It is recommended to read the instructions of the original to know what you have to do.  Hwoever, the main idea is that you're in command of the crew of the Nostromo, and must help them survive their encounter.  Also, watch the film if you haven't.
-
-Gameplay video: https://www.youtube.com/watch?v=ytuWVdLOU5k
 
 
 ## Controls

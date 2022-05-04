@@ -6,7 +6,7 @@ var id : int
 var loc_name : String
 var area #: LocationArea
 var damage : float = 0
-var prev_damage : int = 0
+var prev_damage : float = 0
 var fire = false
 var activated = false #  e.g. infirmery
 
