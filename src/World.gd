@@ -341,7 +341,11 @@ func load_data():
 	alien_crew.location.crew.push_back(alien_crew)
 
 	# Choose Android
-	var android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
+	var android_crew_id
+	while true:
+		android_crew_id = Globals.rnd.randi_range(0, crew.size()-1)
+		if android_crew_id != alien_crew_id:
+			break
 	Globals.android = crew[android_crew_id]
 	Globals.android.is_android = true
 	

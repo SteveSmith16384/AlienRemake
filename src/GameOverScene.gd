@@ -47,6 +47,8 @@ func _ready():
 			$Log.add("You have been asked to command a unit of marines")
 			$Log.add("who are to investigate the colony")
 			$Log.add("on LV-426")
+			$Log.add("")
+			$Log.add("THE END")
 	else: # Self destruct activated, so alien must be dead
 		if num_alive == 0:
 			$Log.add("Failure.  5%", Color.red)
