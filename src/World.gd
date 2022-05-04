@@ -804,6 +804,7 @@ func cryo_destroyed():
 func activate_location(location):
 	location.activated = true
 	if location.id == Globals.Location.INFIRMARY:
+		append_log("Medi-comp activated", Color.yellow)
 		$Audio/InfirmeryActivated.play()
 	pass
 	

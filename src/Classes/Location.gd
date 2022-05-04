@@ -33,6 +33,11 @@ func _process(delta: float):
 		terminal_damage()
 		
 	prev_damage = damage
+	
+	if id == Globals.Location.INFIRMARY:
+		if activated:
+			if crew.size() == 0:
+				self.activated = false
 	pass
 	
 

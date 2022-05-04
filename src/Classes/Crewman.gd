@@ -9,7 +9,7 @@ var destination : Location
 var action_time : float
 var items = []
 var is_android = false
-var health : int = 100
+var health : float = 100 # Needs tyo be float for healing!
 var base_morale : int = 100 # Affected by events
 var adjusted_morale : int = 100 # Base morale then adjusted by current circumstance
 var male: bool = true
@@ -44,15 +44,15 @@ func _process(delta):
 		
 	# Heal if in infirmary
 	if location.id == Globals.Location.INFIRMARY:
-		if health > 50 and health < 100:
+		if health > 40 and health < 100:
 			if location.activated == false:
 				main.activate_location(location)
 			health += delta/2
 			if health >= 100:
 				health = 100
 				location.activated = false
-			if destination == null:
-				return # Do nothing more
+			#if destination == null:
+			#	return # Do nothing more
 	
 	action_time -= delta
 
@@ -172,7 +172,7 @@ func is_in_game(): # Is alive and not in cryo
 func get_health_string() -> String:
 	if health > 90:
 		return "ok"
-	elif health > 50:
+	elif health > 40:
 		return "wounded"
 	elif health > 0:
 		return "collapsed"
