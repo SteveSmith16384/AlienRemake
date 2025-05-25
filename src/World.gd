@@ -37,7 +37,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		$Audio/AudioStreamPlayer_Click.play()
 		OS.window_fullscreen = !OS.window_fullscreen
-
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
+		return
+		
 	$LabelTimeLeft.text = "TOOH: " + str(int(oxygen))
 	
 	if Globals.self_destruct_activated:
