@@ -20,6 +20,7 @@ var android_activated = false
 func _ready():
 	Globals.reset()
 	load_data()
+	$Menus/CommandOptions.visible = false
 	$Menus/LocationSelector.visible = false
 	$Menus/ItemSelector.visible = false
 	$Menus/SpecialSelector.visible = false
@@ -58,6 +59,7 @@ func _process(delta):
 		alien = Alien.new(self, crew[alien_crew_id].location)
 		crewman_died(crew[alien_crew_id])
 		alien_moved()
+		append_log("Select a crewman to command them")
 	
 	for l in locations.values():
 		l._process(delta)
